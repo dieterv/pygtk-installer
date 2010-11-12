@@ -1,9 +1,27 @@
 #!/bin/bash
 
+# Copyright © 2010 pygtk-installer Contributors
+#
+# This file is part of pygtk-installer.
+#
+# pygtk-installer is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# pygtk-installer is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with pygtk-installer. If not, see <http://www.gnu.org/licenses/>.
+
+
 # What is this?
 # =============
-# build_installers.sh is a script for building the
-# Py{GObject, GTK, GooCanvas, GtkSourceView, Rsvg}
+# build_bindings.sh is a script for building the
+# Py{Cairo, GObject, GTK, GooCanvas, GtkSourceView, Rsvg}
 # installers using MinGW.
 # This script has been tested with MSYS on MS Windows,
 # but should work fine via wine on a Linux distribution.
