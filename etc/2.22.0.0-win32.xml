@@ -85,7 +85,6 @@
                              archive = "svg-gdk-pixbuf-loader_2.26.2-1_win32.zip"
                              digest  = "c30dac5d0f9965fcbfb29d7eb282f86b" /> -->
 
-
                     <package id      = "svg_gtk_engine"
                              type    = "ArchiveSourcePackage"
                              url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/librsvg/2.26/"
@@ -120,13 +119,13 @@
                              type    = "ArchiveSourcePackage"
                              url     = "http://www.optionexplicit.be/projects/gnome-windows/20100401/"
                              archive = "icon-nameing-utils-0.8.90.zip"
-                             digest  = "2d54fdbce3983fc103057eea44d85a15" />
+                             digest  = "2a9f74579b3b222e8664345a93eb40b3" />
 
                     <package id      = "tango_icon_theme"
                              type    = "ArchiveSourcePackage"
                              url     = "http://www.optionexplicit.be/projects/gnome-windows/20100401/"
                              archive = "tango-icon-theme-0.8.90.zip"
-                             digest  = "2c435a629cb2d979b4889f1832318f4f" />
+                             digest  = "93286826b9cd53b588f3a500afb3b8ad" />
                 </feature>
 
                 <feature id          = "libglade"
