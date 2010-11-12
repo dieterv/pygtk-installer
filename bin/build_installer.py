@@ -750,9 +750,9 @@ class ArchiveSourcePackage(SourcePackage):
         file = open(logfile, 'w')
 
         process = Popen([WIX_HEAT,
-                         '-nologo',
                          'dir',                         # harvest a directory
                          join(self.workdir, 'File'),    #     from the directory where we extracted our source package
+                         '-nologo',
                          '-dr',                         # set directory reference to root directories
                          'TARGETDIR',                   #     to TARGETDIR
                          '-gg',                         # generate guids now
