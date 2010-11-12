@@ -22,16 +22,26 @@ If you decide to give it a test anyway:
 #. Make absolutely sure the separate pycairo, pygtk, pygobject, etc
    packages are uninstalled. The all-in-one installer does not yet
    check for their presence and will happily overwrite them.
-#. You no longer need to fiddle with PATH environment variables.
+#. You no longer need to fiddle with the PATH environment variable.
    The pygtk version that's installed with the all-in-one installer
    should take care of loading the included gtk+ runtime on PATH
    when you import pygtk; pygtk.require('2.0'). As a consequence
-   simply importing gtk, gobject, etc might[1] not work without
+   simply importing gtk, gobject, etc might not work without
    the .require() call. The .require() call is typically done only
    once in a startup script somewhere.
-#. The all-in-one installer version will stay at 2.22.0.0 until
-   there's a stable release. If you want to test newer snapshots
-   when they get available, you'll first need to uninstall the
-   previous one, either from the "add/remove program" control panel
-   applet, or by executing the old versions .msi file and choosing
-   the "Remove" option (just to be on the safe side)...
+#. Why did you say "might not work" above? Ah, good question. If
+   you've got another gtk+ runtime on your PATH environment variable - for
+   example you installed Dia, MonoDevelop (gtk#), etc. - the PyGTK bindings might
+   use one of those runtime libraries. In that case the behavior of the PyGTK
+   bindings is unspecified (it might crash, error out, etc.).
+#. If you want to test newer snapshots of the all-in-one installer when they
+   get available, you'll first need to uninstall the previous one, either from
+   the "add/remove program" control panel applet, or by executing the old
+   version's .msi file and choosing the "Remove" option (just to be on the safe
+   side)...
+#. If it doesn't work, consider executing the following and study the
+   output::
+
+       $ python -v
+       >>> import pygtk
+       >>> pygtk.require('2.0)
