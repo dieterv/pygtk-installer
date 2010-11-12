@@ -222,7 +222,7 @@ class Product(object):
         self.msifile = join(self.workdir, self.msifilename)
 
     def merge(self):
-        info('Building .msi installer targeting Python %s' % PYTHON_FULLVERSION)
+        info('Creating .msi installer targeting Python %s' % PYTHON_FULLVERSION)
 
         self.clean()
         self.prepare()
@@ -231,7 +231,7 @@ class Product(object):
         self.compile()
         self.link()
 
-        info('Success: .msi installer targeting Python %s has been created (%s)' % (PYTHON_FULLVERSION, self.msifile))
+        info('Success: .msi installer targeting Python %s has been created ("%s")' % (PYTHON_FULLVERSION, self.msifile))
 
     def clean(self):
         allworkdirs = join(TMPDIR, PYTHON_FULLVERSION)
