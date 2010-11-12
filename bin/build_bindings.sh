@@ -1,0 +1,133 @@
+#!/bin/bash
+
+# What is this?
+# =============
+# build_installers.sh is a script for building the
+# Py{GObject, GTK, GooCanvas, GtkSourceView, Rsvg}
+# installers using MinGW.
+# This script has been tested with MSYS on MS Windows,
+# but should work fine via wine on a Linux distribution.
+
+# How does it work?
+# =================
+# Install the deps (gtk+-bundle, ...) MinGW/MSYS with GCC 4.5.0
+#   $ mingw-get.exe install gcc
+#   $ mingw-get.exe install msys-base
+#
+# Configure the CHECKOUT, DESTDIR and INTERPRETERS and GTKBUNDLE
+# variables below
+#
+# To build all installers, execute
+#   $ build_bindings
+#
+# To build specific (but known!) targets, execute
+#   $ build_bindings pygobject pygtk
+# or
+#   $ build_bindings pygoocanvas
+# or ... well, you get the idea
+
+
+# Configure the path to source repositories.
+CHECKOUT="/d/dev/gnome.org/gnome-windows/checkout"
+
+# Congfigure the destination path for the built installers.
+# A subdirectory will be created into it each time you run
+# this script.
+DESTDIR="/d/dev/gnome.org/gnome-windows/dist"
+
+# Configure the path to your Python interpreter installations.
+# Installers will be built for any interpreter configured here.
+# Only Python 2.6 and Python 2.7 are supported atm.
+INTERPRETERS="/d/bin/Python26 /d/bin/Python27"  # for msys
+#INTERPRETERS="c:/Python26 c:/Python27"         # for wine
+
+# Configure the path to your gtk+-bundle installation.
+GTKBUNDLE="/d/dev/gnome.org/gnome-windows/prefix/gtk+-bundle/gtk+-bundle_2.22.0-20101016_win32/lib/pkgconfig"
+
+
+# you can stop configureing now ;)
+TARGETS="pycairo-1.8.10 pygobject pygtk pygoocanvas pygtksourceview gnome-python-desktop"
+DESTDIR=${DESTDIR}/`date +%Y%m%d-%H%M%S`
+OLD_CWD=`pwd`
+OLD_PATH=${PATH}
+OLD_PKG_CONFIG_PATH=${PKG_CONFIG_PATH}
+
+# check script arguments for specific targets
+ARG_TARGETS=""
+
+# create destdir
+mkdir -p ${DESTDIR}
+
+if [ $# -gt 0 ]; then
+    for ARG in $@; do
+        for i in ${TARGETS[@]}; do
+            if [[ $i == ${ARG} ]] ; then
+                ARG_TARGETS+=${ARG}" "
+            fi
+        done
+    done
+
+    TARGETS=${ARG_TARGETS}
+fi
+
+# build each target
+for TARGET in ${TARGETS}; do
+    TARGETROOT=${CHECKOUT}/${TARGET}
+
+    if [ ! -d "${TARGETROOT}" ]; then
+        echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+        echo "! Could not build \"${TARGET}\": \"${TARGETROOT}\" does not exist."
+        echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+        continue
+    fi
+
+    if [ ! -f "${TARGETROOT}/setup.py" ]; then
+        echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+        echo "! Could not build \"${TARGET}\": \"${TARGETROOT}/setup.py\" does not exist."
+        echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+        continue
+    fi
+
+    if [ ${TARGET} = "pygtk" ]; then
+       # pygtk takes extra arguments
+       COMMAND="setup.py build --compiler=mingw32 --enable-threading bdist_wininst --user-access-control=auto bdist_msi"
+    else
+       COMMAND="setup.py build --compiler=mingw32 bdist_wininst --user-access-control=auto bdist_msi"
+    fi
+
+    cd ${TARGETROOT}
+    rm -rf ${TARGETROOT}/build/*
+    rm -rf ${TARGETROOT}/dist/*
+
+    for INTERPRETER in ${INTERPRETERS}; do
+        echo "**********************************************************************"
+        echo "* Building \"${TARGET}\" for \"${INTERPRETER}\""
+        echo "**********************************************************************"
+
+        export PATH=${INTERPRETER}:${INTERPRETER}/Scripts:${GTKBUNDLE}/bin:${OLD_PATH}
+        export PKG_CONFIG_PATH=${INTERPRETER}/Lib/pkgconfig/:${GTKBUNDLE}/lib/pkgconfig/:${OLD_PKG_CONFIG_PATH}
+
+        ${INTERPRETER}/python.exe ${COMMAND}
+
+        INSTALLERS=()
+        for i in dist/*.exe; do INSTALLERS+=( ${i%} ); done
+        mv dist/* ${DESTDIR}
+        if [ ${#INSTALLERS[*]} -gt 0 ]; then
+            for INSTALLER in ${INSTALLERS}; do
+                result=`${DESTDIR}/$(basename ${INSTALLER})`
+            done
+        else
+            echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+            echo "! Building \"${TARGET}\" failed"
+            echo "! Press any key to continue..."
+            echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+            read -p ""
+            continue
+        fi
+    done
+done
+
+# cleanup
+export PATH=${OLD_PATH}
+export PKG_CONFIG_PATH=${OLD_PKG_CONFIG_PATH}
+cd ${OLD_CWD}

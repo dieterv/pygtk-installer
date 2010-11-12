@@ -1,0 +1,526 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+    <!-- These variables are changed by the build script -->
+    <?define PythonVersion          = "XXX" ?>
+    <?define ProductName            = "XXX" ?>
+    <?define ProductVersion         = "XXX" ?>
+    <?define UpgradeCode            = "XXX" ?>
+    <?define Manufacturer           = "http://www.pygtk.org/" ?>
+    <?define ManufacturerContact    = "XXX@XXX.XXX" ?>
+
+    <!-- TODO: Uncomment the following after initial release
+    <?define OriginalProductVersion = "2.26.0.0" ?> -->
+
+    <Product Id="*"
+             Language="1033"
+             Manufacturer="$(var.Manufacturer)"
+             Name="$(var.ProductName)"
+             Version="$(var.ProductVersion)"
+             UpgradeCode="$(var.UpgradeCode)">
+
+        <Package Comments="$(var.ProductName) Windows Installer Database"
+                 Compressed="yes"
+                 Description="Python $(var.PythonVersion) $(var.ProductName)"
+                 InstallerVersion="200"
+                 Keywords="Installer,MSI,Database"
+                 Languages="1033"
+                 Manufacturer="$(var.Manufacturer)"
+                 Platform="x86"
+                 ReadOnly="yes"/>
+
+        <!-- TODO: Uncomment the following after initial release
+        <Upgrade Id="$(var.UpgradeCode)">
+            <UpgradeVersion IncludeMinimum="no"
+                            Minimum='$(var.ProductVersion)'
+                            OnlyDetect='yes'
+                            Property='NEWPRODUCTFOUND' />
+
+            <UpgradeVersion IncludeMinimum="yes"
+                            Maximum='$(var.ProductVersion)'
+                            Minimum='$(var.OriginalProductVersion)'
+                            Property='UPGRADEFOUND' />
+        </Upgrade>-->
+
+        <!-- TODO: Do we want a custom installer icon?
+        <Icon Id="gnome.ico" SourceFile="XXX"/>
+        <Property Id="ARPPRODUCTICON" Value="gnome.ico" />
+        -->
+
+        <Media Id="1"
+               Cabinet="distfiles"
+               CompressionLevel="high"
+               EmbedCab="yes" />
+
+        <Property Id="DistVersion" Value="$(var.ProductVersion)" />
+        <Property Id="ARPCONTACT" Value="$(var.ManufacturerContact)" />
+        <Property Id="ARPURLINFOABOUT" Value="$(var.Manufacturer)" />
+        <Property Id="DefaultUIFont" Value="DlgFont8" />
+        <Property Id="ErrorDialog" Value="ErrorDlg" />
+        <Property Id="Progress1" Value="Install" />
+        <Property Id="Progress2" Value="installs" />
+        <Property Id="MaintenanceForm_Action" Value="Repair" />
+        <Property Id="WhichUsers" Value="ALL" />
+        <Property Id="PYTHON.MACHINE">
+            <RegistrySearch Id="python.machine" Root="HKLM" Key="SOFTWARE\Python\PythonCore\$(var.PythonVersion)\InstallPath" Type="raw" />
+        </Property>
+        <Property Id="PYTHON.USER">
+            <RegistrySearch Id="python.user" Root="HKCU" Key="SOFTWARE\Python\PythonCore\$(var.PythonVersion)\InstallPath" Type="raw" />
+        </Property>
+
+        <CustomAction Id="PreventDowngrading" Error="A newer version is already installed." />
+        <CustomAction Id="PythonFromMachine" Property="TARGETDIR$(var.PythonVersion)" Value="[PYTHON.MACHINE]" Execute="firstSequence" />
+        <CustomAction Id="PythonFromUser" Property="TARGETDIR$(var.PythonVersion)" Value="[PYTHON.USER]" Execute="firstSequence" />
+        <CustomAction Id="PythonExe" Property="PYTHON$(var.PythonVersion)" Value="[TARGETDIR$(var.PythonVersion)]\python.exe" Execute="firstSequence" />
+
+        <InstallExecuteSequence>
+            <Custom Action="PreventDowngrading" After="FindRelatedProducts">NEWPRODUCTFOUND</Custom>
+            <Custom Action="PythonFromMachine" Sequence="402">PYTHON.MACHINE</Custom>
+            <Custom Action="PythonFromUser" Sequence="403">PYTHON.USER</Custom>
+            <Custom Action="PythonExe" Sequence="404" />
+            <LaunchConditions Sequence="100" />
+            <FindRelatedProducts Sequence="200" />
+            <AppSearch Sequence="400" />
+            <CCPSearch Sequence="500">NOT Installed</CCPSearch>
+            <RMCCPSearch Sequence="600">NOT Installed</RMCCPSearch>
+            <ValidateProductID Sequence="700" />
+            <CostInitialize Sequence="800" />
+            <FileCost Sequence="900" />
+            <IsolateComponents Sequence="950" />
+            <CostFinalize Sequence="1000" />
+            <SetODBCFolders Sequence="1100" />
+            <MigrateFeatureStates Sequence="1200" />
+            <InstallValidate Sequence="1400" />
+            <InstallInitialize Sequence="1500" />
+            <AllocateRegistrySpace Sequence="1550">NOT Installed</AllocateRegistrySpace>
+            <ProcessComponents Sequence="1600" />
+            <UnpublishComponents Sequence="1700" />
+            <UnpublishFeatures Sequence="1800" />
+            <StopServices Sequence="1900">VersionNT</StopServices>
+            <DeleteServices Sequence="2000">VersionNT</DeleteServices>
+            <UnregisterComPlus Sequence="2100" />
+            <SelfUnregModules Sequence="2200" />
+            <UnregisterTypeLibraries Sequence="2300" />
+            <RemoveODBC Sequence="2400" />
+            <UnregisterFonts Sequence="2500" />
+            <RemoveRegistryValues Sequence="2600" />
+            <UnregisterClassInfo Sequence="2700" />
+            <UnregisterExtensionInfo Sequence="2800" />
+            <UnregisterProgIdInfo Sequence="2900" />
+            <UnregisterMIMEInfo Sequence="3000" />
+            <RemoveIniValues Sequence="3100" />
+            <RemoveShortcuts Sequence="3200" />
+            <RemoveEnvironmentStrings Sequence="3300" />
+            <RemoveDuplicateFiles Sequence="3400" />
+            <RemoveFiles Sequence="3500" />
+            <RemoveFolders Sequence="3600" />
+            <CreateFolders Sequence="3700" />
+            <MoveFiles Sequence="3800" />
+            <InstallFiles Sequence="4000" />
+            <DuplicateFiles Sequence="4210" />
+            <PatchFiles Sequence="4090" />
+            <BindImage Sequence="4300" />
+            <CreateShortcuts Sequence="4500" />
+            <RegisterClassInfo Sequence="4600" />
+            <RegisterExtensionInfo Sequence="4700" />
+            <RegisterProgIdInfo Sequence="4800" />
+            <RegisterMIMEInfo Sequence="4900" />
+            <WriteRegistryValues Sequence="5000" />
+            <WriteIniValues Sequence="5100" />
+            <WriteEnvironmentStrings Sequence="5200" />
+            <RegisterFonts Sequence="5300" />
+            <InstallODBC Sequence="5400" />
+            <RegisterTypeLibraries Sequence="5500" />
+            <SelfRegModules Sequence="5600" />
+            <RegisterComPlus Sequence="5700" />
+            <InstallServices Sequence="5800">VersionNT</InstallServices>
+            <StartServices Sequence="5900">VersionNT</StartServices>
+            <RegisterUser Sequence="6000" />
+            <RegisterProduct Sequence="6100" />
+            <PublishComponents Sequence="6200" />
+            <PublishFeatures Sequence="6300" />
+            <PublishProduct Sequence="6400" />
+            <InstallFinalize Sequence="6600" />
+            <RemoveExistingProducts Sequence="6700" />
+            <MsiPublishAssemblies Sequence="6250" />
+            <MsiUnpublishAssemblies Sequence="1750" />
+        </InstallExecuteSequence>
+
+        <InstallUISequence>
+            <Custom Action="PreventDowngrading" After="FindRelatedProducts">NEWPRODUCTFOUND</Custom>
+            <Custom Action="PythonFromMachine" Sequence="402">PYTHON.MACHINE</Custom>
+            <Custom Action="PythonFromUser" Sequence="403">PYTHON.USER</Custom>
+            <Custom Action="PythonExe" Sequence="404" />
+            <Show Dialog="FatalError" OnExit="error" />
+            <Show Dialog="UserExit" OnExit="cancel" />
+            <Show Dialog="ExitDialog" OnExit="success" />
+            <Show Dialog="PrepareDlg" Sequence="140">Not Privileged or Windows9x or Installed</Show>
+            <Show Dialog="WhichUsersDlg" Sequence="141">Privileged and not Windows9x and not Installed</Show>
+            <Show Dialog="SelectFeaturesDlg" Sequence="1230">Not Installed</Show>
+            <Show Dialog="MaintenanceTypeDlg" Sequence="1250">Installed AND NOT RESUME AND NOT Preselected</Show>
+            <Show Dialog="ProgressDlg" Sequence="1280" />
+            <LaunchConditions Sequence="100" />
+            <FindRelatedProducts Sequence="200" />
+            <AppSearch Sequence="400" />
+            <CCPSearch Sequence="500">NOT Installed</CCPSearch>
+            <RMCCPSearch Sequence="600">NOT Installed</RMCCPSearch>
+            <ValidateProductID Sequence="700" />
+            <CostInitialize Sequence="800" />
+            <FileCost Sequence="900" />
+            <IsolateComponents Sequence="950" />
+            <CostFinalize Sequence="1000" />
+            <MigrateFeatureStates Sequence="1200" />
+            <ExecuteAction Sequence="1300" />
+        </InstallUISequence>
+
+        <AdminUISequence>
+            <Show Dialog="FatalError" OnExit="error" />
+            <Show Dialog="UserExit" OnExit="cancel" />
+            <Show Dialog="ExitDialog" OnExit="success" />
+        </AdminUISequence>
+
+        <UI>
+            <ProgressText Action="AppSearch" Template="Property: [1], Signature: [2]">Searching for installed applications</ProgressText>
+            <ProgressText Action="BindImage" Template="File: [1]">Binding executables</ProgressText>
+            <ProgressText Action="CCPSearch">Searching for qualifying products</ProgressText>
+            <ProgressText Action="InstallFiles" Template="File: [1],  Directory: [9],  Size: [6]">Copying new files</ProgressText>
+            <ProgressText Action="InstallAdminPackage" Template="File: [1], Directory: [9], Size: [6]">Copying network install files</ProgressText>
+            <ProgressText Action="FileCost">Computing space requirements</ProgressText>
+            <ProgressText Action="CostInitialize">Computing space requirements</ProgressText>
+            <ProgressText Action="CostFinalize">Computing space requirements</ProgressText>
+            <ProgressText Action="InstallValidate">Validating install</ProgressText>
+            <ProgressText Action="CreateShortcuts" Template="Shortcut: [1]">Creating shortcuts</ProgressText>
+            <ProgressText Action="MsiPublishAssemblies" Template="Application Context:[1], Assembly Name:[2]">Publishing assembly information</ProgressText>
+            <ProgressText Action="PublishComponents" Template="Component ID: [1], Qualifier: [2]">Publishing Qualified Components</ProgressText>
+            <ProgressText Action="PublishFeatures" Template="Feature: [1]">Publishing Product Features</ProgressText>
+            <ProgressText Action="PublishProduct">Publishing product information</ProgressText>
+            <ProgressText Action="RegisterClassInfo" Template="Class Id: [1]">Registering Class servers</ProgressText>
+            <ProgressText Action="RegisterExtensionInfo" Template="Extension: [1]">Registering extension servers</ProgressText>
+            <ProgressText Action="RegisterMIMEInfo" Template="MIME Content Type: [1], Extension: [2]">Registering MIME info</ProgressText>
+            <ProgressText Action="RegisterProgIdInfo" Template="ProgId: [1]">Registering program identifiers</ProgressText>
+            <ProgressText Action="AllocateRegistrySpace" Template="Free space: [1]">Allocating registry space</ProgressText>
+            <ProgressText Action="CreateFolders" Template="Folder: [1]">Creating folders</ProgressText>
+            <ProgressText Action="DeleteServices" Template="Service: [1]">Deleting services</ProgressText>
+            <ProgressText Action="DuplicateFiles" Template="File: [1],  Directory: [9],  Size: [6]">Creating duplicate files</ProgressText>
+            <ProgressText Action="FindRelatedProducts" Template="Found application: [1]">Searching for related applications</ProgressText>
+            <ProgressText Action="InstallODBC">Installing ODBC components</ProgressText>
+            <ProgressText Action="InstallServices" Template="Service: [2]">Installing new services</ProgressText>
+            <ProgressText Action="LaunchConditions">Evaluating launch conditions</ProgressText>
+            <ProgressText Action="MigrateFeatureStates" Template="Application: [1]">Migrating feature states from related applications</ProgressText>
+            <ProgressText Action="MoveFiles" Template="File: [1],  Directory: [9],  Size: [6]">Moving files</ProgressText>
+            <ProgressText Action="PatchFiles" Template="File: [1],  Directory: [2],  Size: [3]">Patching files</ProgressText>
+            <ProgressText Action="ProcessComponents">Updating component registration</ProgressText>
+            <ProgressText Action="RegisterComPlus" Template="AppId: [1]{{, AppType: [2], Users: [3], RSN: [4]}}">Registering COM+ Applications and Components</ProgressText>
+            <ProgressText Action="RegisterFonts" Template="Font: [1]">Registering fonts</ProgressText>
+            <ProgressText Action="RegisterProduct" Template="[1]">Registering product</ProgressText>
+            <ProgressText Action="RegisterTypeLibraries" Template="LibID: [1]">Registering type libraries</ProgressText>
+            <ProgressText Action="RegisterUser" Template="[1]">Registering user</ProgressText>
+            <ProgressText Action="RemoveDuplicateFiles" Template="File: [1], Directory: [9]">Removing duplicated files</ProgressText>
+            <ProgressText Action="RemoveEnvironmentStrings" Template="Name: [1], Value: [2], Action [3]">Updating environment strings</ProgressText>
+            <ProgressText Action="RemoveExistingProducts" Template="Application: [1], Command line: [2]">Removing applications</ProgressText>
+            <ProgressText Action="RemoveFiles" Template="File: [1], Directory: [9]">Removing files</ProgressText>
+            <ProgressText Action="RemoveFolders" Template="Folder: [1]">Removing folders</ProgressText>
+            <ProgressText Action="RemoveIniValues" Template="File: [1],  Section: [2],  Key: [3], Value: [4]">Removing INI files entries</ProgressText>
+            <ProgressText Action="RemoveODBC">Removing ODBC components</ProgressText>
+            <ProgressText Action="RemoveRegistryValues" Template="Key: [1], Name: [2]">Removing system registry values</ProgressText>
+            <ProgressText Action="RemoveShortcuts" Template="Shortcut: [1]">Removing shortcuts</ProgressText>
+            <ProgressText Action="RMCCPSearch">Searching for qualifying products</ProgressText>
+            <ProgressText Action="SelfRegModules" Template="File: [1], Folder: [2]">Registering modules</ProgressText>
+            <ProgressText Action="SelfUnregModules" Template="File: [1], Folder: [2]">Unregistering modules</ProgressText>
+            <ProgressText Action="SetODBCFolders">Initializing ODBC directories</ProgressText>
+            <ProgressText Action="StartServices" Template="Service: [1]">Starting services</ProgressText>
+            <ProgressText Action="StopServices" Template="Service: [1]">Stopping services</ProgressText>
+            <ProgressText Action="MsiUnpublishAssemblies" Template="Application Context:[1], Assembly Name:[2]">Unpublishing assembly information</ProgressText>
+            <ProgressText Action="UnpublishComponents" Template="Component ID: [1], Qualifier: [2]">Unpublishing Qualified Components</ProgressText>
+            <ProgressText Action="UnpublishFeatures" Template="Feature: [1]">Unpublishing Product Features</ProgressText>
+            <ProgressText Action="UnregisterClassInfo" Template="Class Id: [1]">Unregister Class servers</ProgressText>
+            <ProgressText Action="UnregisterComPlus" Template="AppId: [1]{{, AppType: [2]}}">Unregistering COM+ Applications and Components</ProgressText>
+            <ProgressText Action="UnregisterExtensionInfo" Template="Extension: [1]">Unregistering extension servers</ProgressText>
+            <ProgressText Action="UnregisterFonts" Template="Font: [1]">Unregistering fonts</ProgressText>
+            <ProgressText Action="UnregisterMIMEInfo" Template="MIME Content Type: [1], Extension: [2]">Unregistering MIME info</ProgressText>
+            <ProgressText Action="UnregisterProgIdInfo" Template="ProgId: [1]">Unregistering program identifiers</ProgressText>
+            <ProgressText Action="UnregisterTypeLibraries" Template="LibID: [1]">Unregistering type libraries</ProgressText>
+            <ProgressText Action="WriteEnvironmentStrings" Template="Name: [1], Value: [2], Action [3]">Updating environment strings</ProgressText>
+            <ProgressText Action="WriteIniValues" Template="File: [1],  Section: [2],  Key: [3], Value: [4]">Writing INI files values</ProgressText>
+            <ProgressText Action="WriteRegistryValues" Template="Key: [1], Name: [2], Value: [3]">Writing system registry values</ProgressText>
+            <ProgressText Action="Advertise">Advertising application</ProgressText>
+            <ProgressText Action="GenerateScript" Template="[1]">Generating script operations for action:</ProgressText>
+            <ProgressText Action="InstallSFPCatalogFile" Template="File: [1],  Dependencies: [2]">Installing system catalog</ProgressText>
+            <ProgressText Action="Rollback" Template="[1]">Rolling back action:</ProgressText>
+            <ProgressText Action="RollbackCleanup" Template="File: [1]">Removing backup files</ProgressText>
+            <ProgressText Action="UnmoveFiles" Template="File: [1], Directory: [9]">Removing moved files</ProgressText>
+            <ProgressText Action="UnpublishProduct">Unpublishing product information</ProgressText>
+            <RadioButtonGroup Property="MaintenanceForm_Action">
+                <RadioButton Height="17" Text="&amp;Repair [ProductName]" Value="Repair" Width="200" X="0" Y="18" />
+                <RadioButton Height="17" Text="Re&amp;move [ProductName]" Value="Remove" Width="200" X="0" Y="36" />
+            </RadioButtonGroup>
+            <RadioButtonGroup Property="WhichUsers">
+                <RadioButton Height="20" Text="Install for all users" Value="ALL" Width="150" X="0" Y="5" />
+                <RadioButton Height="20" Text="Install just for me" Value="JUSTME" Width="150" X="0" Y="25" />
+            </RadioButtonGroup>
+            <TextStyle Id="DlgFont8" FaceName="Tahoma" Size="9" />
+            <TextStyle Id="DlgFontBold8" FaceName="Tahoma" Size="8" Bold="yes" />
+            <TextStyle Id="VerdanaBold10" FaceName="Verdana" Size="10" Bold="yes" />
+            <TextStyle Id="VerdanaRed9" FaceName="Verdana" Size="9" Red="255" Green="0" Blue="0" />
+            <UIText Id="AbsentPath" />
+            <UIText Id="bytes">bytes</UIText>
+            <UIText Id="GB">GB</UIText>
+            <UIText Id="KB">KB</UIText>
+            <UIText Id="MB">MB</UIText>
+            <UIText Id="MenuAbsent">Entire feature will be unavailable</UIText>
+            <UIText Id="MenuAdvertise">Feature will be installed when required</UIText>
+            <UIText Id="MenuAllCD">Entire feature will be installed to run from CD</UIText>
+            <UIText Id="MenuAllLocal">Entire feature will be installed on local hard drive</UIText>
+            <UIText Id="MenuAllNetwork">Entire feature will be installed to run from network</UIText>
+            <UIText Id="MenuCD">Will be installed to run from CD</UIText>
+            <UIText Id="MenuLocal">Will be installed on local hard drive</UIText>
+            <UIText Id="MenuNetwork">Will be installed to run from network</UIText>
+            <UIText Id="ScriptInProgress">Gathering required information...</UIText>
+            <UIText Id="SelAbsentAbsent">This feature will remain uninstalled</UIText>
+            <UIText Id="SelAbsentAdvertise">This feature will be set to be installed when required</UIText>
+            <UIText Id="SelAbsentCD">This feature will be installed to run from CD</UIText>
+            <UIText Id="SelAbsentLocal">This feature will be installed on the local hard drive</UIText>
+            <UIText Id="SelAbsentNetwork">This feature will be installed to run from the network</UIText>
+            <UIText Id="SelAdvertiseAbsent">This feature will become unavailable</UIText>
+            <UIText Id="SelAdvertiseAdvertise">Will be installed when required</UIText>
+            <UIText Id="SelAdvertiseCD">This feature will be available to run from CD</UIText>
+            <UIText Id="SelAdvertiseLocal">This feature will be installed on your local hard drive</UIText>
+            <UIText Id="SelAdvertiseNetwork">This feature will be available to run from the network</UIText>
+            <UIText Id="SelCDAbsent">This feature will be uninstalled completely, you won't be able to run it from CD</UIText>
+            <UIText Id="SelCDAdvertise">This feature will change from run from CD state to set to be installed when required</UIText>
+            <UIText Id="SelCDCD">This feature will remain to be run from CD</UIText>
+            <UIText Id="SelCDLocal">This feature will change from run from CD state to be installed on the local hard drive</UIText>
+            <UIText Id="SelChildCostNeg">This feature frees up [1] on your hard drive.</UIText>
+            <UIText Id="SelChildCostPos">This feature requires [1] on your hard drive.</UIText>
+            <UIText Id="SelCostPending">Compiling cost for this feature...</UIText>
+            <UIText Id="SelLocalAbsent">This feature will be completely removed</UIText>
+            <UIText Id="SelLocalAdvertise">This feature will be removed from your local hard drive, but will be set to be installed when required</UIText>
+            <UIText Id="SelLocalCD">This feature will be removed from your local hard drive, but will be still available to run from CD</UIText>
+            <UIText Id="SelLocalLocal">This feature will remain on you local hard drive</UIText>
+            <UIText Id="SelLocalNetwork">This feature will be removed from your local hard drive, but will be still available to run from the network</UIText>
+            <UIText Id="SelNetworkAbsent">This feature will be uninstalled completely, you won't be able to run it from the network</UIText>
+            <UIText Id="SelNetworkAdvertise">This feature will change from run from network state to set to be installed when required</UIText>
+            <UIText Id="SelNetworkLocal">This feature will change from run from network state to be installed on the local hard drive</UIText>
+            <UIText Id="SelNetworkNetwork">This feature will remain to be run from the network</UIText>
+            <UIText Id="SelParentCostNegNeg">This feature frees up [1] on your hard drive. It has [2] of [3] subfeatures selected. The subfeatures free up [4] on your hard drive.</UIText>
+            <UIText Id="SelParentCostNegPos">This feature frees up [1] on your hard drive. It has [2] of [3] subfeatures selected. The subfeatures require [4] on your hard drive.</UIText>
+            <UIText Id="SelParentCostPosNeg">This feature requires [1] on your hard drive. It has [2] of [3] subfeatures selected. The subfeatures free up [4] on your hard drive.</UIText>
+            <UIText Id="SelParentCostPosPos">This feature requires [1] on your hard drive. It has [2] of [3] subfeatures selected. The subfeatures require [4] on your hard drive.</UIText>
+            <UIText Id="TimeRemaining">Time remaining: {[1] minutes }{[2] seconds}</UIText>
+            <UIText Id="VolumeCostAvailable">Available</UIText>
+            <UIText Id="VolumeCostDifference">Difference</UIText>
+            <UIText Id="VolumeCostRequired">Required</UIText>
+            <UIText Id="VolumeCostSize">Disk Size</UIText>
+            <UIText Id="VolumeCostVolume">Volume</UIText>
+            <Dialog Id="ExitDialog" X="50" Y="50" Width="370" Height="300" Title="[ProductName] Setup" NoMinimize="yes">
+                <Control Id="Finish" Type="PushButton" X="236" Y="273" Width="56" Height="17" Text="Finish" TabSkip="no" Default="yes" Cancel="yes">
+                    <Publish Event="EndDialog" Value="Return">1</Publish>
+                </Control>
+                <Control Id="Title" Type="Text" X="15" Y="10" Width="320" Height="60" Text="{\VerdanaBold10}Completing the [ProductName] Installer" TabSkip="yes" Transparent="yes" NoPrefix="yes" />
+                <Control Id="Description" Type="Text" X="15" Y="235" Width="320" Height="20" Text="Click the Finish button to exit the Installer." TabSkip="yes" Transparent="yes" NoPrefix="yes" />
+                <Control Id="BottomLine" Type="Line" X="0" Y="264" Width="370" Height="0" TabSkip="yes" Disabled="yes" />
+                <Control Id="Back" Type="PushButton" X="180" Y="273" Width="56" Height="17" Text="&lt; Back" TabSkip="no" Disabled="yes" />
+                <Control Id="Cancel" Type="PushButton" X="304" Y="273" Width="56" Height="17" Text="Cancel" TabSkip="no" Disabled="yes" />
+            </Dialog>
+            <Dialog Id="FatalError" X="50" Y="50" Width="370" Height="300" Title="[ProductName] Setup" NoMinimize="yes">
+                <Control Id="Title" Type="Text" X="15" Y="10" Width="320" Height="60" Text="{\VerdanaBold10}[ProductName] Installer ended prematurely" TabSkip="yes" Transparent="yes" NoPrefix="yes" />
+                <Control Id="Description1" Type="Text" X="15" Y="70" Width="320" Height="80" Text="[ProductName] setup ended prematurely because of an error.  Your system has not been modified.  To install this program at a later time, please run the installation again." TabSkip="yes" Transparent="yes" NoPrefix="yes" />
+                <Control Id="Description2" Type="Text" X="15" Y="155" Width="320" Height="20" Text="Click the Finish button to exit the Installer." TabSkip="yes" Transparent="yes" NoPrefix="yes" />
+                <Control Id="BottomLine" Type="Line" X="0" Y="264" Width="370" Height="0" TabSkip="yes" Disabled="yes" />
+                <Control Id="Back" Type="PushButton" X="180" Y="273" Width="56" Height="17" Text="&lt; Back" TabSkip="no" Disabled="yes" />
+                <Control Id="Finish" Type="PushButton" X="236" Y="273" Width="56" Height="17" Text="Finish" TabSkip="no" Default="yes" Cancel="yes">
+                    <Publish Event="EndDialog" Value="Exit">1</Publish>
+                </Control>
+                <Control Id="Cancel" Type="PushButton" X="304" Y="273" Width="56" Height="17" Text="Cancel" TabSkip="no" Disabled="yes" />
+            </Dialog>
+            <Dialog Id="UserExit" X="50" Y="50" Width="370" Height="300" Title="[ProductName] Setup" NoMinimize="yes">
+                <Control Id="Title" Type="Text" X="15" Y="10" Width="320" Height="60" Text="{\VerdanaBold10}[ProductName] Installer was interrupted" TabSkip="yes" Transparent="yes" NoPrefix="yes" />
+                <Control Id="Description1" Type="Text" X="15" Y="70" Width="320" Height="80" Text="[ProductName] setup was interrupted.  Your system has not been modified.  To install this program at a later time, please run the installation again." TabSkip="yes" Transparent="yes" NoPrefix="yes" />
+                <Control Id="Description2" Type="Text" X="15" Y="155" Width="320" Height="20" Text="Click the Finish button to exit the Installer." TabSkip="yes" Transparent="yes" NoPrefix="yes" />
+                <Control Id="BottomLine" Type="Line" X="0" Y="264" Width="370" Height="0" TabSkip="yes" Disabled="yes" />
+                <Control Id="Back" Type="PushButton" X="180" Y="273" Width="56" Height="17" Text="&lt; Back" TabSkip="no" Disabled="yes" />
+                <Control Id="Finish" Type="PushButton" X="236" Y="273" Width="56" Height="17" Text="Finish" TabSkip="no" Default="yes" Cancel="yes">
+                    <Publish Event="EndDialog" Value="Exit">1</Publish>
+                </Control>
+                <Control Id="Cancel" Type="PushButton" X="304" Y="273" Width="56" Height="17" Text="Cancel" TabSkip="no" Disabled="yes" />
+            </Dialog>
+            <Dialog Id="ErrorDlg" X="50" Y="10" Width="330" Height="101" Title="[ProductName] Setup" ErrorDialog="yes">
+                <Control Id="ErrorText" Type="Text" X="50" Y="9" Width="280" Height="48" TabSkip="no" />
+                <Control Id="A" Type="PushButton" X="0" Y="72" Width="81" Height="21" Text="Abort" TabSkip="yes">
+                    <Publish Event="EndDialog" Value="ErrorAbort">1</Publish>
+                </Control>
+                <Control Id="C" Type="PushButton" X="42" Y="72" Width="81" Height="21" Text="Cancel" TabSkip="yes">
+                    <Publish Event="EndDialog" Value="ErrorCancel">1</Publish>
+                </Control>
+                <Control Id="I" Type="PushButton" X="81" Y="72" Width="81" Height="21" Text="Ignore" TabSkip="yes">
+                    <Publish Event="EndDialog" Value="ErrorIgnore">1</Publish>
+                </Control>
+                <Control Id="N" Type="PushButton" X="120" Y="72" Width="81" Height="21" Text="No" TabSkip="yes">
+                    <Publish Event="EndDialog" Value="ErrorNo">1</Publish>
+                </Control>
+                <Control Id="O" Type="PushButton" X="159" Y="72" Width="81" Height="21" Text="Ok" TabSkip="yes">
+                    <Publish Event="EndDialog" Value="ErrorOk">1</Publish>
+                </Control>
+                <Control Id="R" Type="PushButton" X="198" Y="72" Width="81" Height="21" Text="Retry" TabSkip="yes">
+                    <Publish Event="EndDialog" Value="ErrorRetry">1</Publish>
+                </Control>
+                <Control Id="Y" Type="PushButton" X="240" Y="72" Width="81" Height="21" Text="Yes" TabSkip="yes">
+                    <Publish Event="EndDialog" Value="ErrorYes">1</Publish>
+                </Control>
+            </Dialog>
+            <Dialog Id="PrepareDlg" X="50" Y="50" Width="370" Height="300" Title="[ProductName] Setup" Modeless="yes" NoMinimize="yes">
+                <Control Id="Title" Type="Text" X="15" Y="10" Width="320" Height="60" Text="{\VerdanaBold10}Welcome to the [ProductName] Installer" TabSkip="yes" Transparent="yes" NoPrefix="yes" />
+                <Control Id="Description" Type="Text" X="15" Y="70" Width="320" Height="40" Text="Please wait while the Installer prepares to guide you through the installation." TabSkip="yes" Transparent="yes" NoPrefix="yes" />
+                <Control Id="ActionText" Type="Text" X="15" Y="110" Width="320" Height="20" Text="Pondering..." TabSkip="yes" Transparent="yes" NoPrefix="yes">
+                    <Subscribe Event="ActionText" Attribute="Text" />
+                </Control>
+                <Control Id="ActionData" Type="Text" X="15" Y="135" Width="320" Height="30" TabSkip="yes" Transparent="yes" NoPrefix="yes">
+                    <Subscribe Event="ActionData" Attribute="Text" />
+                </Control>
+                <Control Id="BottomLine" Type="Line" X="0" Y="264" Width="370" Height="0" TabSkip="yes" Disabled="yes" />
+                <Control Id="Back" Type="PushButton" X="180" Y="273" Width="56" Height="17" Text="Back" TabSkip="yes" Disabled="yes" />
+                <Control Id="Next" Type="PushButton" X="236" Y="273" Width="56" Height="17" Text="Next" TabSkip="yes" Disabled="yes" />
+                <Control Id="Cancel" Type="PushButton" X="304" Y="273" Width="56" Height="17" Text="Cancel" TabSkip="no" Default="yes" Cancel="yes">
+                    <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+                </Control>
+            </Dialog>
+            <Dialog Id="WhichUsersDlg" X="50" Y="50" Width="370" Height="300" Title="[ProductName] Setup" NoMinimize="yes">
+                <Control Id="Title" Type="Text" X="15" Y="10" Width="320" Height="60" Text="{\VerdanaBold10}Select whether to install [ProductName] for all users of this computer." TabSkip="yes" Transparent="yes" NoPrefix="yes" />
+                <Control Id="AdminInstall" Type="RadioButtonGroup" X="15" Y="60" Width="260" Height="50" Property="WhichUsers" TabSkip="no" />
+                <Control Id="BottomLine" Type="Line" X="0" Y="264" Width="370" Height="0" TabSkip="yes" Disabled="yes" />
+                <Control Id="Back" Type="PushButton" X="180" Y="273" Width="56" Height="17" Text="Back" TabSkip="yes" Disabled="yes" />
+                <Control Id="Next" Type="PushButton" X="236" Y="273" Width="56" Height="17" Text="Next &gt;" TabSkip="no" Default="yes">
+                    <Publish Property="ALLUSERS" Value="1">WhichUsers="ALL"</Publish>
+                    <Publish Event="EndDialog" Value="Return">1</Publish>
+                </Control>
+                <Control Id="Cancel" Type="PushButton" X="304" Y="273" Width="56" Height="17" Text="Cancel" TabSkip="no" Cancel="yes">
+                    <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+                </Control>
+            </Dialog>
+            <Dialog Id="SelectFeaturesDlg" X="50" Y="50" Width="370" Height="300" Title="[ProductName] Setup" NoMinimize="yes">
+                <Control Id="Title" Type="Text" X="15" Y="10" Width="320" Height="60" Text="{\VerdanaBold10}Select Python Installations" TabSkip="yes" Transparent="yes" NoPrefix="yes" />
+                <Control Id="Hint" Type="Text" X="15" Y="30" Width="300" Height="40" Text="Select the Python locations where $(var.ProductName) $(var.ProductVersion) should be installed." TabSkip="yes" />
+                <Control Id="Features" Type="SelectionTree" X="15" Y="70" Width="300" Height="120" Property="FEATURE" TabSkip="no">
+                    <Publish Property="FEATURE_SELECTED" Value="1">1</Publish>
+                </Control>
+                <Control Id="Other" Type="Text" X="15" Y="200" Width="300" Height="15" Text="Provide an alternate Python location" TabSkip="yes">
+                    <Condition Action="enable">FEATURE_SELECTED AND &amp;PythonX=3</Condition>
+                    <Condition Action="show">FEATURE_SELECTED AND &amp;PythonX=3</Condition>
+                    <Condition Action="disable">FEATURE_SELECTED AND &amp;PythonX&lt;&gt;3</Condition>
+                    <Condition Action="hide">FEATURE_SELECTED AND &amp;PythonX&lt;&gt;3</Condition>
+                </Control>
+                <Control Id="PathEdit" Type="PathEdit" X="15" Y="215" Width="300" Height="16" Property="TARGETDIRX" TabSkip="no" Disabled="yes">
+                    <Condition Action="enable">FEATURE_SELECTED AND &amp;PythonX=3</Condition>
+                    <Condition Action="show">FEATURE_SELECTED AND &amp;PythonX=3</Condition>
+                    <Condition Action="disable">FEATURE_SELECTED AND &amp;PythonX&lt;&gt;3</Condition>
+                    <Condition Action="hide">FEATURE_SELECTED AND &amp;PythonX&lt;&gt;3</Condition>
+                </Control>
+                <Control Id="BottomLine" Type="Line" X="0" Y="264" Width="370" Height="0" TabSkip="yes" Disabled="yes" />
+                <Control Id="Back" Type="PushButton" X="180" Y="273" Width="56" Height="17" Text="&lt; Back" TabSkip="yes" Disabled="yes" />
+                <Control Id="Next" Type="PushButton" X="236" Y="273" Width="56" Height="17" Text="Next &gt;" TabSkip="no" Default="yes">
+                    <Publish Property="TARGETDIR" Value="[SourceDir]">1</Publish>
+                    <Publish Property="TARGETDIR" Value="[TARGETDIR$(var.PythonVersion)]">FEATURE_SELECTED AND &amp;Python$(var.PythonVersion)=3</Publish>
+                    <Publish Property="TARGETDIR" Value="[TARGETDIRX]">FEATURE_SELECTED AND &amp;PythonX=3</Publish>
+                    <Publish Event="SpawnWaitDialog" Value="WaitForCostingDlg">1</Publish>
+                    <Publish Event="EndDialog" Value="Return">1</Publish>
+                </Control>
+                <Control Id="Cancel" Type="PushButton" X="304" Y="273" Width="56" Height="17" Text="Cancel" TabSkip="no" Cancel="yes">
+                    <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+                </Control>
+            </Dialog>
+            <Dialog Id="MaintenanceTypeDlg" X="50" Y="50" Width="370" Height="300" Title="[ProductName] Setup" NoMinimize="yes">
+                <Control Id="Title" Type="Text" X="15" Y="10" Width="320" Height="60" Text="{\VerdanaBold10}Welcome to the [ProductName] Setup Wizard" TabSkip="yes" Transparent="yes" NoPrefix="yes" />
+                <Control Id="BodyText" Type="Text" X="15" Y="63" Width="330" Height="42" Text="Select whether you want to repair or remove [ProductName]." TabSkip="yes" />
+                <Control Id="RepairRadioGroup" Type="RadioButtonGroup" X="15" Y="108" Width="330" Height="60" Property="MaintenanceForm_Action" TabSkip="no" />
+                <Control Id="BottomLine" Type="Line" X="0" Y="264" Width="370" Height="0" TabSkip="yes" Disabled="yes" />
+                <Control Id="Back" Type="PushButton" X="180" Y="273" Width="56" Height="17" Text="&lt; Back" TabSkip="yes" Disabled="yes" />
+                <Control Id="Next" Type="PushButton" X="236" Y="273" Width="56" Height="17" Text="Finish" TabSkip="no" Default="yes">
+                    <Publish Property="REINSTALL" Value="ALL">MaintenanceForm_Action="Repair"</Publish>
+                    <Publish Property="Progress1" Value="Repairing">MaintenanceForm_Action="Repair"</Publish>
+                    <Publish Property="Progress2" Value="repairs">MaintenanceForm_Action="Repair"</Publish>
+                    <Publish Event="Reinstall" Value="ALL">MaintenanceForm_Action="Repair"</Publish>
+                    <Publish Property="REMOVE" Value="ALL">MaintenanceForm_Action="Remove"</Publish>
+                    <Publish Property="Progress1" Value="Removing">MaintenanceForm_Action="Remove"</Publish>
+                    <Publish Property="Progress2" Value="removes">MaintenanceForm_Action="Remove"</Publish>
+                    <Publish Event="Remove" Value="ALL">MaintenanceForm_Action="Remove"</Publish>
+                    <Publish Event="EndDialog" Value="Return">MaintenanceForm_Action&lt;&gt;"Change"</Publish>
+                </Control>
+                <Control Id="Cancel" Type="PushButton" X="304" Y="273" Width="56" Height="17" Text="Cancel" TabSkip="no" Cancel="yes">
+                    <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+                </Control>
+            </Dialog>
+            <Dialog Id="ProgressDlg" X="50" Y="50" Width="370" Height="300" Title="[ProductName] Setup" Modeless="yes" NoMinimize="yes">
+                <Control Id="Title" Type="Text" X="20" Y="15" Width="200" Height="15" Text="{\DlgFontBold8}[Progress1] [ProductName]" TabSkip="yes" Transparent="yes" NoPrefix="yes" />
+                <Control Id="Text" Type="Text" X="35" Y="65" Width="300" Height="30" Text="Please wait while the Installer [Progress2] [ProductName]. This may take several minutes." TabSkip="yes" />
+                <Control Id="StatusLabel" Type="Text" X="35" Y="100" Width="35" Height="20" Text="Status:" TabSkip="yes" />
+                <Control Id="ActionText" Type="Text" X="70" Y="100" Width="300" Height="20" Text="Pondering..." TabSkip="yes">
+                    <Subscribe Event="ActionText" Attribute="Text" />
+                </Control>
+                <Control Id="ProgressBar" Type="ProgressBar" X="35" Y="120" Width="300" Height="10" Text="Progress done" TabSkip="yes" Disabled="yes" ProgressBlocks="yes">
+                    <Subscribe Event="SetProgress" Attribute="Progress" />
+                </Control>
+                <Control Id="BottomLine" Type="Line" X="0" Y="264" Width="370" Height="0" TabSkip="yes" Disabled="yes" />
+                <Control Id="Back" Type="PushButton" X="180" Y="273" Width="56" Height="17" Text="&lt; Back" TabSkip="no" Disabled="yes" />
+                <Control Id="Next" Type="PushButton" X="236" Y="273" Width="56" Height="17" Text="Next &gt;" TabSkip="no" Disabled="yes" />
+                <Control Id="Cancel" Type="PushButton" X="304" Y="273" Width="56" Height="17" Text="Cancel" TabSkip="no" Default="yes" Cancel="yes">
+                    <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+                </Control>
+            </Dialog>
+            <Dialog Id="FilesInUse" X="50" Y="50" Width="370" Height="300" Title="[ProductName] Setup" NoMinimize="yes" KeepModeless="yes">
+                <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Text="{\DlgFontBold8}Files in Use" TabSkip="yes" Transparent="yes" NoPrefix="yes" />
+                <Control Id="Description" Type="Text" X="20" Y="23" Width="280" Height="20" Text="Some files that need to be updated are currently in use." TabSkip="yes" Transparent="yes" NoPrefix="yes" />
+                <Control Id="Text" Type="Text" X="20" Y="55" Width="330" Height="50" Text="The following applications are using files that need to be updated by this setup. Close these applications and then click Retry to continue the installation or Cancel to exit it." TabSkip="yes" />
+                <Control Id="List" Type="ListBox" X="20" Y="107" Width="330" Height="130" Property="FileInUseProcess" TabSkip="yes" Sunken="yes" />
+                <Control Id="BottomLine" Type="Line" X="0" Y="264" Width="370" Height="0" TabSkip="yes" Disabled="yes" />
+                <Control Id="Exit" Type="PushButton" X="180" Y="273" Width="56" Height="17" Text="Exit" TabSkip="no">
+                    <Publish Event="EndDialog" Value="Exit">1</Publish>
+                </Control>
+                <Control Id="Ignore" Type="PushButton" X="236" Y="273" Width="56" Height="17" Text="Ignore" TabSkip="no">
+                    <Publish Event="EndDialog" Value="Ignore">1</Publish>
+                </Control>
+                <Control Id="Retry" Type="PushButton" X="304" Y="273" Width="56" Height="17" Text="Retry" TabSkip="no" Default="yes" Cancel="yes">
+                    <Publish Event="EndDialog" Value="Retry">1</Publish>
+                </Control>
+            </Dialog>
+            <Dialog Id="CancelDlg" X="50" Y="10" Width="260" Height="85" Title="[ProductName] Setup" NoMinimize="yes">
+                <Control Id="Text" Type="Text" X="48" Y="15" Width="194" Height="30" Text="Are you sure you want to cancel [ProductName] installation?" TabSkip="yes" />
+                <Control Id="Yes" Type="PushButton" X="72" Y="57" Width="56" Height="17" Text="Yes" TabSkip="no">
+                    <Publish Event="EndDialog" Value="Exit">1</Publish>
+                </Control>
+                <Control Id="No" Type="PushButton" X="132" Y="57" Width="56" Height="17" Text="No" TabSkip="no" Default="yes" Cancel="yes">
+                    <Publish Event="EndDialog" Value="Return">1</Publish>
+                </Control>
+            </Dialog>
+            <Dialog Id="WaitForCostingDlg" X="50" Y="10" Width="260" Height="85" Title="[ProductName] Setup" NoMinimize="yes">
+                <Control Id="Text" Type="Text" X="48" Y="15" Width="194" Height="30" Text="Please wait while the installer finishes determining your disk space requirements." TabSkip="yes" />
+                <Control Id="Return" Type="PushButton" X="102" Y="57" Width="56" Height="17" Text="Return" TabSkip="no" Default="yes" Cancel="yes">
+                    <Publish Event="EndDialog" Value="Exit">1</Publish>
+                </Control>
+            </Dialog>
+            <Dialog Id="DiskCostDlg" X="50" Y="50" Width="370" Height="300" Title="[ProductName] Setup" NoMinimize="yes">
+                <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Text="{\DlgFontBold8}Disk Space Requirements" TabSkip="yes" Transparent="yes" NoPrefix="yes" />
+                <Control Id="Description" Type="Text" X="20" Y="20" Width="280" Height="20" Text="The disk space required for the installation of the selected features." TabSkip="yes" Transparent="yes" NoPrefix="yes" />
+                <Control Id="Text" Type="Text" X="20" Y="53" Width="330" Height="60" Text="The highlighted volumes (if any) do not have enough disk space available for the currently selected features.  You can either remove some files from the highlighted volumes, or choose to install less features onto local drive(s), or select different destination drive(s)." TabSkip="yes" />
+                <Control Id="VolumeList" Type="VolumeCostList" X="20" Y="100" Width="330" Height="150" Text="{120}{70}{70}{70}{70}" TabSkip="yes" Sunken="yes" Fixed="yes" Remote="yes" />
+                <Control Id="BottomLine" Type="Line" X="0" Y="264" Width="370" Height="0" TabSkip="yes" Disabled="yes" />
+                <Control Id="OK" Type="PushButton" X="157" Y="273" Width="56" Height="17" Text="Ok" TabSkip="no" Default="yes" Cancel="yes">
+                    <Publish Event="EndDialog" Value="Return">1</Publish>
+                </Control>
+            </Dialog>
+        </UI>
+
+        <Feature Id="Python" ConfigurableDirectory="TARGETDIR" Description="Everything" Display="hidden" Level="1" Title="Python" />
+
+        <Feature Id="Python$(var.PythonVersion)" ConfigurableDirectory="TARGETDIR$(var.PythonVersion)" Description="Everything" Display="expand" Level="1" Title="Python $(var.PythonVersion) from registry">
+            <Condition Level="0">NOT TARGETDIR$(var.PythonVersion)</Condition>
+        </Feature>
+
+        <Feature Id="PythonX" ConfigurableDirectory="TARGETDIRX" Description="Everything" Display="expand" Level="2" Title="Python from another location" />
+
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="TARGETDIR$(var.PythonVersion)" Name="Python$(var.PythonVersion)" />
+            <Directory Id="TARGETDIRX" Name="PythonX" />
+        </Directory>
+    </Product>
+</Wix>
