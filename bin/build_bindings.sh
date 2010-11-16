@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright © 2010 pygtk-installer Contributors
+# Copyright Â© 2010 pygtk-installer Contributors
 #
 # This file is part of pygtk-installer.
 #
