@@ -36,11 +36,6 @@ If you decide to give it a test anyway:
    example you installed Dia, MonoDevelop (gtk#), etc. - the PyGtk bindings might
    use one of those runtime libraries. In that case the behavior of the PyGtk
    bindings is unspecified (it might crash, error out, etc.).
-#. If you want to test newer snapshots of the all-in-one installer when they
-   get available, you'll first need to uninstall the previous one, either from
-   the "add/remove program" control panel applet, or by executing the old
-   version's .msi file and choosing the "Remove" option (just to be on the safe
-   side)...
 #. If it doesn't work, consider executing the following and study the
    output::
 
