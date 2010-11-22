@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Build>
+    <!-- Build an installer for each major Python version defined below.
+         Currently only 2.6 (x86) and 2.7 (x86) are supported (until I
+         can get my hands on a 64bit machine...) -->
+    <Interpreters>
+        <Interpreter Version="2.6" Platform="win32" />
+        <!-- <Interpreter Version="2.6" Platform="win64" /> -->
+        <Interpreter Version="2.7" Platform="win32" />
+        <!-- <Interpreter Version="2.7" Platform="win64" /> -->
+    </Interpreters>
+
+    <Product>
+        <Features>
+            <Feature Id          = "pygtk"
+                     Title       = "PyGtk"
+                     Description = "Installs Python bindings for GTK+, Glade, Pango, PangoCairo, GObject, GIO and Cairo"
+                     Absent      = "disallow"
+                     Display     = "expand">
+
+                <Package Type      = "MsiSourcePackage"
+                         Id        = "pygtk"
+                         Url       = "http://www.optionexplicit.be/projects/gnome-windows/20101102/"
+                         Msi_26    = "pygtk-2.22.0.win32-py2.6.msi"
+                         Digest_26 = "3e02828739852ac248c4b4c41a732659"
+                         Msi_27    = "pygtk-2.22.0.win32-py2.7.msi"
+                         Digest_27 = "166817569cd3a8112cbf168bae12bed0" />
+
+                <Package Type      = "MsiSourcePackage"
+                         Id        = "pygobject"
+                         Url       = "http://www.optionexplicit.be/projects/gnome-windows/20101102/"
+                         Msi_26    = "pygobject-2.26.0.win32-py2.6.msi"
+                         Digest_26 = "f3b609fa9fb8b0a6916d76112a83feb8"
+                         Msi_27    = "pygobject-2.26.0.win32-py2.7.msi"
+                         Digest_27 = "0ca3515aa20e0d568a6793444b721dc5" />
+
+                <Package Type      = "MsiSourcePackage"
+                         Id        = "pycairo"
+                         Url       = "http://www.optionexplicit.be/projects/gnome-windows/20101102/"
+                         Msi_26    = "pycairo-1.8.10.win32-py2.6.msi"
+                         Digest_26 = "a801b870f4a5a4759ad4642c68b737d7"
+                         Msi_27    = "pycairo-1.8.10.win32-py2.7.msi"
+                         Digest_27 = "3121a49d85759958e8db100f604115dc" />
+
+                <Feature Id          = "gtk_runtime"
+                         Title       = "GTK+ Runtime"
+                         Description = "Installs the GTK+ runtime"
+                         Absent      = "disallow"
+                         InstallDefault = "followParent">
+
+                    <Package Type    = "ArchiveSourcePackage"
+                             Id      = "gtk_runtime"
+                             Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gtk+/2.22/"
+                             archive = "gtk+-bundle_2.22.0-20101016_win32.zip"
+                             digest  = "b0a879b50e5c86190c6fed4d7377aa5d" />
+
+                    <Package Type    = "ArchiveSourcePackage"
+                             Id      = "libglade"
+                             Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/libglade/2.6/"
+                             archive = "libglade_2.6.4-1_win32.zip"
+                             digest  = "268cc2332841f2a540ba4e1cb068a4dc" />
+
+                    <Package Type    = "ArchiveSourcePackage"
+                             Id      = "libglade_dev"
+                             Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/libglade/2.6/"
+                             archive = "libglade-dev_2.6.4-1_win32.zip"
+                             digest  = "261d57fc31e5e4ddc6758bbd9d54625b" />
+
+                    <Package Type    = "ArchiveSourcePackage"
+                             Id      = "libxml2"
+                             Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
+                             archive = "libxml2_2.7.7-1_win32.zip"
+                             digest  = "bd6b3d8c35e06a00937db65887c6e287" />
+
+                    <Package Type    = "ArchiveSourcePackage"
+                             Id      = "libxml2_dev"
+                             Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
+                             archive = "libxml2-dev_2.7.7-1_win32.zip"
+                             digest  = "b6f59b70eef0992df37f8db891d4b283" />
+
+                    <Package Type    = "ArchiveSourcePackage"
+                             Id      = "librsvg"
+                             Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/librsvg/2.26/"
+                             archive = "librsvg_2.26.2-1_win32.zip"
+                             digest  = "aec21e5a389fb9c65110f28a57f2bede" />
+
+                    <Package Type    = "ArchiveSourcePackage"
+                             Id      = "librsvg_dev"
+                             Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/librsvg/2.26/"
+                             archive = "librsvg-dev_2.26.2-1_win32.zip"
+                             digest  = "871870ba95d998a3713790c455ea8e35" />
+
+                    <Package Type    = "ArchiveSourcePackage"
+                             Id      = "svg_gdk_pixbuf_loader"
+                             Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/librsvg/2.26/"
+                             archive = "svg-gdk-pixbuf-loader_2.26.2-1_win32.zip"
+                             digest  = "c30dac5d0f9965fcbfb29d7eb282f86b" /> -->
+
+                    <Package Type    = "ArchiveSourcePackage"
+                             Id      = "svg_gtk_engine"
+                             Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/librsvg/2.26/"
+                             archive = "svg-gtk-engine_2.26.2-1_win32.zip"
+                             digest  = "92f23be86fbfd617c3552a6f17d4b880" />
+
+                    <Package Type    = "ArchiveSourcePackage"
+                             Id      = "libcroco"
+                             Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/libcroco/0.6/"
+                             archive = "libcroco_0.6.2-1_win32.zip"
+                             digest  = "2d90c71404be0de4e5f3259f63a3e278" />
+
+                    <Package Type    = "ArchiveSourcePackage"
+                             Id      = "libcroco_dev"
+                             Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/libcroco/0.6/"
+                             archive = "libcroco-dev_0.6.2-1_win32.zip"
+                             digest  = "bcaa8808e6dbee95b142b36a446718b3" />
+
+                    <Package Type    = "ArchiveSourcePackage"
+                             Id      = "libgsf"
+                             Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/libgsf/1.14/"
+                             archive = "libgsf_1.14.17-1_win32.zip"
+                             digest  = "d23456b89c7f0c156889e9ddd6c5d96c" />
+
+                    <Package Type    = "ArchiveSourcePackage"
+                             Id      = "libgsf_dev"
+                             Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/libgsf/1.14/"
+                             archive = "libgsf-dev_1.14.17-1_win32.zip"
+                             digest  = "03c44275fc3097568b4b0466ba81b262" />
+
+                    <Package Type    = "ArchiveSourcePackage"
+                             Id      = "hicolor_icon_theme"
+                             Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
+                             archive = "hicolor-icon-theme_0.10-1_win32.zip"
+                             digest  = "147807d828f42a81bf4a09c8737d4601" />
+
+                    <Package Type    = "ArchiveSourcePackage"
+                             Id      = "icon_nameing_utils"
+                             Url     = "http://www.optionexplicit.be/projects/gnome-windows/20100401/"
+                             archive = "icon-nameing-utils-0.8.90.zip"
+                             digest  = "2a9f74579b3b222e8664345a93eb40b3" />
+
+                    <Package Type    = "ArchiveSourcePackage"
+                             Id      = "tango_icon_theme"
+                             Url     = "http://www.optionexplicit.be/projects/gnome-windows/20100401/"
+                             archive = "tango-icon-theme-0.8.90.zip"
+                             digest  = "93286826b9cd53b588f3a500afb3b8ad" />
+                </Feature>
+            </Feature>
+
+            <Feature Id          = "pygtksourceview2"
+                     Title       = "PyGtkSourceView2"
+                     Description = "Installs Python bindings for GtkSourceView2."
+                     Absent      = "allow"
+                     Display     = "collapse">
+
+                <Package Id        = "pygtksourceview2"
+                         Type      = "MsiSourcePackage"
+                         Url       = "http://www.optionexplicit.be/projects/gnome-windows/20101102/"
+                         Msi_26    = "pygtksourceview-2.10.1.win32-py2.6.msi"
+                         Msi_27    = "pygtksourceview-2.10.1.win32-py2.7.msi"
+                         Digest_26 = "123d751255edd7cb4d0f8e8253574058"
+                         Digest_27 = "c5c017fbf1ac99929a6d7a2be4f2b514" />
+
+                <Package Id        = "libgtksourceview"
+                         Type      = "ArchiveSourcePackage"
+                         Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gtksourceview/2.10/"
+                         archive   = "gtksourceview-2.10.0.zip"
+                         digest    = "246460cc82a233f0aaffe2075b4455ef" />
+
+                <Package Id      = "libgtksourceview_dev"
+                         Type    = "ArchiveSourcePackage"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gtksourceview/2.10/"
+                         archive = "gtksourceview-dev-2.10.0.zip"
+                         digest  = "4510027ea0ab4fcb0e0d68fa596bccb5" />
+            </Feature>
+
+            <Feature Id          = "pygoocanvas"
+                     Title       = "PyGooCanvas"
+                     Description = "Installs Python bindings for GooCanvas."
+                     Absent      = "allow"
+                     Display     = "collapse">
+
+                <Package Id        = "pygoocanvas"
+                         Type      = "MsiSourcePackage"
+                         Url       = "http://www.optionexplicit.be/projects/gnome-windows/20101102/"
+                         Msi_26    = "pygoocanvas-0.14.2.win32-py2.6.msi"
+                         Msi_27    = "pygoocanvas-0.14.2.win32-py2.7.msi"
+                         Digest_26 = "c33db1b3332331b674a98cc3a6c88232"
+                         Digest_27 = "0a373713e14440a5261da1bc9e4026f8" />
+
+                <Package Id      = "libgoocanvas"
+                         Type    = "ArchiveSourcePackage"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/goocanvas/0.15/"
+                         archive = "goocanvas-0.15-win32.zip"
+                         digest  = "18117c424950b6c014780af849508838" />
+
+                <Package Id      = "libgoocanvas_dev"
+                         Type    = "ArchiveSourcePackage"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/goocanvas/0.15/"
+                         archive = "goocanvas-dev-0.15-win32.zip"
+                         digest  = "c1068163ef67986598bce6dad5524e75" />
+            </Feature>
+
+            <Feature Id          = "pyrsvg"
+                     Title       = "PyRsvg"
+                     Description = "Installs Python bindings for Rsvg."
+                     Absent      = "allow"
+                     Display     = "collapse">
+
+                <Package Id = "pyrsvg"
+                         Type      = "MsiSourcePackage"
+                         Url       = "http://www.optionexplicit.be/projects/gnome-windows/20101102/"
+                         Msi_26    = "pyrsvg-2.32.1.win32-py2.6.msi"
+                         Msi_27    = "pyrsvg-2.32.1.win32-py2.7.msi"
+                         Digest_26 = "3d16d3d912846a14a93d023d58fc663b"
+                         Digest_27 = "156c34852642d250f47f9415e20af91b" />
+            </Feature>
+
+            <Feature Id          = "devtools"
+                     Title       = "Development Tools"
+                     Description = "Installs Development Tools."
+                     Absent      = "allow"
+                     Display     = "expand">
+
+                <Feature Id          = "glade"
+                         Title       = "Glade UI Designer"
+                         Description = "Installs Glade UI Designer."
+                         Absent      = "allow">
+
+                    <Package Type       = "ArchiveSourcePackage"
+                             Id         = "glade3"
+                             Url        = "http://www.optionexplicit.be/projects/gnome-windows/20101117/"
+                             Archive_26 = "glade3-3.6.7-0.win32-py26.zip"
+                             Archive_27 = "glade3-3.6.7-0.win32-py27.zip"
+                             Digest_26  = "94494839890d26b133c429ec162871c0"
+                             Digest_27  = "4859630d578b8ee00776fbc54512b519" />
+                </Feature>
+            </Feature>
+        </Features>
+    </Product>
+</Build>

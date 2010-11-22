@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <!-- "XXX" gets replaced by the build script. -->
+    <?define SrcImages              = "XXX"?>
+    <?define Platform               = "XXX"?>
+    <?define PythonVersion          = "XXX"?>
+    <?define ProductVersion         = "XXX"?>
+    <?define Manufacturer           = "http://www.pygtk.org/"?>
+    <?define ManufacturerContact    = "XXX"?>
+    <?define OriginalProductVersion = "2.0.0"?>
+
+    <?if $(var.Platform) = "x86"?>
+        <?define ProductName = "Python $(var.PythonVersion) PyGtk $(var.ProductVersion)"?>
+        <?define Win64 = "no"?>
+
+        <?if $(var.PythonVersion) = "2.6"?>
+            <?define UpgradeCode = "{67D26C03-D5BD-4549-9FEA-76F9B8171584}"?>
+        <?elseif $(var.PythonVersion) = "2.7"?>
+            <?define UpgradeCode = "{7E8DD188-EB7F-46FC-8E39-64A92D227927}"?>
+        <?else?>
+            <?error Unknown Python version specified: $(var.PythonVersion) ?>
+        <?endif?>
+    <?elseif $(var.Platform) = "x64"?>
+        <?define ProductName = "Python $(var.PythonVersion) PyGtk $(var.ProductVersion) (64 bit)"?>
+        <?define Win64 = "yes"?>
+
+        <?if $(var.PythonVersion) = "2.6"?>
+            <?define UpgradeCode = "{65A7410A-6B75-4A97-9C3A-3450BB65615E}"?>
+        <?elseif $(var.PythonVersion) = "2.7"?>
+            <?define UpgradeCode = "{2CC0DCE7-E4BD-48E2-823E-CBFF1D92E560}"?>
+        <?else?>
+            <?error Unknown Python version specified: $(var.PythonVersion) ?>
+        <?endif?>
+    <?else?>
+        <?error Unknown Platform specified: $(var.Platform) ?>
+    <?endif?>
+
+    <Product Id="*"
+             Language="1033"
+             Manufacturer="$(var.Manufacturer)"
+             Name="$(var.ProductName)"
+             UpgradeCode="$(var.UpgradeCode)"
+             Version="$(var.ProductVersion)">
+
+        <Package Id="*"
+                 AdminImage="no"
+                 Comments="$(var.ProductName) Windows Installer Database"
+                 Compressed="yes"
+                 Description="$(var.ProductName)"
+                 InstallerVersion="200"
+                 Keywords="Installer,MSI,Database"
+                 Languages="1033"
+                 Manufacturer="$(var.Manufacturer)"
+                 Platform="$(var.Platform)"
+                 ReadOnly="yes" />
+
+        <Upgrade Id="$(var.UpgradeCode)">
+            <UpgradeVersion Minimum='$(var.ProductVersion)'
+                            IncludeMinimum="no"
+                            OnlyDetect='yes'
+                            Language="1033"
+                            Property='NEWPRODUCTFOUND' />
+
+            <UpgradeVersion Minimum='$(var.OriginalProductVersion)'
+                            IncludeMinimum="yes"
+                            Maximum='$(var.ProductVersion)'
+                            IncludeMaximum="no"
+                            Language="1033"
+                            Property='UPGRADEFOUND' />
+        </Upgrade>
+
+        <Media Id="1"
+               Cabinet="distfiles"
+               CompressionLevel="high"
+               EmbedCab="yes" />
+
+        <Icon Id="PyGtkIcon" SourceFile="$(var.SrcImages)/PyGtkIcon.ico" />
+        <Property Id="ARPPRODUCTICON" Value="PyGtkIcon" />
+
+        <?include WixUI_PyGTK.wxs?>
+        <UIRef Id="WixUI_PyGTK" />
+        <WixVariable Id="WixUIBannerBmp" Value="$(var.SrcImages)/PyGtkBanner.jpg" />
+        <WixVariable Id="WixUIDialogBmp" Value="$(var.SrcImages)/PyGtkDialog.jpg" />
+        <WixVariable Id="WixUIExclamationIco" Value="$(var.SrcImages)/PyGtkExclamationIco.ico" />
+        <WixVariable Id="WixUIInfoIco" Value="$(var.SrcImages)/PyGtkInfoIco.ico" />
+        <WixVariable Id="WixUINewIco" Value="$(var.SrcImages)/PyGtkNewIco.ico" />
+        <WixVariable Id="WixUIUpIco" Value="$(var.SrcImages)/PyGtkUpIco.ico" />
+
+        <Property Id="PYTHON.MACHINE">
+            <RegistrySearch Id="python.machine" Root="HKLM" Key="SOFTWARE\Python\PythonCore\$(var.PythonVersion)\InstallPath" Type="raw" />
+        </Property>
+        <Property Id="PYTHON.USER">
+            <RegistrySearch Id="python.user" Root="HKCU" Key="SOFTWARE\Python\PythonCore\$(var.PythonVersion)\InstallPath" Type="raw" />
+        </Property>
+
+        <CustomAction Id="PreventDowngrading" Error="A newer version is already installed." />
+        <CustomAction Id="PythonFromMachine" Property="PYTHONDIR" Value="[PYTHON.MACHINE]" Execute="firstSequence" />
+        <CustomAction Id="PythonFromUser" Property="PYTHONDIR" Value="[PYTHON.USER]" Execute="firstSequence" />
+        <CustomAction Id="PythonExe" Property="PYTHON" Value="[PYTHONDIR]\python.exe" Execute="firstSequence" />
+        <CustomAction Id="InitialTargetDir" Property="TARGETDIR" Value="[PYTHONDIR]" Execute="firstSequence" />
+
+        <InstallExecuteSequence>
+            <Custom Action="PreventDowngrading" Sequence="201">NEWPRODUCTFOUND</Custom>
+            <Custom Action="PythonFromMachine" Sequence="401">PYTHON.MACHINE</Custom>
+            <Custom Action="PythonFromUser" Sequence="402">PYTHON.USER</Custom>
+            <Custom Action="PythonExe" Sequence="403" />
+            <Custom Action="InitialTargetDir" Sequence="404">TARGETDIR=""</Custom>
+            <RemoveExistingProducts Sequence="1401" />
+        </InstallExecuteSequence>
+
+        <InstallUISequence>
+            <Custom Action="PreventDowngrading" Sequence="201">NEWPRODUCTFOUND</Custom>
+            <Custom Action="PythonFromMachine" Sequence="401">PYTHON.MACHINE</Custom>
+            <Custom Action="PythonFromUser" Sequence="402">PYTHON.USER</Custom>
+            <Custom Action="PythonExe" Sequence="403" />
+            <Custom Action="InitialTargetDir" Sequence="404">TARGETDIR=""</Custom>
+        </InstallUISequence>
+
+        <Feature Id="PyGTKAllInOne"
+                 AllowAdvertise="no"
+                 ConfigurableDirectory="TARGETDIR"
+                 Description="Everything"
+                 Display="expand"
+                 InstallDefault="local"
+                 Level="1"
+                 Title="PyGTK All-in-one" />
+
+        <Directory Id="TARGETDIR" Name="SourceDir" />
+    </Product>
+</Wix>

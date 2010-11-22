@@ -4,6 +4,8 @@ pygtk-installer
 
 The pygtk-installer project provides:
 
+- build_glade.sh: a tool that builds glade3 binaries for mswindows with
+  "Python Widgets Support".
 - build_bindings.sh: a tool that builds windows installer packages (both .exe
   and .msi) for pycairo, pygobject, pygtk, pygoocanvas, pygtksourceview and pyrsvg.
 - build_installer.py: a tool that generates an all-in-one installer bundling
@@ -26,13 +28,13 @@ If you decide to give it a test anyway:
    The pygtk version that's installed with the all-in-one installer
    should take care of loading the included gtk+ runtime on PATH
    when you import pygtk; pygtk.require('2.0'). As a consequence
-   simply importing gtk, gobject, etc *might* not work without
+   simply importing gobject, gtk, etc *might* not work without
    the .require() call. The .require() call is typically done only
    once in a startup script somewhere.
 #. Why did you say "*might* not work" above? Ah, good question. If
    you've got another gtk+ runtime on your PATH environment variable - for
-   example you installed Dia, MonoDevelop (gtk#), etc. - the PyGTK bindings might
-   use one of those runtime libraries. In that case the behavior of the PyGTK
+   example you installed Dia, MonoDevelop (gtk#), etc. - the PyGtk bindings might
+   use one of those runtime libraries. In that case the behavior of the PyGtk
    bindings is unspecified (it might crash, error out, etc.).
 #. If you want to test newer snapshots of the all-in-one installer when they
    get available, you'll first need to uninstall the previous one, either from

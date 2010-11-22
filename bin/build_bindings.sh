@@ -17,12 +17,11 @@
 # You should have received a copy of the GNU General Public License
 # along with pygtk-installer. If not, see <http://www.gnu.org/licenses/>.
 
-
 # What is this?
 # =============
 # build_bindings.sh is a script for building the
 # Py{Cairo, GObject, GTK, GooCanvas, GtkSourceView, Rsvg}
-# installers using MinGW.
+# installers using MinGW/MSYS.
 # This script has been tested with MSYS on MS Windows,
 # but should work fine via wine on a Linux distribution.
 
@@ -33,37 +32,21 @@
 #   $ mingw-get.exe install msys-base
 #
 # Configure the CHECKOUT, DESTDIR and INTERPRETERS and GTKBUNDLE
-# variables below
+# variables in the build.conf file
 #
 # To build all installers, execute
-#   $ build_bindings
+#   $ ./build_bindings.sh
 #
 # To build specific (but known!) targets, execute
-#   $ build_bindings pygobject pygtk
+#   $ ./build_bindings.sh pygobject pygtk
 # or
-#   $ build_bindings pygoocanvas
+#   $ ./build_bindings.sh pygoocanvas
 # or ... well, you get the idea
 
 
-# Configure the path to source repositories.
-CHECKOUT="/d/dev/gnome.org/gnome-windows/checkout"
+# Load "configuration"
+source ../etc/build_env.conf
 
-# Congfigure the destination path for the built installers.
-# A subdirectory will be created into it each time you run
-# this script.
-DESTDIR="/d/dev/gnome.org/gnome-windows/dist"
-
-# Configure the path to your Python interpreter installations.
-# Installers will be built for any interpreter configured here.
-# Only Python 2.6 and Python 2.7 are supported atm.
-INTERPRETERS="/d/bin/Python26 /d/bin/Python27"  # for msys
-#INTERPRETERS="c:/Python26 c:/Python27"         # for wine
-
-# Configure the path to your gtk+-bundle installation.
-GTKBUNDLE="/d/dev/gnome.org/gnome-windows/prefix/gtk+-bundle/gtk+-bundle_2.22.0-20101016_win32/lib/pkgconfig"
-
-
-# you can stop configureing now ;)
 TARGETS="pycairo-1.8.10 pygobject pygtk pygoocanvas pygtksourceview gnome-python-desktop"
 DESTDIR=${DESTDIR}/`date +%Y%m%d-%H%M%S`
 OLD_CWD=`pwd`
