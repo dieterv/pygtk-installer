@@ -11,11 +11,19 @@
         <!-- <Interpreter Version="2.7" Platform="win64" /> -->
     </Interpreters>
 
+    <!-- Some notes about the Level attribute of the Feature tag:
+         - Level 0   : disable the feature and prevent it from being displayed
+                       in the user interface
+         - Level 1   : default value of INSTALLLEVEL property
+         - Level 3   : WiX Mondo UI Typical installation
+         - Level 1000: WiX Mondo UI Complete installation -->
+
     <Product>
         <Features>
             <Feature Id          = "pygtk"
                      Title       = "PyGtk"
                      Description = "Installs Python bindings for GTK+, Glade, Pango, PangoCairo, GObject, GIO and Cairo"
+                     Level       = "1"
                      Absent      = "disallow"
                      Display     = "expand">
 
@@ -43,10 +51,11 @@
                          Msi_27    = "pycairo-1.8.10.win32-py2.7.msi"
                          Digest_27 = "3121a49d85759958e8db100f604115dc" />
 
-                <Feature Id          = "gtk_runtime"
-                         Title       = "GTK+ Runtime"
-                         Description = "Installs the GTK+ runtime"
-                         Absent      = "disallow"
+                <Feature Id             = "gtk_runtime"
+                         Title          = "GTK+ Runtime"
+                         Description    = "Installs the GTK+ runtime"
+                         Level          = "1"
+                         Absent         = "disallow"
                          InstallDefault = "followParent">
 
                     <Package Type    = "ArchiveSourcePackage"
@@ -150,6 +159,7 @@
             <Feature Id          = "pygtksourceview2"
                      Title       = "PyGtkSourceView2"
                      Description = "Installs Python bindings for GtkSourceView2."
+                     Level       = "10"
                      Absent      = "allow"
                      Display     = "collapse">
 
@@ -167,16 +177,17 @@
                          archive   = "gtksourceview-2.10.0.zip"
                          digest    = "246460cc82a233f0aaffe2075b4455ef" />
 
-                <Package Id      = "libgtksourceview_dev"
-                         Type    = "ArchiveSourcePackage"
-                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gtksourceview/2.10/"
-                         archive = "gtksourceview-dev-2.10.0.zip"
-                         digest  = "4510027ea0ab4fcb0e0d68fa596bccb5" />
+                <Package Id        = "libgtksourceview_dev"
+                         Type      = "ArchiveSourcePackage"
+                         Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gtksourceview/2.10/"
+                         archive   = "gtksourceview-dev-2.10.0.zip"
+                         digest    = "4510027ea0ab4fcb0e0d68fa596bccb5" />
             </Feature>
 
             <Feature Id          = "pygoocanvas"
                      Title       = "PyGooCanvas"
                      Description = "Installs Python bindings for GooCanvas."
+                     Level       = "10"
                      Absent      = "allow"
                      Display     = "collapse">
 
@@ -188,26 +199,27 @@
                          Digest_26 = "c33db1b3332331b674a98cc3a6c88232"
                          Digest_27 = "0a373713e14440a5261da1bc9e4026f8" />
 
-                <Package Id      = "libgoocanvas"
-                         Type    = "ArchiveSourcePackage"
-                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/goocanvas/0.15/"
-                         archive = "goocanvas-0.15-win32.zip"
-                         digest  = "18117c424950b6c014780af849508838" />
+                <Package Id        = "libgoocanvas"
+                         Type      = "ArchiveSourcePackage"
+                         Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/goocanvas/0.15/"
+                         archive   = "goocanvas-0.15-win32.zip"
+                         digest    = "18117c424950b6c014780af849508838" />
 
-                <Package Id      = "libgoocanvas_dev"
-                         Type    = "ArchiveSourcePackage"
-                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/goocanvas/0.15/"
-                         archive = "goocanvas-dev-0.15-win32.zip"
-                         digest  = "c1068163ef67986598bce6dad5524e75" />
+                <Package Id        = "libgoocanvas_dev"
+                         Type      = "ArchiveSourcePackage"
+                         Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/goocanvas/0.15/"
+                         archive   = "goocanvas-dev-0.15-win32.zip"
+                         digest    = "c1068163ef67986598bce6dad5524e75" />
             </Feature>
 
             <Feature Id          = "pyrsvg"
                      Title       = "PyRsvg"
                      Description = "Installs Python bindings for Rsvg."
+                     Level       = "10"
                      Absent      = "allow"
                      Display     = "collapse">
 
-                <Package Id = "pyrsvg"
+                <Package Id        = "pyrsvg"
                          Type      = "MsiSourcePackage"
                          Url       = "http://www.optionexplicit.be/projects/gnome-windows/20101102/"
                          Msi_26    = "pyrsvg-2.32.1.win32-py2.6.msi"
@@ -219,6 +231,7 @@
             <Feature Id          = "devtools"
                      Title       = "Development Tools"
                      Description = "Installs Development Tools."
+                     Level       = "10"
                      Absent      = "allow"
                      Display     = "expand">
 
@@ -234,6 +247,52 @@
                              Archive_27 = "glade3-3.6.7-0.win32-py27.zip"
                              Digest_26  = "94494839890d26b133c429ec162871c0"
                              Digest_27  = "4859630d578b8ee00776fbc54512b519" />
+                </Feature>
+
+                <Feature Id          = "langtools"
+                         Title       = "Language Tools"
+                         Description = "Installs intltool, gettext tools and libiconv."
+                         Absent      = "allow">
+
+                    <Package Id        = "libiconv"
+                             Type      = "ArchiveSourcePackage"
+                             Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
+                             archive   = "libiconv-1.9.1.bin.woe32.zip"
+                             digest    = "a18e9420d6a354b585a77230996b4171" />
+
+                    <Package Id        = "gettext_tools"
+                             Type      = "ArchiveSourcePackage"
+                             Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
+                             archive   = "gettext-tools_0.18.1.1-2_win32.zip"
+                             digest    = "e38076f290198adf75c7c3f5a7886653" />
+
+                    <!-- gettext-tools-dev_0.18.1.1-2_win32.zip contains files that are already
+                         installed by gtk+-bundle_2.22.0-20101016_win32.zip. light.exe does not
+                         react well to this (LGHT0204 : ICE30). So I did a "custom" zip with
+                         the following duplicate files removed:
+                            bin/libgcc_s_dw2-1.dll
+                            share/doc/gettext/envsubst.1.html
+                            share/doc/gettext/gettext.1.html
+                            share/doc/gettext/ngettext.1.html
+                            src/tml/packaging/gettext_0.18.1.1-2_win32.log
+                            src/tml/packaging/gettext_0.18.1.1-2_win32.sh -->
+                    <Package Id        = "gettext_tools_dev"
+                             Type      = "ArchiveSourcePackage"
+                             Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
+                             archive   = "gettext-tools-dev_0.18.1.1-2_win32.zip"
+                             digest    = "aec935aa5391de61534e2f070b7cf65c" />
+
+                    <Package Id        = "intltool"
+                             Type      = "ArchiveSourcePackage"
+                             Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/intltool/0.40/"
+                             archive   = "intltool_0.40.4-1_win32.zip"
+                             digest    = "d03b3270a4ddafdc0d4e9bcc6dcc6b65" />
+
+                    <Package Id        = "intltool_dev"
+                             Type      = "ArchiveSourcePackage"
+                             Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/intltool/0.40/"
+                             archive   = "intltool-dev_0.40.4-1_win32.zip"
+                             digest    = "7e64b0128891406d89daea91cf9fd046" />
                 </Feature>
             </Feature>
         </Features>

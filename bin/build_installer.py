@@ -338,18 +338,13 @@ class Product(object):
             transform(child)
 
     def transform_features(self, element):
-        product = element.find('{%s}Product' % WIX_NAMESPACE)
-        FEATURE = product.find('{%s}Feature' % WIX_NAMESPACE)
-        assert FEATURE.get('Id') == 'PyGTKAllInOne'
-
-        def transform(element, PARENT):
+        def transform(element, parent):
             if element.tag == 'Feature':
-                feature = etree.SubElement(PARENT,
+                feature = etree.SubElement(parent,
                                           'Feature',
                                           Id = element.get('Id'),
                                           Title = element.get('Title'),
                                           Description = element.get('Description'),
-                                          Level = PARENT.get('Level'),
                                           AllowAdvertise = 'no')
 
                 if 'Absent' in element.keys():
@@ -363,17 +358,15 @@ class Product(object):
 
                 if 'Level' in element.keys():
                     feature.set('Level', element.get('Level'))
+                elif 'Level' in parent.keys():
+                    feature.set('Level', parent.get('Level'))
+                else:
+                    error('Error computing Level for Feature "%s"' % element.get('Id'), 2)
 
                 for child in element.iterchildren():
                     transform(child, feature)
 
             elif element.tag == 'Package':
-                wxifile = element.get('wxifile_%s' % PYTHON_VERSION)
-
-                iroot = etree.parse(wxifile).getroot()
-                ITARGETDIR = iroot.find('{%s}DirectoryRef' % WIX_NAMESPACE)
-                assert ITARGETDIR.get('Id') == 'TARGETDIR'
-
                 def traverse(child, parent):
                     if child.tag == '{%s}Component' % WIX_NAMESPACE:
                         etree.SubElement(parent, 'ComponentRef', Id=child.get('Id'))
@@ -381,8 +374,17 @@ class Product(object):
                         for x in child:
                             traverse(x, parent)
 
+                wxifile = element.get('wxifile_%s' % PYTHON_VERSION)
+                iroot = etree.parse(wxifile).getroot()
+                ITARGETDIR = iroot.find('{%s}DirectoryRef' % WIX_NAMESPACE)
+                assert ITARGETDIR.get('Id') == 'TARGETDIR'
+
                 for ichild in ITARGETDIR.iterchildren():
-                    traverse(ichild, PARENT)
+                    traverse(ichild, parent)
+
+        product = element.find('{%s}Product' % WIX_NAMESPACE)
+        FEATURE = product.find('{%s}Feature' % WIX_NAMESPACE)
+        assert FEATURE.get('Id') == 'PyGTKAllInOne'
 
         for child in self.build.Product.Features.iterchildren():
             transform(child, FEATURE)
