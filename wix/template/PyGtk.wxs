@@ -56,12 +56,6 @@
                  ReadOnly="yes" />
 
         <Upgrade Id="$(var.UpgradeCode)">
-            <UpgradeVersion Minimum='$(var.ProductVersion)'
-                            IncludeMinimum="no"
-                            OnlyDetect='yes'
-                            Language="1033"
-                            Property='NEWPRODUCTFOUND' />
-
             <UpgradeVersion Minimum='$(var.OriginalProductVersion)'
                             IncludeMinimum="yes"
                             Maximum='$(var.ProductVersion)'
@@ -94,26 +88,21 @@
             <RegistrySearch Id="python.user" Root="HKCU" Key="SOFTWARE\Python\PythonCore\$(var.PythonVersion)\InstallPath" Type="raw" />
         </Property>
 
-        <CustomAction Id="PreventDowngrading" Error="A newer version is already installed." />
         <CustomAction Id="PythonFromMachine" Property="PYTHONDIR" Value="[PYTHON.MACHINE]" Execute="firstSequence" />
         <CustomAction Id="PythonFromUser" Property="PYTHONDIR" Value="[PYTHON.USER]" Execute="firstSequence" />
         <CustomAction Id="InitialTargetDir" Property="TARGETDIR" Value="[PYTHONDIR]" Execute="firstSequence" />
 
         <InstallExecuteSequence>
-            <Custom Action="PreventDowngrading" Sequence="201">NEWPRODUCTFOUND</Custom>
             <Custom Action="PythonFromMachine" Sequence="401">PYTHON.MACHINE</Custom>
             <Custom Action="PythonFromUser" Sequence="402">PYTHON.USER</Custom>
-            <Custom Action="PythonExe" Sequence="403" />
-            <Custom Action="InitialTargetDir" Sequence="404">TARGETDIR=""</Custom>
+            <Custom Action="InitialTargetDir" Sequence="403">TARGETDIR=""</Custom>
             <RemoveExistingProducts Sequence="1401" />
         </InstallExecuteSequence>
 
         <InstallUISequence>
-            <Custom Action="PreventDowngrading" Sequence="201">NEWPRODUCTFOUND</Custom>
             <Custom Action="PythonFromMachine" Sequence="401">PYTHON.MACHINE</Custom>
             <Custom Action="PythonFromUser" Sequence="402">PYTHON.USER</Custom>
-            <Custom Action="PythonExe" Sequence="403" />
-            <Custom Action="InitialTargetDir" Sequence="404">TARGETDIR=""</Custom>
+            <Custom Action="InitialTargetDir" Sequence="403">TARGETDIR=""</Custom>
         </InstallUISequence>
 
         <Feature Id="PyGTKAllInOne"
