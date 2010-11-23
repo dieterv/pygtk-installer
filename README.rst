@@ -12,6 +12,16 @@ The pygtk-installer project provides:
   the separate .msi installers created by build_bindings.sh and the gtk+ runtime
   packages from ftp.gnome.org/pub/GNOME/binaries/win32/.
 
+==========
+Versioning
+==========
+
+The all-in-one installers' version number does not map directly to the
+pygtk version number. This is a requirement to support windows installer
+major upgrades. The version number is constructed as follows::
+
+    PYGTK_MAJOR.PYGTK_MINOR.INSTALLER_REVISION
+
 =======
 WARNING
 =======
