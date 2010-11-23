@@ -120,7 +120,7 @@
         <Feature Id="PyGTKAllInOne"
                  AllowAdvertise="no"
                  ConfigurableDirectory="TARGETDIR"
-                 Description="Everything"
+                 Description="Installs everything you need for PyGTK development except Python"
                  Display="expand"
                  InstallDefault="local"
                  Level="1"
