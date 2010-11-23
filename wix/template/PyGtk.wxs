@@ -97,7 +97,6 @@
         <CustomAction Id="PreventDowngrading" Error="A newer version is already installed." />
         <CustomAction Id="PythonFromMachine" Property="PYTHONDIR" Value="[PYTHON.MACHINE]" Execute="firstSequence" />
         <CustomAction Id="PythonFromUser" Property="PYTHONDIR" Value="[PYTHON.USER]" Execute="firstSequence" />
-        <CustomAction Id="PythonExe" Property="PYTHON" Value="[PYTHONDIR]\python.exe" Execute="firstSequence" />
         <CustomAction Id="InitialTargetDir" Property="TARGETDIR" Value="[PYTHONDIR]" Execute="firstSequence" />
 
         <InstallExecuteSequence>
