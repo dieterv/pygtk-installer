@@ -27,7 +27,7 @@ from copy import copy, deepcopy
 from datetime import datetime
 from hashlib import md5
 from optparse import OptionParser
-from os.path import abspath, dirname, isdir, isfile, join
+from os.path import abspath, dirname, isabs, isdir, isfile, join
 from shutil import copyfile, rmtree
 from subprocess import Popen, PIPE
 from urllib2 import urlopen, URLError
@@ -199,13 +199,13 @@ class Builder(object):
         if not isfile(productfile):
             error('Unable to load product "%s".' % productfile)
 
-        self.build = objectify.parse(productfile).getroot()
-        etree.SubElement(self.build, 'Version', Version=version)
+        self.buildfile = objectify.parse(productfile).getroot()
+        etree.SubElement(self.buildfile, 'Version', Version=version)
 
         info('Loaded product "%s" (loaded from "%s").' % (version, productfile))
 
-    def run(self):
-        for child in self.build.Interpreters.iterchildren():
+    def build(self):
+        for child in self.buildfile.Interpreters.iterchildren():
             if child.tag == 'Interpreter':
                 if not child.get('Version') in PYTHON_VERSIONS:
                     error('Unknown interpreter version (%s).' % child.get('Version'))
@@ -222,20 +222,21 @@ class Builder(object):
                 PYTHON_FULLVERSION = child.get('Version')
                 PYTHON_VERSION = child.get('Version')
 
-                product = Product(self.build)
+                product = Product(self.buildfile)
                 product.merge()
 
 
 class Product(object):
-    def __init__(self, build):
-        self.build = build
-        self.version = self.build.Version.get('Version')
+    def __init__(self, buildfile):
+        self.buildfile = buildfile
+        self.version = self.buildfile.Version.get('Version')
         self.packageid = 'pygtk-all-in-one-%s.%s-py%s' % (self.version, WIN_PLATFORM, PYTHON_FULLVERSION)
 
-        self.builddir = join(TMPDIR, 'build', '%s-%s' % (PYTHON_FULLVERSION, WIN_PLATFORM), self.packageid)
         self.wxsfilename = '%s.wxs' % self.packageid
         self.wixobjfilename = '%s.wixobj' % self.packageid
         self.msifilename = '%s.msi' % self.packageid
+
+        self.builddir = join(TMPDIR, 'build', '%s-%s' % (PYTHON_FULLVERSION, WIN_PLATFORM), self.packageid)
         self.tmpwxsfile = join(self.builddir, '%s.unformatted' % self.wxsfilename)
         self.wxsfile = join(self.builddir, self.wxsfilename)
         self.wixobjfile = join(self.builddir, self.wixobjfilename)
@@ -244,70 +245,71 @@ class Product(object):
     def merge(self):
         info('Creating .msi installer targeting Python %s' % PYTHON_FULLVERSION)
 
-        self.clean()
-        self.prepare()
-        self.build_()
-        self.transform()
-        self.validate()
-        self.compile()
-        self.link()
+        self.do_clean()
+        self.do_prepare()
+        self.do_build()
+        self.do_transform()
+        self.do_compile()
+        self.do_link()
 
         info('Success: .msi installer targeting Python %s has been created ("%s")' % (PYTHON_FULLVERSION, self.msifile))
 
-    def clean(self):
-        # This removes all workdirs!
+    def do_clean(self):
+        info('Cleaning build environment...', 1)
+
         if isdir(join(self.builddir, '..')):
             rmtree(join(self.builddir, '..'))
 
-    def prepare(self):
+    def do_prepare(self):
+        info('Preparing build environment...', 1)
+
         if not isdir(self.builddir):
             os.makedirs(self.builddir)
 
         copytree(join(WIXDIR, 'template'), self.builddir)
         os.rename(join(self.builddir, 'PyGTK.wxs'), self.wxsfile)
 
-    def build_(self):
-        for child in self.build.Product.Features.iterchildren():
+    def do_build(self):
+        for child in self.buildfile.Product.Features.iterchildren():
             if child.tag == 'Feature':
+                info('Preparing feature "%s"...' % child.get('Id'), 1)
                 self.build_feature(child)
             else:
                 info('Unknown child element in Features: "%s".' % child.tag, 1)
 
     def build_feature(self, feature):
-        info('Preparing feature "%s"...' % feature.get('Id'), 1)
-
         for child in feature.iterchildren():
             if child.tag == 'Feature':
                 self.build_feature(child)
             elif child.tag == 'Package':
                 info('Preparing source package "%s"' % child.get('Id'), 2)
 
-                sourcepackage = SourcePackage.from_packagetype(self.build, child)
+                sourcepackage = SourcePackage.from_packagetype(self.buildfile, child)
                 sourcepackage.merge()
 
-    def transform(self):
+    def do_transform(self):
         # Open our .wxs file
-        root = etree.parse(self.wxsfile).getroot()
+        wxsfile = etree.parse(self.wxsfile).getroot()
 
         info('Transforming variables...', 1)
-        self.transform_variables(root)
+        self.transform_variables(wxsfile)
 
         info('Transforming includes...', 1)
-        self.transform_includes(root)
+        self.transform_includes(wxsfile)
 
         info('Transforming features...', 1)
-        self.transform_features(root)
+        self.transform_features(wxsfile)
 
         info('Writing .wxs file...', 1)
         file = open(self.tmpwxsfile, 'w')
-        file.write(etree.tostring(root, pretty_print=True, xml_declaration=True, encoding='utf-8'))
+        file.write(etree.tostring(wxsfile, pretty_print=True, xml_declaration=True, encoding='utf-8'))
         file.close()
 
         info('Reformatting .wxs file...', 1)
         self.transform_reformat()
 
-    def transform_variables(self, element):
-        for child in element:
+    def transform_variables(self, wxsfile):
+        for child in wxsfile:
             #TODO: child.tag seems to be a function for Comment and
             #      ProcessingInstruction elements? Feels dirty :(
             if 'ProcessingInstruction' in str(child.tag):
@@ -320,11 +322,10 @@ class Product(object):
                 elif 'ProductVersion' in child.text:
                     child.text = child.text.replace('XXX', self.version)
 
-    def transform_includes(self, element):
+    def transform_includes(self, wxsfile):
         #TODO: there has to be a better way to get at elements than .find + .getnext... XPath???
-        product = element.find('{%s}Product' % WIX_NAMESPACE)
-        FEATURE = product.find('{%s}Feature' % WIX_NAMESPACE)
-        assert FEATURE.get('Id') == 'PyGTKAllInOne'
+        product = wxsfile.find('{%s}Product' % WIX_NAMESPACE)
+        package = product.find('{%s}Package' % WIX_NAMESPACE)
 
         def transform(element):
             for child in element.iterchildren():
@@ -332,12 +333,12 @@ class Product(object):
                     transform(child)
                 elif child.tag == 'Package':
                     pi = etree.ProcessingInstruction('include', child.get('wxifile_%s' % PYTHON_VERSION))
-                    FEATURE.addprevious(pi)
+                    package.addnext(pi)
 
-        for child in self.build.Product.Features.iterchildren():
+        for child in self.buildfile.Product.Features.iterchildren():
             transform(child)
 
-    def transform_features(self, element):
+    def transform_features(self, wxsfile):
         def transform(element, parent):
             if element.tag == 'Feature':
                 feature = etree.SubElement(parent,
@@ -345,7 +346,9 @@ class Product(object):
                                           Id = element.get('Id'),
                                           Title = element.get('Title'),
                                           Description = element.get('Description'),
-                                          AllowAdvertise = 'no')
+                                          AllowAdvertise='no',
+                                          InstallDefault='local',
+                                          TypicalDefault='install')
 
                 if 'Absent' in element.keys():
                     feature.set('Absent', element.get('Absent'))
@@ -362,6 +365,13 @@ class Product(object):
                     feature.set('Level', parent.get('Level'))
                 else:
                     error('Error computing Level for Feature "%s"' % element.get('Id'), 2)
+
+                if 'Container' in element.keys() and element.get('Container').lower() == 'true':
+                    # A Feature should always reference at least one component.
+                    # If we do not do this, the SelectionTree widget will ignore
+                    # the AllowAdvertise, InstallDefault and TypicalDefault
+                    # attributes set above. In other words,
+                    etree.SubElement(feature, 'ComponentRef', Id='Empty')
 
                 for child in element.iterchildren():
                     transform(child, feature)
@@ -382,25 +392,16 @@ class Product(object):
                 for ichild in ITARGETDIR.iterchildren():
                     traverse(ichild, parent)
 
-        product = element.find('{%s}Product' % WIX_NAMESPACE)
-        FEATURE = product.find('{%s}Feature' % WIX_NAMESPACE)
-        assert FEATURE.get('Id') == 'PyGTKAllInOne'
+        product = wxsfile.find('{%s}Product' % WIX_NAMESPACE)
+        feature = product.find('{%s}Feature' % WIX_NAMESPACE)
 
-        for child in self.build.Product.Features.iterchildren():
-            transform(child, FEATURE)
+        for child in self.buildfile.Product.Features.iterchildren():
+            transform(child, feature)
 
     def transform_reformat(self):
         xmllint_format(self.tmpwxsfile, self.wxsfile, join(self.builddir, 'xmllint.log'))
 
-    def validate(self):
-        info('Validating variable transformations...', 1)
-        self.validate_variables()
-
-    def validate_variables(self):
-        #TODO: make sure the generated .wxs file no longer contains "XXX"
-        pass
-
-    def compile(self):
+    def do_compile(self):
         info('Compiling sources...', 1)
 
         logfile = join(self.builddir, 'candle.log')
@@ -420,7 +421,7 @@ class Product(object):
 
         file.close()
 
-    def link(self):
+    def do_link(self):
         info('Linking objects...', 1)
 
         logfile = join(self.builddir, 'light.log')
@@ -455,15 +456,14 @@ class SourcePackage(object):
         else:
             error('Unknown source package type "%s".' % packagetype)
 
-    def __init__(self, build, package):
-        self.build = build
+    def __init__(self, buildfile, package):
+        self.buildfile = buildfile
         self.package = package
 
         if not self.package.get('Url').endswith('/'):
             self.package.set('Url', '%s/' % self.package.get('Url'))
 
         self.cachefile = join(CACHEDIR, self.filename)
-        self.overlaydir = join(WIXDIR, 'overlays', self.package.get('Id'))
         self.builddir = join(TMPDIR, 'build', '%s-%s' % (PYTHON_FULLVERSION, WIN_PLATFORM), self.package.get('Id'))
         self.wxsfile = join(self.builddir, '%s.wxs' % self.package.get('Id'))
         self.tmpwxifile = join(self.builddir, '%s.wxi.unformatted' % self.package.get('Id'))
@@ -489,43 +489,24 @@ class SourcePackage(object):
             return False
 
     def merge(self):
-        self.clean()
-        self.prepare()
-        self.fetch()
-        self.unpack()
-        self.patch()
-        self.build_()
-        self.transform()
-        self.save_include()
+        self.do_prepare()
+        self.do_fetch()
+        self.do_unpack()
+        self.do_patch()
+        self.do_build()
+        self.do_transform()
+        self.do_save_include()
 
-    def clean(self):
-        info('Cleaning build environment...', 3)
-
-        if isdir(self.builddir):
-            rmtree(self.builddir)
-
-    def prepare(self):
+    def do_prepare(self):
         info('Preparing build environment...', 3)
 
         if not isdir(self.builddir):
             os.makedirs(self.builddir)
 
-    def _fetch_from_cache(self):
-        if isfile(self.cachefile):
-            if self._check_md5(self.cachefile, self.digest):
-                info('Using cached package sources...', 4)
-                return True
-            else:
-                info('Not using chached package sources...', 4)
-                os.rename(self.cachefile, '%s.corrupt' % self.cachefile)
-                return False
-        else:
-            return False
-
-    def fetch(self):
+    def do_fetch(self):
         info('Fetching package sources...', 3)
 
-        if not self._fetch_from_cache():
+        if not isfile(self.cachefile) or not self._check_md5(self.cachefile, self.digest):
             url = self.package.get('Url') + self.filename
 
             try:
@@ -538,21 +519,51 @@ class SourcePackage(object):
                 error('Failed downloading package sources from "%s".' % url)
 
             if not self._check_md5(self.cachefile, self.digest):
-                error('md5 mismatch (%s).' % self.cachefile)
+                error('Download md5 mismatch (%s).' % self.cachefile)
 
-    def unpack(self):
+    def do_unpack(self):
         raise NotImplementedError
 
-    def patch(self):
-        info('Applying overlay...', 3)
+    def do_patch(self):
+        info('Patching package sources...', 3)
 
-        if isdir(self.overlaydir):
-            copytree(self.overlaydir, join(self.builddir, 'File'))
+        filesdir = join(self.builddir, 'File')
 
-    def build_(self):
+        for child in self.package.iterchildren():
+            if child.tag == 'RemoveFile':
+                if isabs(child.get('Id')):
+                    error('Invalid RemoveFile action: Id attribute should not be an absolute path ("%s")' % child.get('Id'), 4)
+
+                f = abspath(join(filesdir, child.get('Id')))
+
+                if isfile(f):
+                    os.unlink(f)
+                else:
+                    error('Invalid RemoveFile action: "%s" does not exist in "%s"' % (child.get('Id'), filesdir), 4)
+            elif child.tag == 'CopyFile':
+                if isabs(child.get('Src')):
+                    error('Invalid CopyFile action: Src attribute should not be an absolute path ("%s")' % child.get('Src'), 4)
+
+                if isabs(child.get('Dest')):
+                    error('Invalid CopyFile action: Dest attribute should not be an absolute path ("%s")' % child.get('Dest'), 4)
+
+                src = abspath(join(WIXDIR, child.get('Src'), child.get('Id')))
+                dest = abspath(join(filesdir, child.get('Dest'), child.get('Id')))
+
+                if isfile(src):
+                    copyfile(src, dest)
+                else:
+                    error('Invalid CopyFile action: "%s" does not exist in "%s"' % (child.get('Src'), WIXDIR), 4)
+            elif child.tag == 'Patch':
+                #TODO: implement Patch action
+                error('Applying patches is not implemented.', 4)
+            elif child.tag != 'comment':
+                error('Unknown action "%s"' % child.tag)
+
+    def do_build(self):
         raise NotImplementedError
 
-    def transform(self):
+    def do_transform(self):
         raise NotImplementedError
 
     def transform_id(self, element, prefix=''):
@@ -584,7 +595,7 @@ class SourcePackage(object):
 
         transform(element)
 
-    def save_include(self):
+    def do_save_include(self):
         # Save the transformed include
         info('Writing .wxi file...', 4)
         file = open(self.tmpwxifile, 'w')
@@ -607,7 +618,7 @@ class MsiSourcePackage(SourcePackage):
 
         SourcePackage.__init__(self, product, package)
 
-    def unpack(self):
+    def do_unpack(self):
         info('Unpacking package sources...', 3)
 
         logfile = join(self.builddir, 'dark.log')
@@ -627,7 +638,7 @@ class MsiSourcePackage(SourcePackage):
 
         file.close()
 
-    def build_(self):
+    def do_build(self):
         info('Creating .wxi include file...', 3)
 
         # Get the Wix/Product/Directory node
@@ -644,7 +655,7 @@ class MsiSourcePackage(SourcePackage):
 
         self.include = newroot
 
-    def transform(self):
+    def do_transform(self):
         if PYTHON_FULLVERSION != '2.6':
             info('Removing "TARGETDIR%s" and "TARGETDIRX"' % PYTHON_FULLVERSION, 4)
             self.transform_remove_targetdirs(self.include)
@@ -697,14 +708,14 @@ class ArchiveSourcePackage(SourcePackage):
 
         SourcePackage.__init__(self, product, package)
 
-    def unpack(self):
+    def do_unpack(self):
         info('Unpacking package sources...', 3)
 
         zipfile = ZipFile(self.cachefile)
         zipfile.extractall(join(self.builddir, 'File'))
         zipfile.close()
 
-    def build_(self):
+    def do_build(self):
         info('Creating .wxi include file...', 3)
 
         sourcedir = 'var.%s_sourcedir' % self.package.get('Id')
@@ -765,7 +776,7 @@ class ArchiveSourcePackage(SourcePackage):
 
         self.include = newroot
 
-    def transform(self):
+    def do_transform(self):
         info('Transforming "Id" attributes...', 4)
         self.transform_id(self.include)
 
@@ -781,7 +792,7 @@ def main():
     start = datetime.now()
 
     builder = Builder()
-    builder.run()
+    builder.build()
 
     end = datetime.now()
     minutes, seconds = divmod((end - start).seconds, 60)

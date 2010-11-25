@@ -1,39 +1,36 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-    <!-- "XXX" gets replaced by the build script. -->
-    <?define SrcImages              = "XXX"?>
     <?define Platform               = "XXX"?>
     <?define PythonVersion          = "XXX"?>
     <?define ProductVersion         = "XXX"?>
+    <?define SrcImages              = "XXX"?>
     <?define Manufacturer           = "http://www.pygtk.org/"?>
-    <?define ManufacturerContact    = "XXX"?>
+    <?define ManufacturerContact    = "http://www.pygtk.org/feedback.html"?>
     <?define OriginalProductVersion = "2.0.0"?>
 
     <?if $(var.Platform) = "x86"?>
         <?define ProductName = "Python $(var.PythonVersion) PyGtk $(var.ProductVersion)"?>
         <?define Win64 = "no"?>
-
         <?if $(var.PythonVersion) = "2.6"?>
             <?define UpgradeCode = "{67D26C03-D5BD-4549-9FEA-76F9B8171584}"?>
         <?elseif $(var.PythonVersion) = "2.7"?>
             <?define UpgradeCode = "{7E8DD188-EB7F-46FC-8E39-64A92D227927}"?>
         <?else?>
-            <?error Unknown Python version specified: $(var.PythonVersion) ?>
+            <?error Unknown Python version specified: $(var.PythonVersion)?>
         <?endif?>
     <?elseif $(var.Platform) = "x64"?>
         <?define ProductName = "Python $(var.PythonVersion) PyGtk $(var.ProductVersion) (64 bit)"?>
         <?define Win64 = "yes"?>
-
         <?if $(var.PythonVersion) = "2.6"?>
             <?define UpgradeCode = "{65A7410A-6B75-4A97-9C3A-3450BB65615E}"?>
         <?elseif $(var.PythonVersion) = "2.7"?>
             <?define UpgradeCode = "{2CC0DCE7-E4BD-48E2-823E-CBFF1D92E560}"?>
         <?else?>
-            <?error Unknown Python version specified: $(var.PythonVersion) ?>
+            <?error Unknown Python version specified: $(var.PythonVersion)?>
         <?endif?>
     <?else?>
-        <?error Unknown Platform specified: $(var.Platform) ?>
+        <?error Unknown Platform specified: $(var.Platform)?>
     <?endif?>
 
     <Product Id="*"
@@ -55,6 +52,10 @@
                  Platform="$(var.Platform)"
                  ReadOnly="yes" />
 
+        <Condition Message="$(var.ProductName) is only supported on Windows 2000 and above.">
+            <![CDATA[NOT VersionNT < 500]]>
+        </Condition>
+
         <Upgrade Id="$(var.UpgradeCode)">
             <UpgradeVersion Minimum='$(var.OriginalProductVersion)'
                             IncludeMinimum="yes"
@@ -69,9 +70,6 @@
                CompressionLevel="high"
                EmbedCab="yes" />
 
-        <Icon Id="PyGtkIcon" SourceFile="$(var.SrcImages)/PyGtkIcon.ico" />
-        <Property Id="ARPPRODUCTICON" Value="PyGtkIcon" />
-
         <?include WixUI_PyGTK.wxs?>
         <UIRef Id="WixUI_PyGTK" />
         <WixVariable Id="WixUIBannerBmp" Value="$(var.SrcImages)/PyGtkBanner.jpg" />
@@ -80,6 +78,9 @@
         <WixVariable Id="WixUIInfoIco" Value="$(var.SrcImages)/PyGtkInfoIco.ico" />
         <WixVariable Id="WixUINewIco" Value="$(var.SrcImages)/PyGtkNewIco.ico" />
         <WixVariable Id="WixUIUpIco" Value="$(var.SrcImages)/PyGtkUpIco.ico" />
+
+        <Icon Id="PyGtkIcon" SourceFile="$(var.SrcImages)/PyGtkIcon.ico" />
+        <Property Id="ARPPRODUCTICON" Value="PyGtkIcon" />
 
         <Property Id="PYTHON.MACHINE">
             <RegistrySearch Id="python.machine" Root="HKLM" Key="SOFTWARE\Python\PythonCore\$(var.PythonVersion)\InstallPath" Type="raw" />
@@ -106,14 +107,22 @@
         </InstallUISequence>
 
         <Feature Id="PyGTKAllInOne"
-                 AllowAdvertise="no"
-                 ConfigurableDirectory="TARGETDIR"
+                 Title="PyGTK All-in-one"
                  Description="Installs everything you need for PyGTK development except Python"
+                 ConfigurableDirectory="TARGETDIR"
+                 Absent = "disallow"
                  Display="expand"
-                 InstallDefault="local"
                  Level="1"
-                 Title="PyGTK All-in-one" />
+                 AllowAdvertise="no"
+                 InstallDefault="local">
+            <ComponentRef Id="Empty" />
+        </Feature>
 
-        <Directory Id="TARGETDIR" Name="SourceDir" />
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <!-- Prevent run from network -->
+            <Component Id="Empty" KeyPath='yes' Guid="{2957BDC1-E807-49fb-A46D-F70834B326C4}">
+                <CreateFolder />
+            </Component>
+        </Directory>
     </Product>
 </Wix>
