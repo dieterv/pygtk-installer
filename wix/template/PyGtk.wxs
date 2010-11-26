@@ -82,28 +82,35 @@
         <Icon Id="PyGtkIcon" SourceFile="$(var.SrcImages)/PyGtkIcon.ico" />
         <Property Id="ARPPRODUCTICON" Value="PyGtkIcon" />
 
+        <Property Id="_BrowseProperty" Value="TARGETDIR" />
         <Property Id="PYTHON.MACHINE">
-            <RegistrySearch Id="python.machine" Root="HKLM" Key="SOFTWARE\Python\PythonCore\$(var.PythonVersion)\InstallPath" Type="raw" />
+            <RegistrySearch Id="PYTHON.MACHINE" Root="HKLM" Key="SOFTWARE\Python\PythonCore\$(var.PythonVersion)\InstallPath" Type="raw" />
         </Property>
         <Property Id="PYTHON.USER">
-            <RegistrySearch Id="python.user" Root="HKCU" Key="SOFTWARE\Python\PythonCore\$(var.PythonVersion)\InstallPath" Type="raw" />
+            <RegistrySearch Id="PYTHON.USER" Root="HKCU" Key="SOFTWARE\Python\PythonCore\$(var.PythonVersion)\InstallPath" Type="raw" />
         </Property>
 
+        <CustomAction Id="PythonX" Property="PYTHONDIR" Value="[WindowsVolume]PythonX" Execute="firstSequence" />
         <CustomAction Id="PythonFromMachine" Property="PYTHONDIR" Value="[PYTHON.MACHINE]" Execute="firstSequence" />
         <CustomAction Id="PythonFromUser" Property="PYTHONDIR" Value="[PYTHON.USER]" Execute="firstSequence" />
+        <CustomAction Id="PythonDetected" Property="PythonDetected" Value="PYTHON.MACHINE Or PYTHON.USER" Execute="firstSequence" />
         <CustomAction Id="InitialTargetDir" Property="TARGETDIR" Value="[PYTHONDIR]" Execute="firstSequence" />
 
         <InstallExecuteSequence>
-            <Custom Action="PythonFromMachine" Sequence="401">PYTHON.MACHINE</Custom>
-            <Custom Action="PythonFromUser" Sequence="402">PYTHON.USER</Custom>
-            <Custom Action="InitialTargetDir" Sequence="403">TARGETDIR=""</Custom>
+            <Custom Action="PythonX" Sequence="401" />
+            <Custom Action="PythonFromMachine" Sequence="402">PYTHON.MACHINE</Custom>
+            <Custom Action="PythonFromUser" Sequence="403">PYTHON.USER</Custom>
+            <Custom Action="PythonDetected" Sequence="404">PythonDetected</Custom>
+            <Custom Action="InitialTargetDir" Sequence="405" />
             <RemoveExistingProducts Sequence="1401" />
         </InstallExecuteSequence>
 
         <InstallUISequence>
-            <Custom Action="PythonFromMachine" Sequence="401">PYTHON.MACHINE</Custom>
-            <Custom Action="PythonFromUser" Sequence="402">PYTHON.USER</Custom>
-            <Custom Action="InitialTargetDir" Sequence="403">TARGETDIR=""</Custom>
+            <Custom Action="PythonX" Sequence="401" />
+            <Custom Action="PythonFromMachine" Sequence="402">PYTHON.MACHINE</Custom>
+            <Custom Action="PythonFromUser" Sequence="403">PYTHON.USER</Custom>
+            <Custom Action="PythonDetected" Sequence="404">PythonDetected</Custom>
+            <Custom Action="InitialTargetDir" Sequence="405" />
         </InstallUISequence>
 
         <Feature Id="PyGTKAllInOne"
@@ -119,7 +126,7 @@
         </Feature>
 
         <Directory Id="TARGETDIR" Name="SourceDir">
-            <!-- Prevent run from network -->
+            <!-- Referenced by container Features -->
             <Component Id="Empty" KeyPath='yes' Guid="{2957BDC1-E807-49fb-A46D-F70834B326C4}">
                 <CreateFolder />
             </Component>

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <Build>
+<!-- <Build xmlns="http://schemas.pygtk.org/2010/build"> -->
     <!-- Currently only 2.6 (x86) and 2.7 (x86) are supported (until I
          can get my hands on a 64bit machine...) -->
     <Interpreters>
-        <!-- <Interpreter Version="2.6" Platform="win32" /> -->
+        <Interpreter Version="2.6" Platform="win32" />
         <!-- <Interpreter Version="2.6" Platform="win64" /> -->
         <Interpreter Version="2.7" Platform="win32" />
         <!-- <Interpreter Version="2.7" Platform="win64" /> -->
@@ -112,8 +113,8 @@
                              Url       = "http://www.optionexplicit.be/projects/gnome-windows/20101102/"
                              Msi_26    = "pygoocanvas-0.14.2.win32-py2.6.msi"
                              Msi_27    = "pygoocanvas-0.14.2.win32-py2.7.msi"
-                             Digest_26 = "c33db1b3332331b674a98cc3a6c88232"
-                             Digest_27 = "0a373713e14440a5261da1bc9e4026f8" />
+                             Digest_26 = "effa78d13f535213e338beb41badf419"
+                             Digest_27 = "9fc8a8795c31e0c469958530adb80d93" />
 
                     <Package Id        = "libgoocanvas"
                              Type      = "ArchiveSourcePackage"

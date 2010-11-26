@@ -120,7 +120,7 @@ class Builder(object):
         self.parse_options(arguments)
         self.validate_environment_wix()
         self.validate_environment_xmllint()
-        self.load_product()
+        self.parse_build_description()
 
     def parse_options(self, arguments=None):
         if arguments == None:
@@ -186,23 +186,27 @@ class Builder(object):
             if not XML_LINT_VERSION <= int(xml_lint_version):
                 error('Your xmllint (version %s) is too old. A mininmum of version %s is required.' % (xml_lint_version, XML_LINT_VERSION))
 
-    def load_product(self):
+    def parse_build_description(self):
         global CACHEDIR
 
         version = self.args[0]
         CACHEDIR = join(TMPDIR, 'cache', version)
-        productfile = join(WIXDIR, '%s.xml' % version)
+        schemafile = join(WIXDIR, 'build.xsd')
+        buildfile = join(WIXDIR, '%s.xml' % version)
 
         if not isdir(CACHEDIR):
             os.makedirs(CACHEDIR)
 
-        if not isfile(productfile):
-            error('Unable to load product "%s".' % productfile)
+        if not isfile(buildfile):
+            error('Unable to load product "%s".' % buildfile)
 
-        self.buildfile = objectify.parse(productfile).getroot()
+        #schema = etree.XMLSchema(file=schemafile)
+        #parser = etree.XMLParser(schema=schema)
+        #self.buildfile = objectify.parse(buildfile, parser=parser).getroot()
+        self.buildfile = objectify.parse(buildfile).getroot()
         etree.SubElement(self.buildfile, 'Version', Version=version)
 
-        info('Loaded product "%s" (loaded from "%s").' % (version, productfile))
+        info('Loaded product "%s" (loaded from "%s").' % (version, buildfile))
 
     def build(self):
         for child in self.buildfile.Interpreters.iterchildren():
@@ -252,13 +256,17 @@ class Product(object):
         self.do_compile()
         self.do_link()
 
+        f = open(join(self.builddir, 'install.cmd'), 'w')
+        f.write('@echo off\r\nmsiexec /i pygtk-all-in-one-2.22.1.win32-py2.7.msi /l*vx install.log\r\n')
+        f.close()
+
         info('Success: .msi installer targeting Python %s has been created ("%s")' % (PYTHON_FULLVERSION, self.msifile))
 
     def do_clean(self):
         info('Cleaning build environment...', 1)
 
         if isdir(join(self.builddir, '..')):
-            rmtree(join(self.builddir, '..'))
+            rmtree(join(self.builddir, '..'), ignore_errors=False)
 
     def do_prepare(self):
         info('Preparing build environment...', 1)
@@ -639,7 +647,7 @@ class MsiSourcePackage(SourcePackage):
         file.close()
 
     def do_build(self):
-        info('Creating .wxi include file...', 3)
+        info('Creating wix include file...', 3)
 
         # Get the Wix/Product/Directory node
         root = etree.parse(self.wxsfile).getroot()
@@ -716,7 +724,7 @@ class ArchiveSourcePackage(SourcePackage):
         zipfile.close()
 
     def do_build(self):
-        info('Creating .wxi include file...', 3)
+        info('Creating wix include file...', 3)
 
         sourcedir = 'var.%s_sourcedir' % self.package.get('Id')
 
