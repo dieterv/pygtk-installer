@@ -257,7 +257,7 @@ class Product(object):
         self.do_link()
 
         f = open(join(self.builddir, 'install.cmd'), 'w')
-        f.write('@echo off\r\nmsiexec /i pygtk-all-in-one-2.22.1.win32-py2.7.msi /l*vx install.log\r\n')
+        f.write('@echo off\r\nmsiexec /i %s /l*vx install.log\r\n' % self.msifile)
         f.close()
 
         info('Success: .msi installer targeting Python %s has been created ("%s")' % (PYTHON_FULLVERSION, self.msifile))
