@@ -47,7 +47,7 @@ def _putenv(name, value):
             sys.stderr.write('* pygtk-runtime: "kernel32.SetEnvironmentVariableW" failed\n')
             sys.stderr.flush()
 
-    # Propagate new value to msvcrt (used by gtk+ runtime)
+    # Updated the copy maintained by msvcrt (used by gtk+ runtime)
     try:
         result = cdll.msvcrt._putenv('%s=%s' % (name, value))
 
@@ -56,18 +56,18 @@ def _putenv(name, value):
 
         if sys.flags.verbose:
             sys.stderr.write('* pygtk-runtime: "msvcrt._putenv" successful\n')
-            sys.stderr.flush()           
+            sys.stderr.flush()
 
     except Exception as inst:
         if sys.flags.verbose:
             sys.stderr.write('* pygtk-runtime: "msvcrt._putenv" failed\n')
             sys.stderr.flush()
 
-    # Propagate new value to whatever c runtime is used by python
+    # Update the copy maintained by whatever c runtime is used by Python
     try:
         msvcrt = find_msvcrt()
         msvcrtname = str(msvcrt).split('.')[0] if '.' in msvcrt else str(msvcrt)
-        
+
         result = cdll.LoadLibrary(msvcrt)._putenv('%s=%s' % (name, value))
 
         if result != 0:
@@ -75,7 +75,7 @@ def _putenv(name, value):
 
         if sys.flags.verbose:
             sys.stderr.write('* pygtk-runtime: "%s._putenv" successful\n' % msvcrtname)
-            sys.stderr.flush()           
+            sys.stderr.flush()
 
     except Exception as inst:
         if sys.flags.verbose:
@@ -84,22 +84,21 @@ def _putenv(name, value):
 
 
 if sys.platform == 'win32':
-    pathsep = os.pathsep
     runtime = os.path.abspath(os.path.join(os.path.dirname(__file__), 'bin'))
-    PATH = os.environ['PATH'].split(pathsep)   
+    PATH = os.environ['PATH'].split(os.pathsep)
     ABSPATH = [os.path.abspath(x) for x in PATH]
 
-    if os.path.abspath(runtime) not in ABSPATH:
+    if ABSPATH[0] != runtime:
         if sys.flags.verbose:
             sys.stderr.write('* pygtk-runtime: prepending "%s" to PATH\n' % runtime)
-            sys.stderr.write('* pygtk-runtime: original PATH="%s"\n' % pathsep.join(PATH))
+            sys.stderr.write('* pygtk-runtime: original PATH="%s"\n' % os.pathsep.join(PATH))
             sys.stderr.flush()
-        
+
         PATH.insert(0, runtime)
-        _putenv('PATH', pathsep.join(PATH))
+        _putenv('PATH', os.pathsep.join(PATH))
 
         if sys.flags.verbose:
-            sys.stderr.write('* pygtk-runtime: modified PATH="%s"\n' % pathsep.join(PATH))
+            sys.stderr.write('* pygtk-runtime: modified PATH="%s"\n' % os.pathsep.join(PATH))
     else:
         if sys.flags.verbose:
             sys.stderr.write('* pygtk-runtime: "%s" already on PATH\n' % runtime)
