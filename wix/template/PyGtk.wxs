@@ -57,6 +57,12 @@
         </Condition>
 
         <Upgrade Id="$(var.UpgradeCode)">
+            <UpgradeVersion Minimum='$(var.ProductVersion)'
+                            IncludeMinimum="no"
+                            OnlyDetect='yes'
+                            Language="1033"
+                            Property='NEWPRODUCTFOUND' />
+
             <UpgradeVersion Minimum='$(var.OriginalProductVersion)'
                             IncludeMinimum="yes"
                             Maximum='$(var.ProductVersion)'
@@ -90,6 +96,7 @@
             <RegistrySearch Id="PYTHON.USER" Root="HKCU" Key="SOFTWARE\Python\PythonCore\$(var.PythonVersion)\InstallPath" Type="raw" />
         </Property>
 
+        <CustomAction Id="PreventDowngrading" Error="A newer version of $(var.ProductName) is already installed." />
         <CustomAction Id="PythonX" Property="PYTHONDIR" Value="[WindowsVolume]PythonX" Execute="firstSequence" />
         <CustomAction Id="PythonFromMachine" Property="PYTHONDIR" Value="[PYTHON.MACHINE]" Execute="firstSequence" />
         <CustomAction Id="PythonFromUser" Property="PYTHONDIR" Value="[PYTHON.USER]" Execute="firstSequence" />
@@ -97,6 +104,7 @@
         <CustomAction Id="InitialTargetDir" Property="TARGETDIR" Value="[PYTHONDIR]" Execute="firstSequence" />
 
         <InstallExecuteSequence>
+            <Custom Action="PreventDowngrading" Sequence="201">NEWPRODUCTFOUND</Custom>
             <Custom Action="PythonX" Sequence="401" />
             <Custom Action="PythonFromMachine" Sequence="402">PYTHON.MACHINE</Custom>
             <Custom Action="PythonFromUser" Sequence="403">PYTHON.USER</Custom>
@@ -106,6 +114,7 @@
         </InstallExecuteSequence>
 
         <InstallUISequence>
+            <Custom Action="PreventDowngrading" Sequence="201">NEWPRODUCTFOUND</Custom>
             <Custom Action="PythonX" Sequence="401" />
             <Custom Action="PythonFromMachine" Sequence="402">PYTHON.MACHINE</Custom>
             <Custom Action="PythonFromUser" Sequence="403">PYTHON.USER</Custom>
@@ -117,7 +126,7 @@
                  Title="PyGTK All-in-one"
                  Description="Installs everything you need for PyGTK development except Python"
                  ConfigurableDirectory="TARGETDIR"
-                 Absent = "disallow"
+                 Absent="disallow"
                  Display="expand"
                  Level="1"
                  AllowAdvertise="no"
