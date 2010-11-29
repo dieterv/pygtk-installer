@@ -14,13 +14,24 @@ def _putenv(name, value):
     :param name: environment variable name
     :param value: environment variable value
 
-    On Microsoft Windows, starting from Python 2.4, os.environ changes only work
-    within Python and no longer apply to low level C library code within the
-    same process. This function calls various Windows functions to force the
-    environment variable up to the C runtime.
+    This function ensures that changes to an environment variable are applied
+    to each copy of the environment variables used by a process. Starting from
+    Python 2.4, os.environ changes only apply to the copy Python keeps (os.environ)
+    and are no longer automatically applied to the other copies for the process.
+
+    On Microsoft Windows, each process has multiple copies of the environment
+    variables, one managed by the OS and one managed by the C library. We also
+    need to take care of the fact that the C library used by Python is not
+    necessarily the same as the C library used by pygtk and friends. This because
+    the latest releases of pygtk and friends are built with mingw32 and are thus
+    linked against msvcrt.dll. The official gtk+ binaries have always been built
+    in this way.
     '''
 
-    # Propagate new value to Windows (so SysInternals Process Explorer sees it)
+    # Update Python's copy of the environment variables
+    os.environ[name] = value
+
+    # Update the copy maintained by Windows (so SysInternals Process Explorer sees it)
     try:
         result = windll.kernel32.SetEnvironmentVariableW(name, value)
 
@@ -85,7 +96,6 @@ if sys.platform == 'win32':
             sys.stderr.flush()
         
         PATH.insert(0, runtime)
-        os.environ['PATH'] = pathsep.join(PATH)
         _putenv('PATH', pathsep.join(PATH))
 
         if sys.flags.verbose:
