@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-    This file is an adaptation of src/ext/UIExtension/wixlib/WixUI_PyGtk.wxs
+    This file is an adaptation of src/ext/UIExtension/wixlib/WixUI_FeatureTree.wxs
     and src/ext/UIExtension/wixlib/CustomizeDlg.wxs as distributed by the WiX
     project.
 -->
@@ -20,111 +20,97 @@
 
 <Include xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <UI Id="WixUI_PyGTK">
-            <TextStyle Id="WixUI_Font_Normal" FaceName="Tahoma" Size="8" />
-            <TextStyle Id="WixUI_Font_Bigger" FaceName="Tahoma" Size="12" />
-            <TextStyle Id="WixUI_Font_Title" FaceName="Tahoma" Size="9" Bold="yes" />
+        <TextStyle Id="WixUI_Font_Normal" FaceName="Tahoma" Size="8" />
+        <TextStyle Id="WixUI_Font_Bigger" FaceName="Tahoma" Size="12" />
+        <TextStyle Id="WixUI_Font_Title" FaceName="Tahoma" Size="9" Bold="yes" />
 
-            <Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
-            <Property Id="WixUI_Mode" Value="FeatureTree" />
+        <Property Id="_BrowseProperty" Value="TARGETDIR" />
+        <Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
+        <Property Id="WixUI_Mode" Value="FeatureTree" />
 
-            <DialogRef Id="ErrorDlg" />
-            <DialogRef Id="FatalError" />
-            <DialogRef Id="FilesInUse" />
-            <DialogRef Id="MsiRMFilesInUse" />
-            <DialogRef Id="PrepareDlg" />
-            <DialogRef Id="ProgressDlg" />
-            <DialogRef Id="ResumeDlg" />
-            <DialogRef Id="UserExit" />
+        <DialogRef Id="ErrorDlg" />
+        <DialogRef Id="FatalError" />
+        <DialogRef Id="FilesInUse" />
+        <DialogRef Id="MsiRMFilesInUse" />
+        <DialogRef Id="PrepareDlg" />
+        <DialogRef Id="ProgressDlg" />
+        <DialogRef Id="ResumeDlg" />
+        <DialogRef Id="UserExit" />
 
-            <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
+        <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
 
-            <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="PyGTK_CustomizeDlg">NOT Installed</Publish>
-            <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">Installed AND PATCH</Publish>
+        <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="PyGTK_CustomizeDlg">NOT Installed</Publish>
+        <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">Installed AND PATCH</Publish>
 
-            <Publish Dialog="PyGTK_CustomizeDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="1">Installed</Publish>
-            <Publish Dialog="PyGTK_CustomizeDlg" Control="Back" Event="NewDialog" Value="PyGTK_CustomizeDlg" Order="2">NOT Installed</Publish>
-            <Publish Dialog="PyGTK_CustomizeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+        <Publish Dialog="PyGTK_CustomizeDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="1">Installed</Publish>
+        <Publish Dialog="PyGTK_CustomizeDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="2">NOT Installed</Publish>
+        <Publish Dialog="PyGTK_CustomizeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
 
-            <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="PyGTK_CustomizeDlg" Order="1">NOT Installed OR WixUI_InstallMode = "Change"</Publish>
-            <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="2">Installed AND NOT PATCH</Publish>
-            <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="3">Installed AND PATCH</Publish>
+        <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="PyGTK_CustomizeDlg" Order="1">NOT Installed OR WixUI_InstallMode = "Change"</Publish>
+        <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="2">Installed AND NOT PATCH</Publish>
+        <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="3">Installed AND PATCH</Publish>
 
-            <Publish Dialog="MaintenanceWelcomeDlg" Control="Next" Event="NewDialog" Value="MaintenanceTypeDlg">1</Publish>
+        <Publish Dialog="MaintenanceWelcomeDlg" Control="Next" Event="NewDialog" Value="MaintenanceTypeDlg">1</Publish>
 
-            <Publish Dialog="MaintenanceTypeDlg" Control="ChangeButton" Event="NewDialog" Value="PyGTK_CustomizeDlg">1</Publish>
-            <Publish Dialog="MaintenanceTypeDlg" Control="RepairButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
-            <Publish Dialog="MaintenanceTypeDlg" Control="RemoveButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
-            <Publish Dialog="MaintenanceTypeDlg" Control="Back" Event="NewDialog" Value="MaintenanceWelcomeDlg">1</Publish>
+        <Publish Dialog="MaintenanceTypeDlg" Control="ChangeButton" Event="NewDialog" Value="PyGTK_CustomizeDlg">1</Publish>
+        <Publish Dialog="MaintenanceTypeDlg" Control="RepairButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+        <Publish Dialog="MaintenanceTypeDlg" Control="RemoveButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+        <Publish Dialog="MaintenanceTypeDlg" Control="Back" Event="NewDialog" Value="MaintenanceWelcomeDlg">1</Publish>
 
         <Dialog Id="PyGTK_CustomizeDlg" Width="370" Height="270" Title="!(loc.CustomizeDlg_Title)" TrackDiskSpace="yes">
             <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="!(loc.CustomizeDlgBannerBitmap)" />
             <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
+
             <Control Id="Title" Type="Text" X="15" Y="6" Width="210" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.CustomizeDlgTitle)" />
             <Control Id="Description" Type="Text" X="25" Y="23" Width="280" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.CustomizeDlgDescription)" />
-            <Control Id="Text" Type="Text" X="25" Y="55" Width="320" Height="20" Text="!(loc.CustomizeDlgText)" />
-            <Control Id="Tree" Type="SelectionTree" X="25" Y="85" Width="200" Height="115" Property="_BrowseProperty" Sunken="yes" TabSkip="no" Text="!(loc.CustomizeDlgTree)" />
-            <Control Id="Box" Type="GroupBox" X="235" Y="81" Width="125" Height="118" />
-            <Control Id="ItemDescription" Type="Text" X="240" Y="90" Width="106" Height="50" Text="!(loc.CustomizeDlgItemDescription)">
+
+            <Control Id="Tree" Type="SelectionTree" X="10" Y="55" Width="225" Height="135" Property="_BrowseProperty" Sunken="yes" TabSkip="no" Text="!(loc.CustomizeDlgTree)" />
+            <Control Id="Box" Type="GroupBox" X="245" Y="51" Width="115" Height="140" />
+            <Control Id="ItemDescription" Type="Text" X="250" Y="60" Width="96" Height="60" Text="!(loc.CustomizeDlgItemDescription)">
                 <Subscribe Event="SelectionDescription" Attribute="Text" />
             </Control>
-            <Control Id="ItemSize" Type="Text" X="240" Y="140" Width="106" Height="50" Text="!(loc.CustomizeDlgItemSize)">
+            <Control Id="ItemSize" Type="Text" X="250" Y="129" Width="96" Height="60" Text="!(loc.CustomizeDlgItemSize)">
                 <Subscribe Event="SelectionSize" Attribute="Text" />
             </Control>
-            <Control Id="LocationLabel" Type="Text" X="25" Y="210" Width="65" Height="10" Text="!(loc.CustomizeDlgLocationLabel)">
-                <Condition Action="hide">Installed</Condition>
+
+            <Control Id="LocationLabelCustomPerMachine" Type="Text" Hidden="yes" X="15" Y="200" Width="249" Height="10" Text="Location specified by TARGETDIR parameter (install for all users):">
+                <Condition Action="show"><![CDATA[TargetDirFromParam AND ALLUSERS=1]]></Condition>
             </Control>
-            <Control Id="Location" Type="Text" X="90" Y="210" Width="200" Height="20" Text="[TARGETDIR]">
-                <Condition Action="hide">Installed</Condition>
+            <Control Id="LocationLabelCustomPerUser" Type="Text" Hidden="yes" X="15" Y="200" Width="249" Height="10" Text="Location specified by TARGETDIR parameter (install just for me):">
+                <Condition Action="show"><![CDATA[TargetDirFromParam AND ALLUSERS<>1]]></Condition>
             </Control>
-            <Control Id="Browse" Type="PushButton" X="294" Y="210" Width="66" Height="17" Text="!(loc.CustomizeDlgBrowse)">
-                <Publish Event="SelectionBrowse" Value="PyGtkBrowseDlg">1</Publish>
-                <Condition Action="hide">Installed</Condition>
-                <Condition Action="disable">Installed</Condition>
+            <Control Id="LocationLabelPythonNotDetected" Type="Text" Hidden="yes" X="15" Y="200" Width="249" Height="10" Text="Custom location (Python $(var.PythonVersion) not detected):">
+                <Condition Action="show">NOT TargetDirFromParam AND NOT PythonDetected</Condition>
             </Control>
+            <Control Id="LocationLabelPythonPerMachine" Type="Text" Hidden="yes" X="15" Y="200" Width="249" Height="10" Text="Python $(var.PythonVersion) (install for all users):">
+                <Condition Action="show">NOT TargetDirFromParam AND PYTHON.MACHINE</Condition>
+            </Control>
+            <Control Id="LocationLabelPythonPerUser" Type="Text" Hidden="yes" X="15" Y="200" Width="249" Height="10" Text="Python $(var.PythonVersion) (install just for me):">
+                <Condition Action="show">NOT TargetDirFromParam AND PYTHON.USER</Condition>
+            </Control>
+            <Control Id="Location" Type="Text" X="25" Y="215" Width="200" Height="20" Text="[TARGETDIR]" />
+            <Control Id="Browse" Type="PushButton" Disabled="yes" Hidden="yes" X="294" Y="210" Width="66" Height="17" Text="!(loc.CustomizeDlgBrowse)">
+                <Publish Event="SelectionBrowse" Value="BrowseDlg">1</Publish>
+                <Condition Action="show">NOT Installed AND NOT TargetDirFromParam AND NOT PythonDetected</Condition>
+                <Condition Action="enable">NOT Installed AND NOT TargetDirFromParam AND NOT PythonDetected</Condition>
+            </Control>
+
             <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
-            <Control Id="Reset" Type="PushButton" X="10" Y="243" Width="81" Height="17" Text="!(loc.CustomizeDlgReset)">
+            <Control Id="Reset" Type="PushButton" X="10" Y="243" Width="56" Height="17" Text="!(loc.CustomizeDlgReset)">
                 <Publish Event="Reset" Value="0">1</Publish>
                 <Subscribe Event="SelectionNoItems" Attribute="Enabled" />
             </Control>
-            <Control Id="DiskCost" Type="PushButton" X="91" Y="243" Width="100" Height="17" Text="!(loc.CustomizeDlgDiskCost)">
+            <Control Id="DiskCost" Type="PushButton" X="66" Y="243" Width="56" Height="17" Text="!(loc.CustomizeDlgDiskCost)">
                 <Publish Event="SpawnDialog" Value="DiskCostDlg">1</Publish>
                 <Subscribe Event="SelectionNoItems" Attribute="Enabled" />
             </Control>
-            <Control Id="Back" Type="PushButton" X="192" Y="243" Width="56" Height="17" Text="!(loc.WixUIBack)" />
-            <Control Id="Next" Type="PushButton" X="248" Y="243" Width="56" Height="17" Default="yes" Text="!(loc.WixUINext)">
+            <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="!(loc.WixUIBack)" />
+            <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="!(loc.WixUINext)">
                 <Subscribe Event="SelectionNoItems" Attribute="Enabled" />
             </Control>
             <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
                 <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
             </Control>
-        </Dialog>
-        <Dialog Id="PyGtkBrowseDlg" Width="370" Height="270" Title="!(loc.BrowseDlg_Title)">
-            <Control Id="PathEdit" Type="PathEdit" X="25" Y="202" Width="320" Height="18" Property="_BrowseProperty" Indirect="yes" />
-            <Control Id="OK" Type="PushButton" X="240" Y="243" Width="56" Height="17" Default="yes" Text="!(loc.WixUIOK)">
-                <Publish Event="SetTargetPath" Value="[_BrowseProperty]">1</Publish>
-                <Publish Event="EndDialog" Value="Return">1</Publish>
-            </Control>
-            <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
-                <Publish Event="Reset" Value="0">1</Publish>
-                <Publish Event="EndDialog" Value="Return">1</Publish>
-            </Control>
-            <Control Id="ComboLabel" Type="Text" X="25" Y="58" Width="44" Height="10" TabSkip="no" Text="!(loc.BrowseDlgComboLabel)" />
-            <Control Id="DirectoryCombo" Type="DirectoryCombo" X="70" Y="55" Width="220" Height="80" Property="_BrowseProperty" Indirect="yes" Fixed="yes" Remote="yes">
-                <Subscribe Event="IgnoreChange" Attribute="IgnoreChange" />
-            </Control>
-            <Control Id="WixUI_Bmp_Up" Type="PushButton" X="298" Y="55" Width="19" Height="19" ToolTip="!(loc.BrowseDlgWixUI_Bmp_UpTooltip)" Icon="yes" FixedSize="yes" IconSize="16" Text="!(loc.BrowseDlgWixUI_Bmp_Up)">
-                <Publish Event="DirectoryListUp" Value="0">1</Publish>
-            </Control>
-            <Control Id="NewFolder" Type="PushButton" X="325" Y="55" Width="19" Height="19" ToolTip="!(loc.BrowseDlgNewFolderTooltip)" Icon="yes" FixedSize="yes" IconSize="16" Text="!(loc.BrowseDlgNewFolder)">
-                <Publish Event="DirectoryListNew" Value="0">1</Publish>
-            </Control>
-            <Control Id="DirectoryList" Type="DirectoryList" X="25" Y="83" Width="320" Height="98" Property="_BrowseProperty" Sunken="yes" Indirect="yes" TabSkip="no" />
-            <Control Id="PathLabel" Type="Text" X="25" Y="190" Width="320" Height="10" TabSkip="no" Text="!(loc.BrowseDlgPathLabel)" />
-            <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="!(loc.BrowseDlgBannerBitmap)" />
-            <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
-            <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
-            <Control Id="Description" Type="Text" X="25" Y="23" Width="280" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.BrowseDlgDescription)" />
-            <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.BrowseDlgTitle)" />
         </Dialog>
     </UI>
 

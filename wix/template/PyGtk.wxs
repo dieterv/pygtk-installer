@@ -57,18 +57,18 @@
         </Condition>
 
         <Upgrade Id="$(var.UpgradeCode)">
-            <UpgradeVersion Minimum='$(var.ProductVersion)'
+            <UpgradeVersion Minimum="$(var.ProductVersion)"
                             IncludeMinimum="no"
-                            OnlyDetect='yes'
+                            OnlyDetect="yes"
                             Language="1033"
-                            Property='NEWPRODUCTFOUND' />
+                            Property="DOWNGRADEFOUND" />
 
-            <UpgradeVersion Minimum='$(var.OriginalProductVersion)'
+            <UpgradeVersion Minimum="$(var.OriginalProductVersion)"
                             IncludeMinimum="yes"
-                            Maximum='$(var.ProductVersion)'
+                            Maximum="$(var.ProductVersion)"
                             IncludeMaximum="no"
                             Language="1033"
-                            Property='UPGRADEFOUND' />
+                            Property="UPGRADEFOUND" />
         </Upgrade>
 
         <Media Id="1"
@@ -88,7 +88,6 @@
         <Icon Id="PyGtkIcon" SourceFile="$(var.SrcImages)/PyGtkIcon.ico" />
         <Property Id="ARPPRODUCTICON" Value="PyGtkIcon" />
 
-        <Property Id="_BrowseProperty" Value="TARGETDIR" />
         <Property Id="PYTHON.MACHINE">
             <RegistrySearch Id="PYTHON.MACHINE" Root="HKLM" Key="SOFTWARE\Python\PythonCore\$(var.PythonVersion)\InstallPath" Type="raw" />
         </Property>
@@ -97,34 +96,46 @@
         </Property>
 
         <CustomAction Id="PreventDowngrading" Error="A newer version of $(var.ProductName) is already installed." />
-        <CustomAction Id="PythonX" Property="PYTHONDIR" Value="[WindowsVolume]PythonX" Execute="firstSequence" />
-        <CustomAction Id="PythonFromMachine" Property="PYTHONDIR" Value="[PYTHON.MACHINE]" Execute="firstSequence" />
-        <CustomAction Id="PythonFromUser" Property="PYTHONDIR" Value="[PYTHON.USER]" Execute="firstSequence" />
-        <CustomAction Id="PythonDetected" Property="PythonDetected" Value="PYTHON.MACHINE Or PYTHON.USER" Execute="firstSequence" />
-        <CustomAction Id="InitialTargetDir" Property="TARGETDIR" Value="[PYTHONDIR]" Execute="firstSequence" />
+        <CustomAction Id="AllUsersFromParam" Property="AllUsersFromParam" Value="[ALLUSERS]" Execute="firstSequence" />
+        <CustomAction Id="TargetDirFromParam" Property="TargetDirFromParam" Value="[TARGETDIR]" Execute="firstSequence" />
+        <CustomAction Id="PythonX" Property="PythonDir" Value="[WindowsVolume]PythonX" Execute="firstSequence" />
+        <CustomAction Id="PythonFromMachine" Property="PythonDir" Value="[PYTHON.MACHINE]" Execute="firstSequence" />
+        <CustomAction Id="PythonFromUser" Property="PythonDir" Value="[PYTHON.USER]" Execute="firstSequence" />
+        <CustomAction Id="PythonDetected" Property="PythonDetected" Value="1" Execute="firstSequence" />
+        <CustomAction Id="InitialTargetDir" Property="TARGETDIR" Value="[PythonDir]" Execute="firstSequence" />
+        <CustomAction Id="InstallForJustMe" Property="ALLUSERS" Value="{}" Execute="firstSequence" />
+        <CustomAction Id="InstallForEveryone" Property="ALLUSERS" Value="1" Execute="firstSequence" />
 
         <InstallExecuteSequence>
-            <Custom Action="PreventDowngrading" Sequence="201">NEWPRODUCTFOUND</Custom>
-            <Custom Action="PythonX" Sequence="401" />
-            <Custom Action="PythonFromMachine" Sequence="402">PYTHON.MACHINE</Custom>
-            <Custom Action="PythonFromUser" Sequence="403">PYTHON.USER</Custom>
-            <Custom Action="PythonDetected" Sequence="404">PythonDetected</Custom>
-            <Custom Action="InitialTargetDir" Sequence="405" />
+            <Custom Action="PreventDowngrading" Sequence="201">DOWNGRADEFOUND</Custom>
+            <Custom Action="AllUsersFromParam" Sequence="401" />
+            <Custom Action="TargetDirFromParam" Sequence="402" />
+            <Custom Action="PythonX" Sequence="403">NOT TargetDirFromParam</Custom>
+            <Custom Action="PythonFromMachine" Sequence="404">PYTHON.MACHINE AND NOT AllUsersFromParam AND NOT TargetDirFromParam</Custom>
+            <Custom Action="InstallForEveryone" Sequence="405">PYTHON.MACHINE AND NOT AllUsersFromParam AND NOT TargetDirFromParam</Custom>
+            <Custom Action="PythonFromUser" Sequence="406">PYTHON.USER AND NOT AllUsersFromParam AND NOT TargetDirFromParam</Custom>
+            <Custom Action="InstallForJustMe" Sequence="407">PYTHON.USER AND NOT AllUsersFromParam AND NOT TargetDirFromParam</Custom>
+            <Custom Action="PythonDetected" Sequence="408">(PYTHON.MACHINE OR PYTHON.USER) AND NOT AllUsersFromParam AND NOT TargetDirFromParam</Custom>
+            <Custom Action="InitialTargetDir" Sequence="409">NOT TargetDirFromParam</Custom>
             <RemoveExistingProducts Sequence="1401" />
         </InstallExecuteSequence>
 
         <InstallUISequence>
-            <Custom Action="PreventDowngrading" Sequence="201">NEWPRODUCTFOUND</Custom>
-            <Custom Action="PythonX" Sequence="401" />
-            <Custom Action="PythonFromMachine" Sequence="402">PYTHON.MACHINE</Custom>
-            <Custom Action="PythonFromUser" Sequence="403">PYTHON.USER</Custom>
-            <Custom Action="PythonDetected" Sequence="404">PythonDetected</Custom>
-            <Custom Action="InitialTargetDir" Sequence="405" />
+            <Custom Action="PreventDowngrading" Sequence="201">DOWNGRADEFOUND</Custom>
+            <Custom Action="AllUsersFromParam" Sequence="401" />
+            <Custom Action="TargetDirFromParam" Sequence="402" />
+            <Custom Action="PythonX" Sequence="403">NOT TargetDirFromParam</Custom>
+            <Custom Action="PythonFromMachine" Sequence="404">PYTHON.MACHINE AND NOT AllUsersFromParam AND NOT TargetDirFromParam</Custom>
+            <Custom Action="InstallForEveryone" Sequence="405">PYTHON.MACHINE AND NOT AllUsersFromParam AND NOT TargetDirFromParam</Custom>
+            <Custom Action="PythonFromUser" Sequence="406">PYTHON.USER AND NOT AllUsersFromParam AND NOT TargetDirFromParam</Custom>
+            <Custom Action="InstallForJustMe" Sequence="407">PYTHON.USER AND NOT AllUsersFromParam AND NOT TargetDirFromParam</Custom>
+            <Custom Action="PythonDetected" Sequence="408">(PYTHON.MACHINE OR PYTHON.USER) AND NOT AllUsersFromParam AND NOT TargetDirFromParam</Custom>
+            <Custom Action="InitialTargetDir" Sequence="409">NOT TargetDirFromParam</Custom>
         </InstallUISequence>
 
         <Feature Id="PyGTKAllInOne"
                  Title="PyGTK All-in-one"
-                 Description="Installs everything you need for PyGTK development except Python"
+                 Description="Installs everything you need for PyGTK development except a Python $(var.PythonVersion) interpreter."
                  ConfigurableDirectory="TARGETDIR"
                  Absent="disallow"
                  Display="expand"
@@ -136,7 +147,7 @@
 
         <Directory Id="TARGETDIR" Name="SourceDir">
             <!-- Referenced by container Features -->
-            <Component Id="Empty" KeyPath='yes' Guid="{2957BDC1-E807-49fb-A46D-F70834B326C4}">
+            <Component Id="Empty" KeyPath="yes" Guid="{2957BDC1-E807-49fb-A46D-F70834B326C4}">
                 <CreateFolder />
             </Component>
         </Directory>

@@ -25,9 +25,6 @@
     </xs:annotation>
 
     <xs:element name="Build">
-        <xs:annotation><xs:documentation>
-            This is the top-level container element for every build description file.
-        </xs:documentation></xs:annotation>
         <xs:complexType>
             <xs:choice minOccurs="0">
                 <xs:sequence>
@@ -39,4 +36,41 @@
             </xs:choice>
         </xs:complexType>
     </xs:element>
+
+    <xs:element name="Interpreters">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element ref="Interpreter"/>
+                </xs:choice>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Interpreter">
+        <xs:complexType>
+            <xs:attribute name="Version" use="required" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Product">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice minOccurs="1" maxOccurs="1">
+                    <xs:element ref="Features"/>
+                </xs:choice>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Features"><!--
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice minOccurs="1" maxOccurs="1">
+                    <xs:element ref="Features"/>
+                </xs:choice>
+            </xs:sequence>
+        </xs:complexType>
+    --></xs:element>
+
 </xs:schema>

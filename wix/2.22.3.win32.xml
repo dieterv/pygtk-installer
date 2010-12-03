@@ -2,28 +2,26 @@
 
 <Build>
 <!-- <Build xmlns="http://schemas.pygtk.org/2010/build"> -->
-    <!-- Currently only 2.6 (x86) and 2.7 (x86) are supported (until I
-         can get my hands on a 64bit machine...) -->
     <Interpreters>
-        <Interpreter Version="2.6" Platform="win32" />
-        <!-- <Interpreter Version="2.6" Platform="win64" /> -->
-        <Interpreter Version="2.7" Platform="win32" />
-        <!-- <Interpreter Version="2.7" Platform="win64" /> -->
+        <Interpreter Version="2.6" />
+        <Interpreter Version="2.7" />
     </Interpreters>
 
     <!-- Some notes about the Level attribute of the Feature tag:
-         - Level 0   : disable the feature and prevent it from being displayed
-                       in the user interface
-         - Level 1   : default value of INSTALLLEVEL property
-         - Level 3   : WiX Mondo UI Typical installation
-         - Level 1000: WiX Mondo UI Complete installation -->
+         - Level 0   : do not install (disable the feature and prevent it from
+                       being displayed in the user interface
+         - Level 1   : install by default (enable the feature and display it in
+                       the user interface)
+         - Level 2   : install if requested (disable the feature but display it
+                       in the user interface) -->
 
     <Product>
         <Features>
             <Feature Id          = "PythonExtensionModules"
-                     Title       = "Python extension modules"
-                     Description = "Installs Python extension modules."
+                     Title       = "Python $(var.PythonVersion) extension modules"
+                     Description = "Installs Python $(var.PythonVersion) extension modules."
                      Display     = "expand"
+                     Absent      = "disallow"
                      Level       = "1"
                      Container   = "true">
 
@@ -79,7 +77,7 @@
                          Title       = "PyGtkSourceView2 2.10.1"
                          Description = "Installs the gtksourceview2 Python extension module."
                          Absent      = "allow"
-                         Level       = "10">
+                         Level       = "2">
 
                     <Package Id        = "pygtksourceview2"
                              Type      = "MsiSourcePackage"
@@ -106,7 +104,7 @@
                          Title       = "PyGooCanvas 0.14.2"
                          Description = "Installs the goocanvas Python extension module."
                          Absent      = "allow"
-                         Level       = "10">
+                         Level       = "2">
 
                     <Package Id        = "pygoocanvas"
                              Type      = "MsiSourcePackage"
@@ -133,7 +131,7 @@
                          Title       = "PyRsvg 2.32.1"
                          Description = "Installs the rsvg Python extension module."
                          Absent      = "allow"
-                         Level       = "10">
+                         Level       = "2">
 
                     <Package Id        = "pyrsvg"
                              Type      = "MsiSourcePackage"
@@ -150,13 +148,13 @@
                      Description = "Installs development tools."
                      Absent      = "allow"
                      Display     = "expand"
-                     Level       = "10"
+                     Level       = "2"
                      Container   = "true">
 
                 <Feature Id          = "glade"
                          Title       = "Glade UI Designer 3.6.7"
                          Description = "Installs Glade UI Designer."
-                         Level       = "10"
+                         Level       = "2"
                          Absent      = "allow">
 
                     <Package Type       = "ArchiveSourcePackage"
@@ -171,7 +169,7 @@
                 <Feature Id          = "langtools"
                          Title       = "Language Tools"
                          Description = "Installs intltool, gettext tools and libiconv."
-                         Level       = "10"
+                         Level       = "2"
                          Absent      = "allow">
 
                     <Package Id        = "libiconv"
@@ -217,9 +215,9 @@
 
             <Feature Id             = "gtk_runtime"
                      Title          = "GTK+ Runtime 2.22.0"
-                     Description    = "Installs the GTK+ runtime"
-                     Level          = "1"
-                     Absent         = "disallow">
+                     Description    = "Installs the GTK+ runtime."
+                     Absent         = "disallow"
+                     Level          = "1">
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "gtk_runtime"
@@ -227,8 +225,6 @@
                          archive = "gtk+-bundle_2.22.0-20101016_win32.zip"
                          digest  = "b0a879b50e5c86190c6fed4d7377aa5d">
 
-                    <!--  TODO: how do we add RemoveFile elements into the .wxs
-                          file for .pyc and .pyo files??? -->
                     <CopyFile Id="__init__.py" Src="overlays/runtime/" Dest="" />
                     <CopyFile Id="reconfig.cmd" Src="overlays/runtime/bin/" Dest="bin" />
                     <CopyFile Id="gtkrc" Src="overlays/runtime/etc/gtk-2.0/" Dest="etc/gtk-2.0/" />

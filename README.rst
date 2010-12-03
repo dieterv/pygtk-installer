@@ -3,28 +3,71 @@ WARNING
 =======
 
 The all-in-one installer should be considered as a proof of concept.
-Please do not use it on productions systems just yet!
+Please do not use it on production systems just yet!
 
-===============
-pygtk-installer
-===============
+====================================
+Using the PyGTK All-in-one installer
+====================================
 
-The pygtk-installer project provides a set of tools to build the PyGTK
-all-in-one installer and it's various dependencies.
-There are currently versions of the all-in-one installer targeting Python 2.6
-and Python 2.7.
+The PyGTK All-in-one version number
+===================================
 
-Included tools:
+The all-in-one installers' version number does not map directly to the
+pygtk version number. This is a requirement to support windows installer
+major upgrades. The version number is constructed as follows::
 
-- build_glade.sh: a tool that builds glade3 binaries for mswindows with
-  "Python Widgets Support" for each supported Python version.
-- build_bindings.sh: a tool that builds windows installer packages (both .exe
-  and .msi) for pycairo, pygobject, pygtk, pygoocanvas, pygtksourceview and
-  pyrsvg for each supported Python version.
-- build_installer.py: a tool that generates an all-in-one installer bundling
-  the separate .msi installers created by build_bindings.sh, the glade binaries
-  created by build_glade.sh and various gtk+ runtime packages from
-  ftp.gnome.org/pub/GNOME/binaries/win32/.
+    PYGTK_MAJOR.PYGTK_MINOR.INSTALLER_REVISION
+
+Stable releases are kept available for download, testing revisions are removed
+from the download area once they are superseded by newer versions.
+
+What file should I use?
+=======================
+
+All the .msi files are named as follows:
+
+    pygtk-all-in-one-X.X.X.win32-py2.6.msi
+
+Where X.X.X is the PyGTK All-in-one version number and
+Y.Y is the Python version number the installer supports.
+
+Migrating from pycairo+pygobject+pygtk packages
+===============================================
+
+If you have some or all of the separate pycaior, pygobject, pygtk, pygoocanvas,
+pygtksourceview2 or pyrsvg packages, please ensure they are uninstalled before
+you begin with the PyGTK All-in-one installer.
+
+The all-in-one installer does not check for their presence and will happily
+overwrite files that belong to the separate packages. If you forget to check
+for this you risk the following scenario:
+
+       - install Python
+       - install pycairo, pygtk and pygobject
+       - install pygtk all-in-one
+       - uninstall pycairo, pygtk and pygobject
+       you now have a *broken* pygtk all-in-one installation
+
+Now would also be a good time to uninstall the gtk+ runtime you've used
+with the separate pyg* packages and to clean your PATH environment variable.
+
+Automatic installation
+======================
+
+An automatic PyGTK All-in-one installation automatically detects the correct
+Python installation directory and if Python was installed for all users or just
+yourself. These values are then used by the PyGTK All-in-one installer.
+
+* If you want to generate a log file you can execute the following command from a
+  Command Prompt (change X to the correct version numbers)::
+
+    %WINDIR%\system32\msiexec.exe /i pygtk-all-in-one-X.X.X.winX-pyX.X.msi /l*v install.log
+
+  Note that having an installation log is the only way we can provide help should
+  something have gone wrong.
+
+* If you do not want to generate an installation log file you can simply double
+  click the .msi file that matches the Python version where you want to install PyGTK All-in-one.
 
 =============================
 Things you might want to know
@@ -65,15 +108,23 @@ Things you might want to know
 
        - study both install.log and import.log...
 
-==========
-Versioning
-==========
+=======================
+Installer build scripts
+=======================
 
-The all-in-one installers' version number does not map directly to the
-pygtk version number. This is a requirement to support windows installer
-major upgrades. The version number is constructed as follows::
+The pygtk-installer project provides a set of tools to build the PyGTK
+all-in-one installer and it's various dependencies.
+There are currently versions of the all-in-one installer supporting Python 2.6
+and Python 2.7.
 
-    PYGTK_MAJOR.PYGTK_MINOR.INSTALLER_REVISION
+Included tools:
 
-Stable releases are kept available for download, testing revisions are removed
-from the download area once they are superseeded by newer versions.
+- build_glade.sh: a tool that builds glade3 binaries for mswindows with
+  "Python Widgets Support" for each supported Python version.
+- build_bindings.sh: a tool that builds windows installer packages (both .exe
+  and .msi) for pycairo, pygobject, pygtk, pygoocanvas, pygtksourceview and
+  pyrsvg for each supported Python version.
+- build_installer.py: a tool that generates an all-in-one installer bundling
+  the separate .msi installers created by build_bindings.sh, the glade binaries
+  created by build_glade.sh and various gtk+ runtime packages from
+  ftp.gnome.org/pub/GNOME/binaries/win32/.

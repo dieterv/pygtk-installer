@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Build>
+<!-- <Build xmlns="http://schemas.pygtk.org/2010/build"> -->
+
+<!-- Currently 64bit installers are not supported (at least until I can get my
+     hands on a 64bit machine...) -->
+
+    <Interpreters>
+        <Interpreter Version="2.6" />
+        <Interpreter Version="2.7" />
+    </Interpreters>
+
+    <!-- Some notes about the Level attribute of the Feature tag:
+         - Level 0   : do not install (disable the feature and prevent it from
+                       being displayed in the user interface
+         - Level 1   : install by default (enable the feature and display it in
+                       the user interface)
+         - Level 2   : install if requested (disable the feature but display it
+                       in the user interface) -->
+
+    <Product>
+        <Features>
+            <Feature Id          = "PythonExtensionModules"
+                     Title       = "Python $(var.PythonVersion) extension modules"
+                     Description = "Installs Python $(var.PythonVersion) extension modules."
+                     Display     = "expand"
+                     Absent      = "disallow"
+                     Level       = "1"
+                     Container   = "true">
+
+                <Feature Id          = "PythonExtensionModulePyGtk"
+                         Title       = "PyGtk 2.22.0"
+                         Description = "Installs the gtk, glade, pango, pangocairo and atk Python extension modules."
+                         Absent      = "disallow"
+                         Level       = "1">
+
+                    <Package Type      = "MsiSourcePackage"
+                             Id        = "pygtk"
+                             Url       = ""
+                             Msi_26    = ""
+                             Digest_26 = ""
+                             Msi_27    = ""
+                             Digest_27 = "" />
+                </Feature>
+
+                <Feature Id          = "PythonExtensionModulePyGobject"
+                         Title       = "PyGobject 2.26.0"
+                         Description = "Installs the gobject and gio Python extension modules."
+                         Absent      = "disallow"
+                         Level       = "1">
+
+                    <Package Type      = "MsiSourcePackage"
+                             Id        = "pygobject"
+                             Url       = ""
+                             Msi_26    = ""
+                             Digest_26 = ""
+                             Msi_27    = ""
+                             Digest_27 = "">
+
+                        <CopyFile Id="pygtk.pth" Src="overlays/pygobject/" Dest=""/>
+                    </Package>
+                </Feature>
+
+                <Feature Id          = "PythonExtensionModulePyCairo"
+                         Title       = "PyGairo 1.8.10"
+                         Description = "Installs the cairo Python extension module."
+                         Absent      = "disallow"
+                         Level       = "1">
+
+                    <Package Type      = "MsiSourcePackage"
+                             Id        = "pycairo"
+                             Url       = ""
+                             Msi_26    = ""
+                             Digest_26 = ""
+                             Msi_27    = ""
+                             Digest_27 = "" />
+                </Feature>
+
+                <Feature Id          = "PythonExtensionModulePyGtkSourceview2"
+                         Title       = "PyGtkSourceView2 2.10.1"
+                         Description = "Installs the gtksourceview2 Python extension module."
+                         Absent      = "allow"
+                         Level       = "2">
+
+                    <Package Id        = "pygtksourceview2"
+                             Type      = "MsiSourcePackage"
+                             Url       = ""
+                             Msi_26    = ""
+                             Msi_27    = ""
+                             Digest_26 = ""
+                             Digest_27 = "" />
+
+                    <Package Id        = "libgtksourceview"
+                             Type      = "ArchiveSourcePackage"
+                             Url       = ""
+                             archive   = ""
+                             digest    = "" />
+
+                    <Package Id        = "libgtksourceview_dev"
+                             Type      = "ArchiveSourcePackage"
+                             Url       = ""
+                             archive   = ""
+                             digest    = "" />
+                </Feature>
+
+                <Feature Id          = "PythonExtensionModulePyGoocanvas"
+                         Title       = "PyGooCanvas 0.14.2"
+                         Description = "Installs the goocanvas Python extension module."
+                         Absent      = "allow"
+                         Level       = "2">
+
+                    <Package Id        = "pygoocanvas"
+                             Type      = "MsiSourcePackage"
+                             Url       = ""
+                             Msi_26    = ""
+                             Msi_27    = ""
+                             Digest_26 = ""
+                             Digest_27 = "" />
+
+                    <Package Id        = "libgoocanvas"
+                             Type      = "ArchiveSourcePackage"
+                             Url       = ""
+                             archive   = ""
+                             digest    = "" />
+
+                    <Package Id        = "libgoocanvas_dev"
+                             Type      = "ArchiveSourcePackage"
+                             Url       = ""
+                             archive   = ""
+                             digest    = "" />
+                </Feature>
+
+                <Feature Id          = "PythonExtensionModulePyRsvg"
+                         Title       = "PyRsvg 2.32.1"
+                         Description = "Installs the rsvg Python extension module."
+                         Absent      = "allow"
+                         Level       = "2">
+
+                    <Package Id        = "pyrsvg"
+                             Type      = "MsiSourcePackage"
+                             Url       = ""
+                             Msi_26    = ""
+                             Msi_27    = ""
+                             Digest_26 = ""
+                             Digest_27 = "" />
+                </Feature>
+            </Feature>
+
+            <Feature Id          = "DevelopmentTools"
+                     Title       = "Development Tools"
+                     Description = "Installs development tools."
+                     Absent      = "allow"
+                     Display     = "expand"
+                     Level       = "2"
+                     Container   = "true">
+
+                <Feature Id          = "glade"
+                         Title       = "Glade UI Designer 3.6.7"
+                         Description = "Installs Glade UI Designer."
+                         Level       = "2"
+                         Absent      = "allow">
+
+                    <Package Type       = "ArchiveSourcePackage"
+                             Id         = "glade3"
+                             Url        = ""
+                             Archive_26 = ""
+                             Archive_27 = ""
+                             Digest_26  = ""
+                             Digest_27  = "" />
+                </Feature>
+
+                <Feature Id          = "langtools"
+                         Title       = "Language Tools"
+                         Description = "Installs intltool, gettext tools and libiconv."
+                         Level       = "2"
+                         Absent      = "allow">
+
+                    <Package Id        = "libiconv"
+                             Type      = "ArchiveSourcePackage"
+                             Url       = ""
+                             archive   = ""
+                             digest    = "" />
+
+                    <Package Id        = "gettext_tools"
+                             Type      = "ArchiveSourcePackage"
+                             Url       = ""
+                             archive   = ""
+                             digest    = "" />
+
+                    <Package Id        = "gettext_tools_dev"
+                             Type      = "ArchiveSourcePackage"
+                             Url       = ""
+                             archive   = ""
+                             digest    = "" />
+
+                    <Package Id        = "intltool"
+                             Type      = "ArchiveSourcePackage"
+                             Url       = ""
+                             archive   = ""
+                             digest    = "" />
+
+                    <Package Id        = "intltool_dev"
+                             Type      = "ArchiveSourcePackage"
+                             Url       = ""
+                             archive   = ""
+                             digest    = "" />
+                </Feature>
+            </Feature>
+
+            <Feature Id             = "gtk_runtime"
+                     Title          = "GTK+ Runtime 2.22.0"
+                     Description    = "Installs the GTK+ runtime."
+                     Absent         = "disallow"
+                     Level          = "1">
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "gtk_runtime"
+                         Url     = ""
+                         archive = ""
+                         digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "libglade"
+                         Url     = ""
+                         archive = ""
+                         digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "libglade_dev"
+                         Url     = ""
+                         archive = ""
+                         digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "libxml2"
+                         Url     = ""
+                         archive = ""
+                         digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "libxml2_dev"
+                         Url     = ""
+                         archive = ""
+                         digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "librsvg"
+                         Url     = ""
+                         archive = ""
+                         digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "librsvg_dev"
+                         Url     = ""
+                         archive = ""
+                         digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "svg_gdk_pixbuf_loader"
+                         Url     = ""
+                         archive = ""
+                         digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "svg_gtk_engine"
+                         Url     = ""
+                         archive = ""
+                         digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "libcroco"
+                         Url     = ""
+                         archive = ""
+                         digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "libcroco_dev"
+                         Url     = ""
+                         archive = ""
+                         digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "libgsf"
+                         Url     = ""
+                         archive = ""
+                         digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "libgsf_dev"
+                         Url     = ""
+                         archive = ""
+                         digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "hicolor_icon_theme"
+                         Url     = ""
+                         archive = ""
+                         digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "icon_nameing_utils"
+                         Url     = ""
+                         archive = ""
+                         digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "tango_icon_theme"
+                         Url     = ""
+                         archive = ""
+                         digest  = "" />
+            </Feature>
+        </Features>
+    </Product>
+</Build>

@@ -34,56 +34,46 @@ def _putenv(name, value):
     # Update the copy maintained by Windows (so SysInternals Process Explorer sees it)
     try:
         result = windll.kernel32.SetEnvironmentVariableW(name, value)
-
-        if result == 0:
-            raise Warning
-
+        if result == 0: raise Warning
+    except Exception:
+        if sys.flags.verbose:
+            sys.stderr.write('* pygtk-runtime: "kernel32.SetEnvironmentVariableW" failed\n')
+            sys.stderr.flush()
+    else:
         if sys.flags.verbose:
             sys.stderr.write('* pygtk-runtime: "kernel32.SetEnvironmentVariableW" successful\n')
             sys.stderr.flush()
 
-    except Exception as inst:
-        if sys.flags.verbose:
-            sys.stderr.write('* pygtk-runtime: "kernel32.SetEnvironmentVariableW" failed\n')
-            sys.stderr.flush()
-
-    # Updated the copy maintained by msvcrt (used by gtk+ runtime)
+    # Update the copy maintained by msvcrt (used by gtk+ runtime)
     try:
         result = cdll.msvcrt._putenv('%s=%s' % (name, value))
-
-        if result != 0:
-            raise Warning
-
-        if sys.flags.verbose:
-            sys.stderr.write('* pygtk-runtime: "msvcrt._putenv" successful\n')
-            sys.stderr.flush()
-
-    except Exception as inst:
+        if result != 0: raise Warning
+    except Exception:
         if sys.flags.verbose:
             sys.stderr.write('* pygtk-runtime: "msvcrt._putenv" failed\n')
+            sys.stderr.flush()
+    else:
+        if sys.flags.verbose:
+            sys.stderr.write('* pygtk-runtime: "msvcrt._putenv" successful\n')
             sys.stderr.flush()
 
     # Update the copy maintained by whatever c runtime is used by Python
     try:
         msvcrt = find_msvcrt()
         msvcrtname = str(msvcrt).split('.')[0] if '.' in msvcrt else str(msvcrt)
-
         result = cdll.LoadLibrary(msvcrt)._putenv('%s=%s' % (name, value))
-
-        if result != 0:
-            raise Warning
-
+        if result != 0: raise Warning
+    except Exception:
+        if sys.flags.verbose:
+            sys.stderr.write('* pygtk-runtime: "%s._putenv" failed\n' % msvcrtname)
+            sys.stderr.flush()
+    else:
         if sys.flags.verbose:
             sys.stderr.write('* pygtk-runtime: "%s._putenv" successful\n' % msvcrtname)
             sys.stderr.flush()
 
-    except Exception as inst:
-        if sys.flags.verbose:
-            sys.stderr.write('* pygtk-runtime: "%s._putenv" failed\n' % msvcrtname)
-            sys.stderr.flush()
 
-
-if sys.platform == 'win32':
+if sys.platform == 'win32' or sys.platform == 'nt':
     runtime = os.path.abspath(os.path.join(os.path.dirname(__file__), 'bin'))
     PATH = os.environ['PATH'].split(os.pathsep)
     ABSPATH = [os.path.abspath(x) for x in PATH]

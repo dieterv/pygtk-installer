@@ -25,9 +25,10 @@ import re
 
 from copy import copy, deepcopy
 from datetime import datetime
+from distutils.spawn import find_executable
 from hashlib import md5
 from optparse import OptionParser
-from os.path import abspath, dirname, isabs, isdir, isfile, join
+from os.path import abspath, basename, dirname, isabs, isdir, isfile, join
 from shutil import copyfile, rmtree
 from subprocess import Popen, PIPE
 from urllib2 import urlopen, URLError
@@ -58,9 +59,8 @@ PYTHON_VERSION = None
 
 # Everything we need to know about  the WiX toolset...
 WIX_VERSION = '3.5.2305.0'
-WIX_NAMESPACE = 'http://schemas.microsoft.com/wix/2006/wi'
-WIX_NSMAP = {None : WIX_NAMESPACE}
-WIX_DIR = None
+WIX_NS = 'http://schemas.microsoft.com/wix/2006/wi'
+WIX_NSMAP = {None : WIX_NS}
 WIX_HEAT = None
 WIX_DARK = None
 WIX_CANDLE = None
@@ -68,7 +68,7 @@ WIX_LIGHT = None
 
 # Everything we need to know about xmllint...
 XML_LINT_VERSION = 20707
-XML_LINT = 'xmllint'
+XML_LINT = None
 
 
 def info(message, level=0):
@@ -99,27 +99,40 @@ def copytree(srcdir, dstdir):
     srcnames = os.listdir(srcdir)
 
     for name in srcnames:
-        srcfname = join(srcdir, name)
-        dstfname = join(dstdir, name)
+        srcname = join(srcdir, name)
+        dstname = join(dstdir, name)
 
-        if isdir(srcfname):
-            if not isdir(dstfname):
-                os.mkdir(dstfname)
+        if isdir(srcname):
+            if not isdir(dstname):
+                os.mkdir(dstname)
 
-            copytree(srcfname, dstfname)
-        elif isfile(srcfname):
-            sf = open(srcfname, 'rb')
-            df = open(dstfname, 'wb')
+            copytree(srcname, dstname)
+        elif isfile(srcname):
+            sf = open(srcname, 'rb')
+            df = open(dstname, 'wb')
             df.write(sf.read())
             df.close()
             sf.close()
+
+def get_md5(file):
+    m = md5()
+    f = open(file, 'rb')
+
+    while True:
+        t = f.read(1024)
+        if len(t) == 0: break # end of file
+        m.update(t)
+
+    f.close()
+
+    return m.hexdigest()
 
 
 class Builder(object):
     def __init__(self, arguments=None):
         self.parse_options(arguments)
-        self.validate_environment_wix()
-        self.validate_environment_xmllint()
+        self.validate_wix()
+        self.validate_xmllint()
         self.parse_build_description()
 
     def parse_options(self, arguments=None):
@@ -133,23 +146,23 @@ class Builder(object):
         if not len(self.args) == 1:
             error(parser.get_usage())
 
-    def validate_environment_wix(self):
-        global WIX_DIR
-        global WIX_DARK
-        global WIX_HEAT
-        global WIX_CANDLE
-        global WIX_LIGHT
-
-        # Get WiX path from environment variable
+    def validate_wix(self):
+        # Get WiX installation directory from the WIX environment variable
         if not os.environ.has_key('WIX'):
             error('Please verify WiX has been installed and the WIX environment '
                   'variable points to it\'s installation directory.')
 
-        WIX_DIR = join(abspath(os.environ['WIX']), 'bin')
+        WIX_DIR = abspath(join(os.environ['WIX'], 'bin'))
 
         if not os.path.isdir(WIX_DIR):
-            error('WiX bin directory does not seem to exist.')
+            error('Please verify WiX has been installed and the WIX environment '
+                  'variable points to it\'s installation directory, not it\'s '
+                  'bin directory.')
 
+        global WIX_DARK
+        global WIX_HEAT
+        global WIX_CANDLE
+        global WIX_LIGHT
         WIX_HEAT = join(WIX_DIR, 'heat.exe')
         WIX_DARK = join(WIX_DIR, 'dark.exe')
         WIX_CANDLE = join(WIX_DIR, 'candle.exe')
@@ -165,69 +178,76 @@ class Builder(object):
         wix_version = re.compile(r"(version )(.*?)($)", re.S|re.M).search(output).group(2)
 
         if not int(WIX_VERSION.replace('.', '')) <= int(wix_version.replace('.', '')):
-            error('Your WiX (version %s) is too old. A mininmum of version %s is required.' % (wix_version, WIX_VERSION))
+            error('Your WiX (version %s) is too old. At least version %s is required.' % (wix_version, WIX_VERSION))
 
-    def validate_environment_xmllint(self):
-        #TODO: why global?
+    def validate_xmllint(self):
         global XML_LINT
+        XML_LINT = find_executable('xmllint', os.environ['PATH'])
 
-        try:
-            output = Popen([XML_LINT,
-                            '--version'],
-                           stdout=PIPE,
-                           stderr=PIPE,
-                           universal_newlines=True).communicate()[1]
-        except WindowsError as e:
-            error('Please verify xmllint (part of libxml2) has been installed '
-                  'and it\'s bin directory is on the PATH environment variable')
-        else:
-            xml_lint_version = re.compile(r"(version )(.*?)($)", re.S|re.M).search(output).group(2)
+        if not XML_LINT or not os.path.isfile(XML_LINT):
+            error('Please verify xmllint has been installed and the PATH environment '
+                  'variable points to it\'s installation directory.')
 
-            if not XML_LINT_VERSION <= int(xml_lint_version):
-                error('Your xmllint (version %s) is too old. A mininmum of version %s is required.' % (xml_lint_version, XML_LINT_VERSION))
+        # Validate xmllint version
+        output = Popen([XML_LINT,
+                        '--version'],
+                       stdout=PIPE,
+                       stderr=PIPE,
+                       universal_newlines=True).communicate()[1]
+
+        xml_lint_version = re.compile(r"(version )(.*?)($)", re.S|re.M).search(output).group(2)
+
+        if not XML_LINT_VERSION <= int(xml_lint_version):
+            error('Your xmllint (version %s) is too old. At least version %s is required.' % (xml_lint_version, XML_LINT_VERSION))
 
     def parse_build_description(self):
-        global CACHEDIR
+        target = self.args[0].split('.')
+        version = '%s.%s.%s' % (target[0], target[1], target[2])
+        platform = target[3]
 
-        version = self.args[0]
-        CACHEDIR = join(TMPDIR, 'cache', version)
+        global CACHEDIR
+        CACHEDIR = join(TMPDIR, 'cache', self.args[0])
+        buildfile = join(WIXDIR, '%s.xml' % self.args[0])
         schemafile = join(WIXDIR, 'build.xsd')
-        buildfile = join(WIXDIR, '%s.xml' % version)
 
         if not isdir(CACHEDIR):
             os.makedirs(CACHEDIR)
 
         if not isfile(buildfile):
-            error('Unable to load product "%s".' % buildfile)
+            error('Unable to load build description "%s".' % buildfile)
 
         #schema = etree.XMLSchema(file=schemafile)
         #parser = etree.XMLParser(schema=schema)
         #self.buildfile = objectify.parse(buildfile, parser=parser).getroot()
         self.buildfile = objectify.parse(buildfile).getroot()
+
+        # Store version number
         etree.SubElement(self.buildfile, 'Version', Version=version)
 
-        info('Loaded product "%s" (loaded from "%s").' % (version, buildfile))
+        # Store target platform
+        if platform in PLATFORMS.keys():
+            global WIN_PLATFORM
+            global WIX_PLATFORM
+            WIN_PLATFORM = platform
+            WIX_PLATFORM = PLATFORMS[platform]
+        else:
+            error('Unknown platform (%s).' % platform)
+
+        info('Loaded build description "%s" (loaded from "%s").' % (version, buildfile))
 
     def build(self):
         for child in self.buildfile.Interpreters.iterchildren():
             if child.tag == 'Interpreter':
-                if not child.get('Version') in PYTHON_VERSIONS:
+                if child.get('Version') in PYTHON_VERSIONS:
+                    global PYTHON_FULLVERSION
+                    global PYTHON_VERSION
+                    PYTHON_FULLVERSION = child.get('Version')
+                    PYTHON_VERSION = child.get('Version')
+
+                    product = Product(self.buildfile)
+                    product.merge()
+                else:
                     error('Unknown interpreter version (%s).' % child.get('Version'))
-
-                if not child.get('Platform') in PLATFORMS.keys():
-                    error('Unknown platform (%s).' % child.get('Platform'))
-
-                global WIN_PLATFORM
-                global WIX_PLATFORM
-                global PYTHON_FULLVERSION
-                global PYTHON_VERSION
-                WIN_PLATFORM = child.get('Platform')
-                WIX_PLATFORM = PLATFORMS[child.get('Platform')]
-                PYTHON_FULLVERSION = child.get('Version')
-                PYTHON_VERSION = child.get('Version')
-
-                product = Product(self.buildfile)
-                product.merge()
 
 
 class Product(object):
@@ -240,7 +260,7 @@ class Product(object):
         self.wixobjfilename = '%s.wixobj' % self.packageid
         self.msifilename = '%s.msi' % self.packageid
 
-        self.builddir = join(TMPDIR, 'build', '%s-%s' % (PYTHON_FULLVERSION, WIN_PLATFORM), self.packageid)
+        self.builddir = join(TMPDIR, 'build', '%s-py%s' % (WIN_PLATFORM, PYTHON_FULLVERSION), self.packageid)
         self.tmpwxsfile = join(self.builddir, '%s.unformatted' % self.wxsfilename)
         self.wxsfile = join(self.builddir, self.wxsfilename)
         self.wixobjfile = join(self.builddir, self.wixobjfilename)
@@ -255,10 +275,7 @@ class Product(object):
         self.do_transform()
         self.do_compile()
         self.do_link()
-
-        f = open(join(self.builddir, 'install.cmd'), 'w')
-        f.write('@echo off\r\nmsiexec /i %s /l*vx install.log\r\n' % self.msifile)
-        f.close()
+        self.do_post_build()
 
         info('Success: .msi installer targeting Python %s has been created ("%s")' % (PYTHON_FULLVERSION, self.msifile))
 
@@ -332,8 +349,8 @@ class Product(object):
 
     def transform_includes(self, wxsfile):
         #TODO: there has to be a better way to get at elements than .find + .getnext... XPath???
-        product = wxsfile.find('{%s}Product' % WIX_NAMESPACE)
-        package = product.find('{%s}Package' % WIX_NAMESPACE)
+        product = wxsfile.find('{%s}Product' % WIX_NS)
+        package = product.find('{%s}Package' % WIX_NS)
 
         def transform(element):
             for child in element.iterchildren():
@@ -376,9 +393,9 @@ class Product(object):
 
                 if 'Container' in element.keys() and element.get('Container').lower() == 'true':
                     # A Feature should always reference at least one component.
-                    # If we do not do this, the SelectionTree widget will ignore
-                    # the AllowAdvertise, InstallDefault and TypicalDefault
-                    # attributes set above. In other words,
+                    # If we do not do this, the SelectionTree widget seems to
+                    # ignore the AllowAdvertise, InstallDefault and
+                    # TypicalDefault attributes set above. In other words:
                     etree.SubElement(feature, 'ComponentRef', Id='Empty')
 
                 for child in element.iterchildren():
@@ -386,7 +403,7 @@ class Product(object):
 
             elif element.tag == 'Package':
                 def traverse(child, parent):
-                    if child.tag == '{%s}Component' % WIX_NAMESPACE:
+                    if child.tag == '{%s}Component' % WIX_NS:
                         etree.SubElement(parent, 'ComponentRef', Id=child.get('Id'))
                     else:
                         for x in child:
@@ -394,14 +411,14 @@ class Product(object):
 
                 wxifile = element.get('wxifile_%s' % PYTHON_VERSION)
                 iroot = etree.parse(wxifile).getroot()
-                ITARGETDIR = iroot.find('{%s}DirectoryRef' % WIX_NAMESPACE)
+                ITARGETDIR = iroot.find('{%s}DirectoryRef' % WIX_NS)
                 assert ITARGETDIR.get('Id') == 'TARGETDIR'
 
                 for ichild in ITARGETDIR.iterchildren():
                     traverse(ichild, parent)
 
-        product = wxsfile.find('{%s}Product' % WIX_NAMESPACE)
-        feature = product.find('{%s}Feature' % WIX_NAMESPACE)
+        product = wxsfile.find('{%s}Product' % WIX_NS)
+        feature = product.find('{%s}Feature' % WIX_NS)
 
         for child in self.buildfile.Product.Features.iterchildren():
             transform(child, feature)
@@ -452,6 +469,13 @@ class Product(object):
 
         file.close()
 
+    def do_post_build(self):
+        # Create .md5 file
+        hexdigest = get_md5(self.msifile)
+        f = open(join(self.builddir, '%s.md5' % self.msifile), 'w')
+        f.write('%s *%s' % (hexdigest, self.msifilename))
+        f.close()
+
 
 class SourcePackage(object):
     @staticmethod
@@ -472,7 +496,7 @@ class SourcePackage(object):
             self.package.set('Url', '%s/' % self.package.get('Url'))
 
         self.cachefile = join(CACHEDIR, self.filename)
-        self.builddir = join(TMPDIR, 'build', '%s-%s' % (PYTHON_FULLVERSION, WIN_PLATFORM), self.package.get('Id'))
+        self.builddir = join(TMPDIR, 'build', '%s-py%s' % (WIN_PLATFORM, PYTHON_FULLVERSION), self.package.get('Id'))
         self.wxsfile = join(self.builddir, '%s.wxs' % self.package.get('Id'))
         self.tmpwxifile = join(self.builddir, '%s.wxi.unformatted' % self.package.get('Id'))
         self.wxifile = join(self.builddir, '%s.wxi' % self.package.get('Id'))
@@ -480,15 +504,7 @@ class SourcePackage(object):
         self.package.set('wxifile_%s' % PYTHON_VERSION, self.wxifile)
 
     def _check_md5(self, file, digest):
-        m = md5()
-        f = open(file, 'rb')
-
-        while True:
-            t = f.read(1024)
-            if len(t) == 0: break # end of file
-            m.update(t)
-
-        hexdigest = m.hexdigest()
+        hexdigest = get_md5(file)
 
         if digest == hexdigest:
             return True
@@ -651,12 +667,12 @@ class MsiSourcePackage(SourcePackage):
 
         # Get the Wix/Product/Directory node
         root = etree.parse(self.wxsfile).getroot()
-        product = root.find('{%s}Product' % WIX_NAMESPACE)
-        include = product.find('{%s}Directory' % WIX_NAMESPACE)
+        product = root.find('{%s}Product' % WIX_NS)
+        include = product.find('{%s}Directory' % WIX_NS)
 
         # deepcopy the Wix/Product/Directory node into a new tree
-        newroot = etree.Element('{%s}Include' % WIX_NAMESPACE, nsmap=WIX_NSMAP)
-        newinclude = etree.SubElement(newroot, '{%s}DirectoryRef' % WIX_NAMESPACE, Id='TARGETDIR')
+        newroot = etree.Element('{%s}Include' % WIX_NS, nsmap=WIX_NSMAP)
+        newinclude = etree.SubElement(newroot, '{%s}DirectoryRef' % WIX_NS, Id='TARGETDIR')
 
         for child in include:
             newinclude.append(deepcopy(child))
@@ -679,7 +695,7 @@ class MsiSourcePackage(SourcePackage):
         Remove "TARGETDIR $(var.PythonVersion)" and "TARGETDIRX" elements so
         they can be recreated with "RemoveFile" elements included.
         '''
-        tmp = element.find('{%s}DirectoryRef' % WIX_NAMESPACE)
+        tmp = element.find('{%s}DirectoryRef' % WIX_NS)
 
         for child in tmp:
             if child.get('Id').startswith('TARGETDIR'):
@@ -758,25 +774,25 @@ class ArchiveSourcePackage(SourcePackage):
             info('WiX "heat" reported error(s). Please review "%s".' % logfile, 4)
 
         root = etree.parse(self.wxsfile).getroot()
-        product = root.find('{%s}Product' % WIX_NAMESPACE)
-        include = product.find('{%s}Directory' % WIX_NAMESPACE)
+        product = root.find('{%s}Product' % WIX_NS)
+        include = product.find('{%s}Directory' % WIX_NS)
 
         # deepcopy the Wix/Product/Directory node into a new tree
-        newroot = etree.Element('{%s}Include' % WIX_NAMESPACE, nsmap=WIX_NSMAP)
+        newroot = etree.Element('{%s}Include' % WIX_NS, nsmap=WIX_NSMAP)
         targetdir = etree.SubElement(newroot,
-                                     '{%s}DirectoryRef' % WIX_NAMESPACE,
+                                     '{%s}DirectoryRef' % WIX_NS,
                                      Id='TARGETDIR')
         libdir = etree.SubElement(targetdir,
-                                  '{%s}Directory' % WIX_NAMESPACE,
+                                  '{%s}Directory' % WIX_NS,
                                   Name='Lib', Id='Lib')
         spdir = etree.SubElement(libdir,
-                                 '{%s}Directory' % WIX_NAMESPACE,
+                                 '{%s}Directory' % WIX_NS,
                                  Name='site-packages', Id='site_packages')
         gtkdir = etree.SubElement(spdir,
-                                  '{%s}Directory' % WIX_NAMESPACE,
+                                  '{%s}Directory' % WIX_NS,
                                   Name='gtk-2.0', Id='gtk_2.0')
         rtdir = etree.SubElement(gtkdir,
-                                 '{%s}Directory' % WIX_NAMESPACE,
+                                 '{%s}Directory' % WIX_NS,
                                   Name='runtime', Id='runtime')
 
         for child in include:
@@ -791,9 +807,40 @@ class ArchiveSourcePackage(SourcePackage):
         info ('Transforming variables...', 4)
         self.transform_variables(self.include)
 
+        info ('Transforming RemoveFile elements for *.py files', 4)
+        self.transform_py_files(self.include)
+
     def transform_variables(self, element):
         pi = etree.ProcessingInstruction('define', '%s_sourcedir = "%s"' % (self.package.get('Id'), join(self.builddir, 'File')))
         element.insert(0, pi)
+
+    def transform_py_files(self, element):
+        '''
+        Create a RemoveFile element instructing windows installer to remove
+        .pyc and .pyo files for each .py file we encounter.
+        '''
+        def transform(element):
+            if element.tag == '{%s}File' % WIX_NS and basename(element.get('Source')).endswith('.py'):
+                component = element.getparent()
+                directory = component.getparent()
+
+                etree.SubElement(component,
+                                  '{%s}RemoveFile' % WIX_NS,
+                                  Id='%sc' % element.get('Id'),
+                                  Directory=directory.get('Id'),
+                                  Name='%sc' % basename(element.get('Source')),
+                                  On='uninstall')
+                etree.SubElement(component,
+                                  '{%s}RemoveFile' % WIX_NS,
+                                  Id='%so' % element.get('Id'),
+                                  Directory=directory.get('Id'),
+                                  Name='%so' % basename(element.get('Source')),
+                                  On='uninstall')
+
+            for child in element:
+                transform(child)
+
+        transform(element)
 
 
 def main():
