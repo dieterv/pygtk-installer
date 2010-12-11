@@ -1,18 +1,4 @@
-- Finish the feature tree (it currently doesn't represent
-  the actual dependency tree).
-
-- Detect the presence of the separate pyg* .exe and .msi
-  installers (we wouldn't want to overwrite them...).
-
-- As the all-in-one installer is based on a Python 2.7
-  distutils generated .msi file, it offers the possibility
-  to install into multiple Python installations.
-  That's great for pure Python modules/packages where you
-  can install the package into python 2.6, 2.7, 3.1, etc
-  at once. It isn't really applicable for c extensions
-  though. Removing that capability would simplify thing
-  a lot (but we should retain some choise in the form of
-  "install into automatically detected python" or "user
-  specified directory")
-
-- The dialogs used in the installer could use some work...
+- Open .glade/.ui files with glade3?
+- Run everything from reconfig.cmd in a post-install CustomAction.
+  See https://github.com/mono/win32-installers/blob/master/modules/gtk%2B-2.0-lib/gtk%2B-2.0-lib.wxs
+  for inspiration...
