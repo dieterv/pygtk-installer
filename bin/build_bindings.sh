@@ -27,7 +27,7 @@
 
 # How does it work?
 # =================
-# Install the deps (gtk+-bundle, ...) MinGW/MSYS with GCC 4.5.0
+# Install the deps (gtk+-bundle, ...) and MinGW/MSYS with GCC 4.5.0
 #   $ mingw-get.exe install gcc
 #   $ mingw-get.exe install msys-base
 #

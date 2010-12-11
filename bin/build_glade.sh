@@ -24,7 +24,7 @@
 
 # How does it work?
 # =================
-# Install the deps (gtk+-bundle, ...) MinGW/MSYS with GCC 4.5.0
+# Install the deps (gtk+-bundle, ...) and MinGW/MSYS with GCC 4.5.0
 #   $ mingw-get.exe install gcc
 #   $ mingw-get.exe install msys-base
 #
@@ -77,7 +77,7 @@ for INTERPRETER in ${INTERPRETERS}; do
         mkdir -p ${DESTDIR}
         mkdir -p "${PREFIX}"
 
-        cd ${CHECKOUT}/${MOD}-${VER}       
+        cd ${CHECKOUT}/${MOD}-${VER}
 
         # Copied from tml@iki.fi's build scripts:
         # Don't do any relinking and don't use any wrappers in libtool. It
@@ -101,7 +101,7 @@ for INTERPRETER in ${INTERPRETERS}; do
         --disable-static \
         --prefix="${PREFIX}" &&
 
-        make -j3 install        
+        make -j3 install
     ) 2>&1 | tee "${LOG}"
 
     # Write a .exe.manifest file...
@@ -126,7 +126,7 @@ for INTERPRETER in ${INTERPRETERS}; do
     # We don't need these for modules...
     rm -rf ${PREFIX}/lib/glade3/modules/*.dll.a
     rm -rf ${PREFIX}/lib/glade3/modules/*.la
-    
+
     # Put everything in a zip archive...
     cd ${PREFIX}
     zip ${DESTDIR}/${ZIP} -r ./*
