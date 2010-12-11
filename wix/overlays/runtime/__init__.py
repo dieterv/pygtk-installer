@@ -22,9 +22,9 @@ def _putenv(name, value):
     On Microsoft Windows, each process has multiple copies of the environment
     variables, one managed by the OS and one managed by the C library. We also
     need to take care of the fact that the C library used by Python is not
-    necessarily the same as the C library used by pygtk and friends. This because
-    the latest releases of pygtk and friends are built with mingw32 and are thus
-    linked against msvcrt.dll. The official gtk+ binaries have always been built
+    necessarily the same as the C library used by PyGTK and friends. This because
+    the latest releases of PyGTK and friends are built with mingw32 and are thus
+    linked against msvcrt.dll. The official GTK+ binaries have always been built
     in this way.
     '''
 
@@ -44,7 +44,7 @@ def _putenv(name, value):
             sys.stderr.write('* pygtk-runtime: "kernel32.SetEnvironmentVariableW" successful\n')
             sys.stderr.flush()
 
-    # Update the copy maintained by msvcrt (used by gtk+ runtime)
+    # Update the copy maintained by msvcrt (used by GTK+ runtime)
     try:
         result = cdll.msvcrt._putenv('%s=%s' % (name, value))
         if result != 0: raise Warning

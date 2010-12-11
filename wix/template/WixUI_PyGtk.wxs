@@ -74,25 +74,23 @@
             </Control>
 
             <Control Id="LocationLabelCustomPerMachine" Type="Text" Hidden="yes" X="15" Y="200" Width="249" Height="10" Text="Location specified by TARGETDIR parameter (install for all users):">
-                <Condition Action="show"><![CDATA[TargetDirFromParam AND ALLUSERS=1]]></Condition>
+                <Condition Action="show"><![CDATA[TargetDirParam AND ALLUSERS=1]]></Condition>
+                <Condition Action="hide">Installed</Condition>
             </Control>
             <Control Id="LocationLabelCustomPerUser" Type="Text" Hidden="yes" X="15" Y="200" Width="249" Height="10" Text="Location specified by TARGETDIR parameter (install just for me):">
-                <Condition Action="show"><![CDATA[TargetDirFromParam AND ALLUSERS<>1]]></Condition>
-            </Control>
-            <Control Id="LocationLabelPythonNotDetected" Type="Text" Hidden="yes" X="15" Y="200" Width="249" Height="10" Text="Custom location (Python $(var.PythonVersion) not detected):">
-                <Condition Action="show">NOT TargetDirFromParam AND NOT PythonDetected</Condition>
+                <Condition Action="show"><![CDATA[TargetDirParam AND ALLUSERS<>1]]></Condition>
+                <Condition Action="hide">Installed</Condition>
             </Control>
             <Control Id="LocationLabelPythonPerMachine" Type="Text" Hidden="yes" X="15" Y="200" Width="249" Height="10" Text="Python $(var.PythonVersion) (install for all users):">
-                <Condition Action="show">NOT TargetDirFromParam AND PYTHON.MACHINE</Condition>
+                <Condition Action="show">NOT TargetDirParam AND PYTHON.MACHINE</Condition>
+                <Condition Action="hide">Installed</Condition>
             </Control>
             <Control Id="LocationLabelPythonPerUser" Type="Text" Hidden="yes" X="15" Y="200" Width="249" Height="10" Text="Python $(var.PythonVersion) (install just for me):">
-                <Condition Action="show">NOT TargetDirFromParam AND PYTHON.USER</Condition>
+                <Condition Action="show">NOT TargetDirParam AND PYTHON.USER</Condition>
+                <Condition Action="hide">Installed</Condition>
             </Control>
-            <Control Id="Location" Type="Text" X="25" Y="215" Width="200" Height="20" Text="[TARGETDIR]" />
-            <Control Id="Browse" Type="PushButton" Disabled="yes" Hidden="yes" X="294" Y="210" Width="66" Height="17" Text="!(loc.CustomizeDlgBrowse)">
-                <Publish Event="SelectionBrowse" Value="BrowseDlg">1</Publish>
-                <Condition Action="show">NOT Installed AND NOT TargetDirFromParam AND NOT PythonDetected</Condition>
-                <Condition Action="enable">NOT Installed AND NOT TargetDirFromParam AND NOT PythonDetected</Condition>
+            <Control Id="Location" Type="Text" X="25" Y="215" Width="200" Height="20" Text="[TARGETDIR]">
+                <Condition Action="hide">Installed</Condition>
             </Control>
 
             <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />

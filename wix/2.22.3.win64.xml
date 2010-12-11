@@ -11,14 +11,6 @@
         <Interpreter Version="2.7" />
     </Interpreters>
 
-    <!-- Some notes about the Level attribute of the Feature tag:
-         - Level 0   : do not install (disable the feature and prevent it from
-                       being displayed in the user interface
-         - Level 1   : install by default (enable the feature and display it in
-                       the user interface)
-         - Level 2   : install if requested (disable the feature but display it
-                       in the user interface) -->
-
     <Product>
         <Features>
             <Feature Id          = "PythonExtensionModules"
@@ -26,12 +18,11 @@
                      Description = "Installs Python $(var.PythonVersion) extension modules."
                      Display     = "expand"
                      Absent      = "disallow"
-                     Level       = "1"
-                     Container   = "true">
+                     Level       = "1">
 
                 <Feature Id          = "PythonExtensionModulePyGtk"
-                         Title       = "PyGtk 2.22.0"
-                         Description = "Installs the gtk, glade, pango, pangocairo and atk Python extension modules."
+                         Title       = "PyGTK 2.22.0"
+                         Description = "Installs the atk, pango, pangocairo, glade and gtk Python extension modules."
                          Absent      = "disallow"
                          Level       = "1">
 
@@ -41,12 +32,18 @@
                              Msi_26    = ""
                              Digest_26 = ""
                              Msi_27    = ""
-                             Digest_27 = "" />
+                             Digest_27 = "">
+
+                        <InternetShortcut Id="pygtkdocumentation"
+                                          Name="PyGTK Reference Manual"
+                                          Description="PyGTK Reference Manual"
+                                          Target="http://library.gnome.org/devel/pygtk/2.22/" />
+                    </Package>
                 </Feature>
 
                 <Feature Id          = "PythonExtensionModulePyGobject"
-                         Title       = "PyGobject 2.26.0"
-                         Description = "Installs the gobject and gio Python extension modules."
+                         Title       = "PyGObject 2.26.0"
+                         Description = "Installs the glib, gio and gobject Python extension modules."
                          Absent      = "disallow"
                          Level       = "1">
 
@@ -59,11 +56,16 @@
                              Digest_27 = "">
 
                         <CopyFile Id="pygtk.pth" Src="overlays/pygobject/" Dest=""/>
+
+                        <InternetShortcut Id="pygobjectdocumentation"
+                                          Name="PyGObject Reference Manual"
+                                          Description="PyGObject Reference Manual"
+                                          Target="http://library.gnome.org/devel/pygobject/2.26/" />
                     </Package>
                 </Feature>
 
                 <Feature Id          = "PythonExtensionModulePyCairo"
-                         Title       = "PyGairo 1.8.10"
+                         Title       = "PyCairo 1.8.10"
                          Description = "Installs the cairo Python extension module."
                          Absent      = "disallow"
                          Level       = "1">
@@ -74,7 +76,13 @@
                              Msi_26    = ""
                              Digest_26 = ""
                              Msi_27    = ""
-                             Digest_27 = "" />
+                             Digest_27 = "">
+
+                        <InternetShortcut Id="pycairodocumentation"
+                                          Name="PyCairo Reference Manual"
+                                          Description="PyCairo Documentation"
+                                          Target="http://cairographics.org/documentation/pycairo/2/" />
+                    </Package>
                 </Feature>
 
                 <Feature Id          = "PythonExtensionModulePyGtkSourceview2"
@@ -94,14 +102,14 @@
                     <Package Id        = "libgtksourceview"
                              Type      = "ArchiveSourcePackage"
                              Url       = ""
-                             archive   = ""
-                             digest    = "" />
+                             Archive   = ""
+                             Digest    = "" />
 
                     <Package Id        = "libgtksourceview_dev"
                              Type      = "ArchiveSourcePackage"
                              Url       = ""
-                             archive   = ""
-                             digest    = "" />
+                             Archive   = ""
+                             Digest    = "" />
                 </Feature>
 
                 <Feature Id          = "PythonExtensionModulePyGoocanvas"
@@ -121,14 +129,14 @@
                     <Package Id        = "libgoocanvas"
                              Type      = "ArchiveSourcePackage"
                              Url       = ""
-                             archive   = ""
-                             digest    = "" />
+                             Archive   = ""
+                             Digest    = "" />
 
                     <Package Id        = "libgoocanvas_dev"
                              Type      = "ArchiveSourcePackage"
                              Url       = ""
-                             archive   = ""
-                             digest    = "" />
+                             Archive   = ""
+                             Digest    = "" />
                 </Feature>
 
                 <Feature Id          = "PythonExtensionModulePyRsvg"
@@ -152,8 +160,7 @@
                      Description = "Installs development tools."
                      Absent      = "allow"
                      Display     = "expand"
-                     Level       = "2"
-                     Container   = "true">
+                     Level       = "2">
 
                 <Feature Id          = "glade"
                          Title       = "Glade UI Designer 3.6.7"
@@ -167,7 +174,18 @@
                              Archive_26 = ""
                              Archive_27 = ""
                              Digest_26  = ""
-                             Digest_27  = "" />
+                             Digest_27  = "">
+
+                        <Shortcut Id="GladeUiDesigner"
+                                  Name="Glade UI Designer"
+                                  Description="Glade UI Designer"
+                                  Target="[TARGETDIR]Lib\site-packages\gtk-2.0\runtime\bin\glade-3.exe" />
+
+                        <InternetShortcut Id="gladedocumentation"
+                                          Name="Glade UI Designer Manual"
+                                          Description="Glade UI Designer Manual"
+                                          Target="http://library.gnome.org/devel/glade/stable/" />
+                    </Package>
                 </Feature>
 
                 <Feature Id          = "langtools"
@@ -179,32 +197,32 @@
                     <Package Id        = "libiconv"
                              Type      = "ArchiveSourcePackage"
                              Url       = ""
-                             archive   = ""
-                             digest    = "" />
+                             Archive   = ""
+                             Digest    = "" />
 
                     <Package Id        = "gettext_tools"
                              Type      = "ArchiveSourcePackage"
                              Url       = ""
-                             archive   = ""
-                             digest    = "" />
+                             Archive   = ""
+                             Digest    = "" />
 
                     <Package Id        = "gettext_tools_dev"
                              Type      = "ArchiveSourcePackage"
                              Url       = ""
-                             archive   = ""
-                             digest    = "" />
+                             Archive   = ""
+                             Digest    = "" />
 
                     <Package Id        = "intltool"
                              Type      = "ArchiveSourcePackage"
                              Url       = ""
-                             archive   = ""
-                             digest    = "" />
+                             Archive   = ""
+                             Digest    = "" />
 
                     <Package Id        = "intltool_dev"
                              Type      = "ArchiveSourcePackage"
                              Url       = ""
-                             archive   = ""
-                             digest    = "" />
+                             Archive   = ""
+                             Digest    = "" />
                 </Feature>
             </Feature>
 
@@ -217,98 +235,112 @@
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "gtk_runtime"
                          Url     = ""
-                         archive = ""
-                         digest  = "" />
+                         Archive = ""
+                         Digest  = "">
+
+                    <CopyFile Id="reconfig.cmd" Src="overlays/runtime/bin/" Dest="bin" />
+                    <CopyFile Id="setenv.cmd" Src="overlays/runtime/bin/" Dest="bin" />
+                    <CopyFile Id="gtkrc" Src="overlays/runtime/etc/gtk-2.0/" Dest="etc/gtk-2.0/" />
+                    <CopyFile Id="pango.aliases" Src="overlays/runtime/etc/pango/" Dest="etc/pango/" />
+                    <CopyFile Id="__init__.py" Src="overlays/runtime/" Dest="" />
+
+                    <Shortcut Id="PyGtkCommandPrompt"
+                              Name="PyGtk Command Prompt"
+                              Description="PyGtk Command Prompt"
+                              Target="[System64Folder]cmd.exe"
+                              WorkingDirectory="[TARGETDIR]Lib\site-packages\gtk-2.0\runtime\bin\"
+                              Arguments="/E:ON /V:ON /T:0A /K &quot;[TARGETDIR]Lib\site-packages\gtk-2.0\runtime\bin\setenv.cmd&quot;" />
+                </Package>
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "libglade"
                          Url     = ""
-                         archive = ""
-                         digest  = "" />
+                         Archive = ""
+                         Digest  = "" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "libglade_dev"
                          Url     = ""
-                         archive = ""
-                         digest  = "" />
+                         Archive = ""
+                         Digest  = "" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "libxml2"
                          Url     = ""
-                         archive = ""
-                         digest  = "" />
+                         Archive = ""
+                         Digest  = "" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "libxml2_dev"
                          Url     = ""
-                         archive = ""
-                         digest  = "" />
+                         Archive = ""
+                         Digest  = "" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "librsvg"
                          Url     = ""
-                         archive = ""
-                         digest  = "" />
+                         Archive = ""
+                         Digest  = "" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "librsvg_dev"
                          Url     = ""
-                         archive = ""
-                         digest  = "" />
+                         Archive = ""
+                         Digest  = "" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "svg_gdk_pixbuf_loader"
                          Url     = ""
-                         archive = ""
-                         digest  = "" />
+                         Archive = ""
+                         Digest  = "" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "svg_gtk_engine"
                          Url     = ""
-                         archive = ""
-                         digest  = "" />
+                         Archive = ""
+                         Digest  = "" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "libcroco"
                          Url     = ""
-                         archive = ""
-                         digest  = "" />
+                         Archive = ""
+                         Digest  = "" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "libcroco_dev"
                          Url     = ""
-                         archive = ""
-                         digest  = "" />
+                         Archive = ""
+                         Digest  = "" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "libgsf"
                          Url     = ""
-                         archive = ""
-                         digest  = "" />
+                         Archive = ""
+                         Digest  = "" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "libgsf_dev"
                          Url     = ""
-                         archive = ""
-                         digest  = "" />
+                         Archive = ""
+                         Digest  = "" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "hicolor_icon_theme"
                          Url     = ""
-                         archive = ""
-                         digest  = "" />
+                         Archive = ""
+                         Digest  = "" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "icon_nameing_utils"
                          Url     = ""
-                         archive = ""
-                         digest  = "" />
+                         Archive = ""
+                         Digest  = "" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "tango_icon_theme"
                          Url     = ""
-                         archive = ""
-                         digest  = "" />
+                         Archive = ""
+                         Digest  = "" />
             </Feature>
         </Features>
     </Product>

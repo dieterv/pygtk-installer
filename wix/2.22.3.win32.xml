@@ -7,14 +7,6 @@
         <Interpreter Version="2.7" />
     </Interpreters>
 
-    <!-- Some notes about the Level attribute of the Feature tag:
-         - Level 0   : do not install (disable the feature and prevent it from
-                       being displayed in the user interface
-         - Level 1   : install by default (enable the feature and display it in
-                       the user interface)
-         - Level 2   : install if requested (disable the feature but display it
-                       in the user interface) -->
-
     <Product>
         <Features>
             <Feature Id          = "PythonExtensionModules"
@@ -22,12 +14,11 @@
                      Description = "Installs Python $(var.PythonVersion) extension modules."
                      Display     = "expand"
                      Absent      = "disallow"
-                     Level       = "1"
-                     Container   = "true">
+                     Level       = "1">
 
                 <Feature Id          = "PythonExtensionModulePyGtk"
-                         Title       = "PyGtk 2.22.0"
-                         Description = "Installs the gtk, glade, pango, pangocairo and atk Python extension modules."
+                         Title       = "PyGTK 2.22.0"
+                         Description = "Installs the atk, pango, pangocairo, glade and gtk Python extension modules."
                          Absent      = "disallow"
                          Level       = "1">
 
@@ -37,12 +28,18 @@
                              Msi_26    = "pygtk-2.22.0.win32-py2.6.msi"
                              Digest_26 = "3e02828739852ac248c4b4c41a732659"
                              Msi_27    = "pygtk-2.22.0.win32-py2.7.msi"
-                             Digest_27 = "166817569cd3a8112cbf168bae12bed0" />
+                             Digest_27 = "166817569cd3a8112cbf168bae12bed0">
+
+                        <InternetShortcut Id="pygtkdocumentation"
+                                          Name="PyGTK Reference Manual"
+                                          Description="PyGTK Reference Manual"
+                                          Target="http://library.gnome.org/devel/pygtk/2.22/" />
+                    </Package>
                 </Feature>
 
                 <Feature Id          = "PythonExtensionModulePyGobject"
-                         Title       = "PyGobject 2.26.0"
-                         Description = "Installs the gobject and gio Python extension modules."
+                         Title       = "PyGObject 2.26.0"
+                         Description = "Installs the glib, gio and gobject Python extension modules."
                          Absent      = "disallow"
                          Level       = "1">
 
@@ -55,11 +52,16 @@
                              Digest_27 = "0ca3515aa20e0d568a6793444b721dc5">
 
                         <CopyFile Id="pygtk.pth" Src="overlays/pygobject/" Dest=""/>
+
+                        <InternetShortcut Id="pygobjectdocumentation"
+                                          Name="PyGObject Reference Manual"
+                                          Description="PyGObject Reference Manual"
+                                          Target="http://library.gnome.org/devel/pygobject/2.26/" />
                     </Package>
                 </Feature>
 
                 <Feature Id          = "PythonExtensionModulePyCairo"
-                         Title       = "PyGairo 1.8.10"
+                         Title       = "PyCairo 1.8.10"
                          Description = "Installs the cairo Python extension module."
                          Absent      = "disallow"
                          Level       = "1">
@@ -70,7 +72,13 @@
                              Msi_26    = "pycairo-1.8.10.win32-py2.6.msi"
                              Digest_26 = "a801b870f4a5a4759ad4642c68b737d7"
                              Msi_27    = "pycairo-1.8.10.win32-py2.7.msi"
-                             Digest_27 = "3121a49d85759958e8db100f604115dc" />
+                             Digest_27 = "3121a49d85759958e8db100f604115dc">
+
+                        <InternetShortcut Id="pycairodocumentation"
+                                          Name="PyCairo Reference Manual"
+                                          Description="PyCairo Documentation"
+                                          Target="http://cairographics.org/documentation/pycairo/2/" />
+                    </Package>
                 </Feature>
 
                 <Feature Id          = "PythonExtensionModulePyGtkSourceview2"
@@ -90,14 +98,14 @@
                     <Package Id        = "libgtksourceview"
                              Type      = "ArchiveSourcePackage"
                              Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gtksourceview/2.10/"
-                             archive   = "gtksourceview-2.10.0.zip"
-                             digest    = "246460cc82a233f0aaffe2075b4455ef" />
+                             Archive   = "gtksourceview-2.10.0.zip"
+                             Digest    = "246460cc82a233f0aaffe2075b4455ef" />
 
                     <Package Id        = "libgtksourceview_dev"
                              Type      = "ArchiveSourcePackage"
                              Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gtksourceview/2.10/"
-                             archive   = "gtksourceview-dev-2.10.0.zip"
-                             digest    = "4510027ea0ab4fcb0e0d68fa596bccb5" />
+                             Archive   = "gtksourceview-dev-2.10.0.zip"
+                             Digest    = "4510027ea0ab4fcb0e0d68fa596bccb5" />
                 </Feature>
 
                 <Feature Id          = "PythonExtensionModulePyGoocanvas"
@@ -117,14 +125,14 @@
                     <Package Id        = "libgoocanvas"
                              Type      = "ArchiveSourcePackage"
                              Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/goocanvas/0.15/"
-                             archive   = "goocanvas-0.15-win32.zip"
-                             digest    = "18117c424950b6c014780af849508838" />
+                             Archive   = "goocanvas-0.15-win32.zip"
+                             Digest    = "18117c424950b6c014780af849508838" />
 
                     <Package Id        = "libgoocanvas_dev"
                              Type      = "ArchiveSourcePackage"
                              Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/goocanvas/0.15/"
-                             archive   = "goocanvas-dev-0.15-win32.zip"
-                             digest    = "c1068163ef67986598bce6dad5524e75" />
+                             Archive   = "goocanvas-dev-0.15-win32.zip"
+                             Digest    = "c1068163ef67986598bce6dad5524e75" />
                 </Feature>
 
                 <Feature Id          = "PythonExtensionModulePyRsvg"
@@ -148,8 +156,7 @@
                      Description = "Installs development tools."
                      Absent      = "allow"
                      Display     = "expand"
-                     Level       = "2"
-                     Container   = "true">
+                     Level       = "2">
 
                 <Feature Id          = "glade"
                          Title       = "Glade UI Designer 3.6.7"
@@ -163,7 +170,18 @@
                              Archive_26 = "glade3-3.6.7-0.win32-py26.zip"
                              Archive_27 = "glade3-3.6.7-0.win32-py27.zip"
                              Digest_26  = "94494839890d26b133c429ec162871c0"
-                             Digest_27  = "4859630d578b8ee00776fbc54512b519" />
+                             Digest_27  = "4859630d578b8ee00776fbc54512b519">
+
+                        <Shortcut Id="GladeUiDesigner"
+                                  Name="Glade UI Designer"
+                                  Description="Glade UI Designer"
+                                  Target="[TARGETDIR]Lib\site-packages\gtk-2.0\runtime\bin\glade-3.exe" />
+
+                        <InternetShortcut Id="gladedocumentation"
+                                          Name="Glade UI Designer Manual"
+                                          Description="Glade UI Designer Manual"
+                                          Target="http://library.gnome.org/devel/glade/stable/" />
+                    </Package>
                 </Feature>
 
                 <Feature Id          = "langtools"
@@ -175,20 +193,20 @@
                     <Package Id        = "libiconv"
                              Type      = "ArchiveSourcePackage"
                              Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
-                             archive   = "libiconv-1.9.1.bin.woe32.zip"
-                             digest    = "a18e9420d6a354b585a77230996b4171" />
+                             Archive   = "libiconv-1.9.1.bin.woe32.zip"
+                             Digest    = "a18e9420d6a354b585a77230996b4171" />
 
                     <Package Id        = "gettext_tools"
                              Type      = "ArchiveSourcePackage"
                              Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
-                             archive   = "gettext-tools_0.18.1.1-2_win32.zip"
-                             digest    = "e38076f290198adf75c7c3f5a7886653" />
+                             Archive   = "gettext-tools_0.18.1.1-2_win32.zip"
+                             Digest    = "e38076f290198adf75c7c3f5a7886653" />
 
                     <Package Id        = "gettext_tools_dev"
                              Type      = "ArchiveSourcePackage"
                              Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
-                             archive   = "gettext-tools-dev_0.18.1.1-2_win32.zip"
-                             digest    = "e5a6f32b28ba8a08173e1f6e2a8db0c1">
+                             Archive   = "gettext-tools-dev_0.18.1.1-2_win32.zip"
+                             Digest    = "e5a6f32b28ba8a08173e1f6e2a8db0c1">
 
                         <!-- these are already installed by gtk+-bundle_2.22.0-20101016_win32.zip -->
                         <RemoveFile Id="bin/libgcc_s_dw2-1.dll" />
@@ -202,14 +220,14 @@
                     <Package Id        = "intltool"
                              Type      = "ArchiveSourcePackage"
                              Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/intltool/0.40/"
-                             archive   = "intltool_0.40.4-1_win32.zip"
-                             digest    = "d03b3270a4ddafdc0d4e9bcc6dcc6b65" />
+                             Archive   = "intltool_0.40.4-1_win32.zip"
+                             Digest    = "d03b3270a4ddafdc0d4e9bcc6dcc6b65" />
 
                     <Package Id        = "intltool_dev"
                              Type      = "ArchiveSourcePackage"
                              Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/intltool/0.40/"
-                             archive   = "intltool-dev_0.40.4-1_win32.zip"
-                             digest    = "7e64b0128891406d89daea91cf9fd046" />
+                             Archive   = "intltool-dev_0.40.4-1_win32.zip"
+                             Digest    = "7e64b0128891406d89daea91cf9fd046" />
                 </Feature>
             </Feature>
 
@@ -222,104 +240,112 @@
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "gtk_runtime"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gtk+/2.22/"
-                         archive = "gtk+-bundle_2.22.0-20101016_win32.zip"
-                         digest  = "b0a879b50e5c86190c6fed4d7377aa5d">
+                         Archive = "gtk+-bundle_2.22.0-20101016_win32.zip"
+                         Digest  = "b0a879b50e5c86190c6fed4d7377aa5d">
 
-                    <CopyFile Id="__init__.py" Src="overlays/runtime/" Dest="" />
                     <CopyFile Id="reconfig.cmd" Src="overlays/runtime/bin/" Dest="bin" />
+                    <CopyFile Id="setenv.cmd" Src="overlays/runtime/bin/" Dest="bin" />
                     <CopyFile Id="gtkrc" Src="overlays/runtime/etc/gtk-2.0/" Dest="etc/gtk-2.0/" />
                     <CopyFile Id="pango.aliases" Src="overlays/runtime/etc/pango/" Dest="etc/pango/" />
+                    <CopyFile Id="__init__.py" Src="overlays/runtime/" Dest="" />
+
+                    <Shortcut Id="PyGtkCommandPrompt"
+                              Name="PyGtk Command Prompt"
+                              Description="PyGtk Command Prompt"
+                              Target="[System64Folder]cmd.exe"
+                              WorkingDirectory="[TARGETDIR]Lib\site-packages\gtk-2.0\runtime\bin\"
+                              Arguments="/E:ON /V:ON /T:0A /K &quot;[TARGETDIR]Lib\site-packages\gtk-2.0\runtime\bin\setenv.cmd&quot;" />
                 </Package>
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "libglade"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/libglade/2.6/"
-                         archive = "libglade_2.6.4-1_win32.zip"
-                         digest  = "268cc2332841f2a540ba4e1cb068a4dc" />
+                         Archive = "libglade_2.6.4-1_win32.zip"
+                         Digest  = "268cc2332841f2a540ba4e1cb068a4dc" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "libglade_dev"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/libglade/2.6/"
-                         archive = "libglade-dev_2.6.4-1_win32.zip"
-                         digest  = "261d57fc31e5e4ddc6758bbd9d54625b" />
+                         Archive = "libglade-dev_2.6.4-1_win32.zip"
+                         Digest  = "261d57fc31e5e4ddc6758bbd9d54625b" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "libxml2"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
-                         archive = "libxml2_2.7.7-1_win32.zip"
-                         digest  = "bd6b3d8c35e06a00937db65887c6e287" />
+                         Archive = "libxml2_2.7.7-1_win32.zip"
+                         Digest  = "bd6b3d8c35e06a00937db65887c6e287" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "libxml2_dev"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
-                         archive = "libxml2-dev_2.7.7-1_win32.zip"
-                         digest  = "b6f59b70eef0992df37f8db891d4b283" />
+                         Archive = "libxml2-dev_2.7.7-1_win32.zip"
+                         Digest  = "b6f59b70eef0992df37f8db891d4b283" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "librsvg"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/librsvg/2.26/"
-                         archive = "librsvg_2.26.2-1_win32.zip"
-                         digest  = "aec21e5a389fb9c65110f28a57f2bede" />
+                         Archive = "librsvg_2.26.2-1_win32.zip"
+                         Digest  = "aec21e5a389fb9c65110f28a57f2bede" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "librsvg_dev"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/librsvg/2.26/"
-                         archive = "librsvg-dev_2.26.2-1_win32.zip"
-                         digest  = "871870ba95d998a3713790c455ea8e35" />
+                         Archive = "librsvg-dev_2.26.2-1_win32.zip"
+                         Digest  = "871870ba95d998a3713790c455ea8e35" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "svg_gdk_pixbuf_loader"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/librsvg/2.26/"
-                         archive = "svg-gdk-pixbuf-loader_2.26.2-1_win32.zip"
-                         digest  = "c30dac5d0f9965fcbfb29d7eb282f86b" />
+                         Archive = "svg-gdk-pixbuf-loader_2.26.2-1_win32.zip"
+                         Digest  = "c30dac5d0f9965fcbfb29d7eb282f86b" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "svg_gtk_engine"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/librsvg/2.26/"
-                         archive = "svg-gtk-engine_2.26.2-1_win32.zip"
-                         digest  = "92f23be86fbfd617c3552a6f17d4b880" />
+                         Archive = "svg-gtk-engine_2.26.2-1_win32.zip"
+                         Digest  = "92f23be86fbfd617c3552a6f17d4b880" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "libcroco"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/libcroco/0.6/"
-                         archive = "libcroco_0.6.2-1_win32.zip"
-                         digest  = "2d90c71404be0de4e5f3259f63a3e278" />
+                         Archive = "libcroco_0.6.2-1_win32.zip"
+                         Digest  = "2d90c71404be0de4e5f3259f63a3e278" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "libcroco_dev"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/libcroco/0.6/"
-                         archive = "libcroco-dev_0.6.2-1_win32.zip"
-                         digest  = "bcaa8808e6dbee95b142b36a446718b3" />
+                         Archive = "libcroco-dev_0.6.2-1_win32.zip"
+                         Digest  = "bcaa8808e6dbee95b142b36a446718b3" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "libgsf"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/libgsf/1.14/"
-                         archive = "libgsf_1.14.17-1_win32.zip"
-                         digest  = "d23456b89c7f0c156889e9ddd6c5d96c" />
+                         Archive = "libgsf_1.14.17-1_win32.zip"
+                         Digest  = "d23456b89c7f0c156889e9ddd6c5d96c" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "libgsf_dev"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/libgsf/1.14/"
-                         archive = "libgsf-dev_1.14.17-1_win32.zip"
-                         digest  = "03c44275fc3097568b4b0466ba81b262" />
+                         Archive = "libgsf-dev_1.14.17-1_win32.zip"
+                         Digest  = "03c44275fc3097568b4b0466ba81b262" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "hicolor_icon_theme"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
-                         archive = "hicolor-icon-theme_0.10-1_win32.zip"
-                         digest  = "147807d828f42a81bf4a09c8737d4601" />
+                         Archive = "hicolor-icon-theme_0.10-1_win32.zip"
+                         Digest  = "147807d828f42a81bf4a09c8737d4601" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "icon_nameing_utils"
                          Url     = "http://www.optionexplicit.be/projects/gnome-windows/20100401/"
-                         archive = "icon-nameing-utils-0.8.90.zip"
-                         digest  = "2a9f74579b3b222e8664345a93eb40b3" />
+                         Archive = "icon-nameing-utils-0.8.90.zip"
+                         Digest  = "2a9f74579b3b222e8664345a93eb40b3" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "tango_icon_theme"
                          Url     = "http://www.optionexplicit.be/projects/gnome-windows/20100401/"
-                         archive = "tango-icon-theme-0.8.90.zip"
-                         digest  = "93286826b9cd53b588f3a500afb3b8ad" />
+                         Archive = "tango-icon-theme-0.8.90.zip"
+                         Digest  = "93286826b9cd53b588f3a500afb3b8ad" />
             </Feature>
         </Features>
     </Product>

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+
     <?define Platform               = "XXX"?>
     <?define PythonVersion          = "XXX"?>
     <?define ProductVersion         = "XXX"?>
@@ -10,7 +12,7 @@
     <?define OriginalProductVersion = "2.0.0"?>
 
     <?if $(var.Platform) = "x86"?>
-        <?define ProductName = "Python $(var.PythonVersion) PyGtk $(var.ProductVersion)"?>
+        <?define ProductName = "Python $(var.PythonVersion) PyGTK $(var.ProductVersion)"?>
         <?define Win64 = "no"?>
         <?if $(var.PythonVersion) = "2.6"?>
             <?define UpgradeCode = "{67D26C03-D5BD-4549-9FEA-76F9B8171584}"?>
@@ -20,7 +22,7 @@
             <?error Unknown Python version specified: $(var.PythonVersion)?>
         <?endif?>
     <?elseif $(var.Platform) = "x64"?>
-        <?define ProductName = "Python $(var.PythonVersion) PyGtk $(var.ProductVersion) (64 bit)"?>
+        <?define ProductName = "Python $(var.PythonVersion) PyGTK $(var.ProductVersion) (64 bit)"?>
         <?define Win64 = "yes"?>
         <?if $(var.PythonVersion) = "2.6"?>
             <?define UpgradeCode = "{65A7410A-6B75-4A97-9C3A-3450BB65615E}"?>
@@ -95,43 +97,40 @@
             <RegistrySearch Id="PYTHON.USER" Root="HKCU" Key="SOFTWARE\Python\PythonCore\$(var.PythonVersion)\InstallPath" Type="raw" />
         </Property>
 
-        <CustomAction Id="PreventDowngrading" Error="A newer version of $(var.ProductName) is already installed." />
-        <CustomAction Id="AllUsersFromParam" Property="AllUsersFromParam" Value="[ALLUSERS]" Execute="firstSequence" />
-        <CustomAction Id="TargetDirFromParam" Property="TargetDirFromParam" Value="[TARGETDIR]" Execute="firstSequence" />
-        <CustomAction Id="PythonX" Property="PythonDir" Value="[WindowsVolume]PythonX" Execute="firstSequence" />
-        <CustomAction Id="PythonFromMachine" Property="PythonDir" Value="[PYTHON.MACHINE]" Execute="firstSequence" />
-        <CustomAction Id="PythonFromUser" Property="PythonDir" Value="[PYTHON.USER]" Execute="firstSequence" />
-        <CustomAction Id="PythonDetected" Property="PythonDetected" Value="1" Execute="firstSequence" />
-        <CustomAction Id="InitialTargetDir" Property="TARGETDIR" Value="[PythonDir]" Execute="firstSequence" />
-        <CustomAction Id="InstallForJustMe" Property="ALLUSERS" Value="{}" Execute="firstSequence" />
-        <CustomAction Id="InstallForEveryone" Property="ALLUSERS" Value="1" Execute="firstSequence" />
+        <CustomAction Id="AllUsersParam" Property="AllUsersParam" Value="[ALLUSERS]" Execute="oncePerProcess" />
+        <CustomAction Id="TargetDirParam" Property="TargetDirParam" Value="[TARGETDIR]" Execute="oncePerProcess" />
+        <CustomAction Id="PythonFromMachine" Property="PythonDir" Value="[PYTHON.MACHINE]" Execute="oncePerProcess" />
+        <CustomAction Id="InstallForEveryone" Property="ALLUSERS" Value="1" Execute="oncePerProcess" />
+        <CustomAction Id="PythonFromUser" Property="PythonDir" Value="[PYTHON.USER]" Execute="oncePerProcess" />
+        <CustomAction Id="InstallForJustMe" Property="ALLUSERS" Value="{}" Execute="oncePerProcess" />
+        <CustomAction Id="InitialTargetDir" Property="TARGETDIR" Value="[PythonDir]" Execute="oncePerProcess" />
 
-        <InstallExecuteSequence>
-            <Custom Action="PreventDowngrading" Sequence="201">DOWNGRADEFOUND</Custom>
-            <Custom Action="AllUsersFromParam" Sequence="401" />
-            <Custom Action="TargetDirFromParam" Sequence="402" />
-            <Custom Action="PythonX" Sequence="403">NOT TargetDirFromParam</Custom>
-            <Custom Action="PythonFromMachine" Sequence="404">PYTHON.MACHINE AND NOT AllUsersFromParam AND NOT TargetDirFromParam</Custom>
-            <Custom Action="InstallForEveryone" Sequence="405">PYTHON.MACHINE AND NOT AllUsersFromParam AND NOT TargetDirFromParam</Custom>
-            <Custom Action="PythonFromUser" Sequence="406">PYTHON.USER AND NOT AllUsersFromParam AND NOT TargetDirFromParam</Custom>
-            <Custom Action="InstallForJustMe" Sequence="407">PYTHON.USER AND NOT AllUsersFromParam AND NOT TargetDirFromParam</Custom>
-            <Custom Action="PythonDetected" Sequence="408">(PYTHON.MACHINE OR PYTHON.USER) AND NOT AllUsersFromParam AND NOT TargetDirFromParam</Custom>
-            <Custom Action="InitialTargetDir" Sequence="409">NOT TargetDirFromParam</Custom>
-            <RemoveExistingProducts Sequence="1401" />
-        </InstallExecuteSequence>
+        <CustomAction Id="PreventDowngrading" Error="A newer version of $(var.ProductName) is already installed." />
+        <CustomAction Id="PythonNotFound" Error="Python $(var.PythonVersion) could not be located on your system. If Python $(var.PythonVersion) has been installed for a single user account, you should execute the PyGTK All-in-one $(var.ProductVersion) installer from the same account." />
+        <CustomAction Id="ValidateTargetDir" Error="TARGETDIR property is not set." />
 
         <InstallUISequence>
-            <Custom Action="PreventDowngrading" Sequence="201">DOWNGRADEFOUND</Custom>
-            <Custom Action="AllUsersFromParam" Sequence="401" />
-            <Custom Action="TargetDirFromParam" Sequence="402" />
-            <Custom Action="PythonX" Sequence="403">NOT TargetDirFromParam</Custom>
-            <Custom Action="PythonFromMachine" Sequence="404">PYTHON.MACHINE AND NOT AllUsersFromParam AND NOT TargetDirFromParam</Custom>
-            <Custom Action="InstallForEveryone" Sequence="405">PYTHON.MACHINE AND NOT AllUsersFromParam AND NOT TargetDirFromParam</Custom>
-            <Custom Action="PythonFromUser" Sequence="406">PYTHON.USER AND NOT AllUsersFromParam AND NOT TargetDirFromParam</Custom>
-            <Custom Action="InstallForJustMe" Sequence="407">PYTHON.USER AND NOT AllUsersFromParam AND NOT TargetDirFromParam</Custom>
-            <Custom Action="PythonDetected" Sequence="408">(PYTHON.MACHINE OR PYTHON.USER) AND NOT AllUsersFromParam AND NOT TargetDirFromParam</Custom>
-            <Custom Action="InitialTargetDir" Sequence="409">NOT TargetDirFromParam</Custom>
+            <AppSearch Sequence="50" />
+            <Custom Action="AllUsersParam" Sequence="51">NOT Installed</Custom>
+            <Custom Action="TargetDirParam" Sequence="52">NOT Installed</Custom>
+            <Custom Action="PythonFromMachine" Sequence="53">NOT Installed AND PYTHON.MACHINE AND NOT AllUsersParam AND NOT TargetDirParam</Custom>
+            <Custom Action="InstallForEveryone" Sequence="54">NOT Installed AND PYTHON.MACHINE AND NOT AllUsersParam AND NOT TargetDirParam</Custom>
+            <Custom Action="PythonFromUser" Sequence="55">NOT Installed AND PYTHON.USER AND NOT AllUsersParam AND NOT TargetDirParam</Custom>
+            <Custom Action="InstallForJustMe" Sequence="56">NOT Installed AND PYTHON.USER AND NOT AllUsersParam AND NOT TargetDirParam</Custom>
+            <Custom Action="InitialTargetDir" Sequence="57">NOT Installed AND NOT TargetDirParam</Custom>
+
+            <LaunchConditions Sequence="100" />
+            <Custom Action="PreventDowngrading" Sequence="101">DOWNGRADEFOUND</Custom>
+            <Custom Action="PythonNotFound" Sequence="102">NOT Installed AND NOT (PYTHON.MACHINE OR PYTHON.USER) AND NOT (AllUsersParam OR TargetDirParam)</Custom>
         </InstallUISequence>
+
+        <InstallExecuteSequence>
+            <LaunchConditions Sequence="100" />
+            <Custom Action="PreventDowngrading" Sequence="101">DOWNGRADEFOUND</Custom>
+            <Custom Action="ValidateTargetDir" Sequence="102">NOT Installed AND NOT TARGETDIR</Custom>
+
+            <RemoveExistingProducts Sequence="1401" />
+        </InstallExecuteSequence>
 
         <Feature Id="PyGTKAllInOne"
                  Title="PyGTK All-in-one"
@@ -146,10 +145,10 @@
         </Feature>
 
         <Directory Id="TARGETDIR" Name="SourceDir">
-            <!-- Referenced by container Features -->
             <Component Id="Empty" KeyPath="yes" Guid="{2957BDC1-E807-49fb-A46D-F70834B326C4}">
                 <CreateFolder />
             </Component>
+            <Directory Id="ProgramMenuFolder" />
         </Directory>
     </Product>
 </Wix>
