@@ -6,7 +6,7 @@
     <?define Platform               = "XXX"?>
     <?define PythonVersion          = "XXX"?>
     <?define ProductVersion         = "XXX"?>
-    <?define SrcImages              = "XXX"?>
+    <?define BinarySources          = "XXX"?>
     <?define Manufacturer           = "http://www.pygtk.org/"?>
     <?define ManufacturerContact    = "http://www.pygtk.org/feedback.html"?>
     <?define OriginalProductVersion = "2.0.0"?>
@@ -80,14 +80,14 @@
 
         <?include WixUI_PyGTK.wxs?>
         <UIRef Id="WixUI_PyGTK" />
-        <WixVariable Id="WixUIBannerBmp" Value="$(var.SrcImages)/PyGtkBanner.jpg" />
-        <WixVariable Id="WixUIDialogBmp" Value="$(var.SrcImages)/PyGtkDialog.jpg" />
-        <WixVariable Id="WixUIExclamationIco" Value="$(var.SrcImages)/PyGtkExclamationIco.ico" />
-        <WixVariable Id="WixUIInfoIco" Value="$(var.SrcImages)/PyGtkInfoIco.ico" />
-        <WixVariable Id="WixUINewIco" Value="$(var.SrcImages)/PyGtkNewIco.ico" />
-        <WixVariable Id="WixUIUpIco" Value="$(var.SrcImages)/PyGtkUpIco.ico" />
+        <WixVariable Id="WixUIBannerBmp" Value="$(var.BinarySources)/PyGtkBanner.jpg" />
+        <WixVariable Id="WixUIDialogBmp" Value="$(var.BinarySources)/PyGtkDialog.jpg" />
+        <WixVariable Id="WixUIExclamationIco" Value="$(var.BinarySources)/PyGtkExclamationIco.ico" />
+        <WixVariable Id="WixUIInfoIco" Value="$(var.BinarySources)/PyGtkInfoIco.ico" />
+        <WixVariable Id="WixUINewIco" Value="$(var.BinarySources)/PyGtkNewIco.ico" />
+        <WixVariable Id="WixUIUpIco" Value="$(var.BinarySources)/PyGtkUpIco.ico" />
 
-        <Icon Id="PyGtkIcon" SourceFile="$(var.SrcImages)/PyGtkIcon.ico" />
+        <Icon Id="PyGtkIcon" SourceFile="$(var.BinarySources)/PyGtkIcon.ico" />
         <Property Id="ARPPRODUCTICON" Value="PyGtkIcon" />
 
         <Property Id="PYTHON.MACHINE">
@@ -97,6 +97,7 @@
             <RegistrySearch Id="PYTHON.USER" Root="HKCU" Key="SOFTWARE\Python\PythonCore\$(var.PythonVersion)\InstallPath" Type="raw" />
         </Property>
 
+        <!-- AppSearch CustomActions -->
         <CustomAction Id="AllUsersParam" Property="AllUsersParam" Value="[ALLUSERS]" Execute="oncePerProcess" />
         <CustomAction Id="TargetDirParam" Property="TargetDirParam" Value="[TARGETDIR]" Execute="oncePerProcess" />
         <CustomAction Id="PythonFromMachine" Property="PythonDir" Value="[PYTHON.MACHINE]" Execute="oncePerProcess" />
@@ -105,9 +106,21 @@
         <CustomAction Id="InstallForJustMe" Property="ALLUSERS" Value="{}" Execute="oncePerProcess" />
         <CustomAction Id="InitialTargetDir" Property="TARGETDIR" Value="[PythonDir]" Execute="oncePerProcess" />
 
+        <!-- LaunchCondition CustomActions -->
         <CustomAction Id="PreventDowngrading" Error="A newer version of $(var.ProductName) is already installed." />
         <CustomAction Id="PythonNotFound" Error="Python $(var.PythonVersion) could not be located on your system. If Python $(var.PythonVersion) has been installed for a single user account, you should execute the PyGTK All-in-one $(var.ProductVersion) installer from the same account." />
         <CustomAction Id="ValidateTargetDir" Error="TARGETDIR property is not set." />
+
+        <!-- Pre InstallFinalize CustomActions
+        <CustomAction Id="prep_setup_pixbuf_loaders" Property="QtExecCmdLine" Execute="commit"
+                      Value="&quot;[TARGETDIR]python.exe&quot; -c &quot;import subprocess;output=open(r'[TARGETDIR]Lib\site-packages\gtk-2.0\runtime\etc\gtk-2.0\gdk-pixbuf.loaders', 'w');subprocess.Popen(r'[TARGETDIR]Lib\site-packages\gtk-2.0\runtime\bin\gdk-pixbuf-query-loaders.exe', stdout=output);output.close()&quot;" />
+        <CustomAction Id="setup_pixbuf_loaders" BinaryKey="WixCA" DllEntry="CAQuietExec" Execute="commit" Return="check" />
+        <CustomAction Id="prep_setup_immodules" Property="QtExecCmdLine" Execute="commit"
+                      Value="&quot;[TARGETDIR]python.exe&quot; -c &quot;import subprocess;output=open(r'[TARGETDIR]Lib\site-packages\gtk-2.0\runtime\etc\gtk-2.0\gtk.immodules', 'w');subprocess.Popen(r'[TARGETDIR]Lib\site-packages\gtk-2.0\runtime\bin\gtk-query-immodules-2.0.exe', stdout=output);output.close()&quot;" />
+        <CustomAction Id="setup_immodules" BinaryKey="WixCA" DllEntry="CAQuietExec" Execute="commit" Return="check" />
+        <CustomAction Id="prep_setup_pango_modules" Property="QtExecCmdLine" Execute="commit"
+                      Value="&quot;[TARGETDIR]python.exe&quot; -c &quot;import subprocess;output=open(r'[TARGETDIR]Lib\site-packages\gtk-2.0\runtime\etc\pango\pango.modules', 'w');subprocess.Popen(r'[TARGETDIR]Lib\site-packages\gtk-2.0\runtime\bin\pango-querymodules.exe', stdout=output);output.close()&quot;" />
+        <CustomAction Id="setup_pango_modules" BinaryKey="WixCA" DllEntry="CAQuietExec" Execute="commit" Return="check" /> -->
 
         <InstallUISequence>
             <AppSearch Sequence="50" />
@@ -130,6 +143,13 @@
             <Custom Action="ValidateTargetDir" Sequence="102">NOT Installed AND NOT TARGETDIR</Custom>
 
             <RemoveExistingProducts Sequence="1401" />
+
+            <!-- <Custom Action="prep_setup_pixbuf_loaders" Before="setup_pixbuf_loaders">NOT Installed</Custom>
+            <Custom Action="setup_pixbuf_loaders" Before="prep_setup_immodules">NOT Installed</Custom>
+            <Custom Action="prep_setup_immodules" Before="setup_immodules">NOT Installed</Custom>
+            <Custom Action="setup_immodules" Before="prep_setup_pango_modules">NOT Installed</Custom>
+            <Custom Action="prep_setup_pango_modules" Before="setup_pango_modules">NOT Installed</Custom>
+            <Custom Action="setup_pango_modules" Before="InstallFinalize">NOT Installed</Custom> -->
         </InstallExecuteSequence>
 
         <Feature Id="PyGTKAllInOne"

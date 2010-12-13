@@ -343,8 +343,8 @@ class Product(object):
             #TODO: child.tag seems to be a function for Comment and
             #      ProcessingInstruction elements? Feels dirty :(
             if 'ProcessingInstruction' in str(child.tag):
-                if 'SrcImages' in child.text:
-                    child.text = child.text.replace('XXX', join(WIXDIR, 'images'))
+                if 'BinarySources' in child.text:
+                    child.text = child.text.replace('XXX', join(WIXDIR, 'binary'))
                 elif 'Platform' in child.text:
                     child.text = child.text.replace('XXX', WIX_PLATFORM)
                 elif 'PythonVersion' in child.text:
@@ -455,6 +455,7 @@ class Product(object):
         file = open(logfile, 'w')
         process = Popen([WIX_LIGHT,
                          '-nologo',
+                         '-sice:ICE03',
                          '-sice:ICE38',
                          '-sice:ICE43',
                          '-sice:ICE57',
