@@ -74,22 +74,22 @@ def _putenv(name, value):
 
 
 if sys.platform == 'win32' or sys.platform == 'nt':
-    runtime = os.path.abspath(os.path.join(os.path.dirname(__file__), 'bin'))
+    RUNTIME = os.path.abspath(os.path.join(os.path.dirname(__file__), 'bin'))
     PATH = os.environ['PATH'].split(os.pathsep)
     ABSPATH = [os.path.abspath(x) for x in PATH]
 
-    if ABSPATH[0] != runtime:
+    if ABSPATH[0] != RUNTIME:
         if sys.flags.verbose:
-            sys.stderr.write('* pygtk-runtime: prepending "%s" to PATH\n' % runtime)
+            sys.stderr.write('* pygtk-runtime: prepending "%s" to PATH\n' % RUNTIME)
             sys.stderr.write('* pygtk-runtime: original PATH="%s"\n' % os.pathsep.join(PATH))
             sys.stderr.flush()
 
-        PATH.insert(0, runtime)
+        PATH.insert(0, RUNTIME)
         _putenv('PATH', os.pathsep.join(PATH))
 
         if sys.flags.verbose:
             sys.stderr.write('* pygtk-runtime: modified PATH="%s"\n' % os.pathsep.join(PATH))
     else:
         if sys.flags.verbose:
-            sys.stderr.write('* pygtk-runtime: "%s" already on PATH\n' % runtime)
+            sys.stderr.write('* pygtk-runtime: "%s" already on PATH\n' % RUNTIME)
             sys.stderr.flush()
