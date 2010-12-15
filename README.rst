@@ -73,9 +73,9 @@ Custom installation
 ===================
 
 Like any other Windows Installer package, you can change how PyGTK All-in-one
-will be installed on you system by passing parameters and/or by setting
-public properties to msiexec. Execute `msiexec /help` for a list of options
-supported for all .msi installation packages.
+will be installed on you system by passing parameters (setting public properties
+for those familiar with windows installer). Execute `msiexec /help` for a list
+of options supported for all .msi installation packages.
 
 Target directory
 ----------------
