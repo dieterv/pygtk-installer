@@ -180,7 +180,7 @@
                         <InternetShortcut Id="gladedocumentation"
                                           Name="Glade UI Designer Manual"
                                           Description="Glade UI Designer Manual"
-                                          Target="http://library.gnome.org/devel/glade/stable/" />
+                                          Target="http://library.gnome.org/devel/glade/3.6/"/>
                     </Package>
                 </Feature>
 
