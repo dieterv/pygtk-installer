@@ -290,8 +290,19 @@ class Product(object):
     def do_clean(self):
         info('Cleaning build environment...', 1)
 
+        def rmtree_errorhandler(func, path, exc_info):
+            # We don't really care if we leave behind empty directories,
+            # maybe some console's cwd is somewhere in self.builddir...
+            # The rest we do care about, so raise!
+            typ, val, tb = exc_info
+
+            if func == os.rmdir:
+                pass
+            else:
+                raise typ, val, tb
+
         if isdir(join(self.builddir, '..')):
-            rmtree(join(self.builddir, '..'), ignore_errors=False)
+            rmtree(join(self.builddir, '..'), ignore_errors=False, onerror=rmtree_errorhandler)
 
     def do_prepare(self):
         info('Preparing build environment...', 1)

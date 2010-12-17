@@ -109,18 +109,15 @@
         <!-- LaunchCondition CustomActions -->
         <CustomAction Id="PreventDowngrading" Error="A newer version of $(var.ProductName) is already installed." />
         <CustomAction Id="PythonNotFound" Error="Python $(var.PythonVersion) could not be located on your system. If Python $(var.PythonVersion) has been installed for a single user account, you should execute the PyGTK All-in-one $(var.ProductVersion) installer from the same account." />
-        <CustomAction Id="ValidateTargetDir" Error="TARGETDIR property is not set." />
+        <CustomAction Id="RequireTargetDir" Error="TARGETDIR property is not set." />
 
-        <!-- Pre InstallFinalize CustomActions
-        <CustomAction Id="prep_setup_pixbuf_loaders" Property="QtExecCmdLine" Execute="commit"
-                      Value="&quot;[TARGETDIR]python.exe&quot; -c &quot;import subprocess;output=open(r'[TARGETDIR]Lib\site-packages\gtk-2.0\runtime\etc\gtk-2.0\gdk-pixbuf.loaders', 'w');subprocess.Popen(r'[TARGETDIR]Lib\site-packages\gtk-2.0\runtime\bin\gdk-pixbuf-query-loaders.exe', stdout=output);output.close()&quot;" />
-        <CustomAction Id="setup_pixbuf_loaders" BinaryKey="WixCA" DllEntry="CAQuietExec" Execute="commit" Return="check" />
-        <CustomAction Id="prep_setup_immodules" Property="QtExecCmdLine" Execute="commit"
-                      Value="&quot;[TARGETDIR]python.exe&quot; -c &quot;import subprocess;output=open(r'[TARGETDIR]Lib\site-packages\gtk-2.0\runtime\etc\gtk-2.0\gtk.immodules', 'w');subprocess.Popen(r'[TARGETDIR]Lib\site-packages\gtk-2.0\runtime\bin\gtk-query-immodules-2.0.exe', stdout=output);output.close()&quot;" />
-        <CustomAction Id="setup_immodules" BinaryKey="WixCA" DllEntry="CAQuietExec" Execute="commit" Return="check" />
-        <CustomAction Id="prep_setup_pango_modules" Property="QtExecCmdLine" Execute="commit"
-                      Value="&quot;[TARGETDIR]python.exe&quot; -c &quot;import subprocess;output=open(r'[TARGETDIR]Lib\site-packages\gtk-2.0\runtime\etc\pango\pango.modules', 'w');subprocess.Popen(r'[TARGETDIR]Lib\site-packages\gtk-2.0\runtime\bin\pango-querymodules.exe', stdout=output);output.close()&quot;" />
-        <CustomAction Id="setup_pango_modules" BinaryKey="WixCA" DllEntry="CAQuietExec" Execute="commit" Return="check" /> -->
+        <!-- Post WriteIniValues CustomActions -->
+        <CustomAction Id="setup_config_files"
+                      Directory="TARGETDIR"
+                      ExeCommand="&quot;[TARGETDIR]pythonw.exe&quot; -B -E -S &quot;[TempFolder]pygtk_setup_config_files.py&quot; &quot;[TARGETDIR]\&quot; &quot;[TempFolder]\&quot;"
+                      Execute="commit"
+                      Impersonate="yes"
+                      Return="check" />
 
         <InstallUISequence>
             <AppSearch Sequence="50" />
@@ -140,16 +137,11 @@
         <InstallExecuteSequence>
             <LaunchConditions Sequence="100" />
             <Custom Action="PreventDowngrading" Sequence="101">DOWNGRADEFOUND</Custom>
-            <Custom Action="ValidateTargetDir" Sequence="102">NOT Installed AND NOT TARGETDIR</Custom>
+            <Custom Action="RequireTargetDir" Sequence="102">NOT Installed AND NOT TARGETDIR</Custom>
 
             <RemoveExistingProducts Sequence="1401" />
 
-            <!-- <Custom Action="prep_setup_pixbuf_loaders" Before="setup_pixbuf_loaders">NOT Installed</Custom>
-            <Custom Action="setup_pixbuf_loaders" Before="prep_setup_immodules">NOT Installed</Custom>
-            <Custom Action="prep_setup_immodules" Before="setup_immodules">NOT Installed</Custom>
-            <Custom Action="setup_immodules" Before="prep_setup_pango_modules">NOT Installed</Custom>
-            <Custom Action="prep_setup_pango_modules" Before="setup_pango_modules">NOT Installed</Custom>
-            <Custom Action="setup_pango_modules" Before="InstallFinalize">NOT Installed</Custom> -->
+            <Custom Action="setup_config_files" After="WriteIniValues">NOT Installed</Custom>
         </InstallExecuteSequence>
 
         <Feature Id="PyGTKAllInOne"
@@ -161,14 +153,22 @@
                  Level="1"
                  AllowAdvertise="no"
                  InstallDefault="local">
+            <ComponentRef Id="TempScripts" />
             <ComponentRef Id="Empty" />
         </Feature>
 
         <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="TempFolder" Name="Temp">
+                <Component Id="TempScripts" Guid="{3BE80FA8-CC1A-49F6-B293-D107E142FB7D}">
+                  <File Id="pygtk_setup_config_files" Name="pygtk_setup_config_files.py" Source="$(var.BinarySources)/pygtk_setup_config_files.py" />
+                </Component>
+            </Directory>
+
+            <Directory Id="ProgramMenuFolder" />
+
             <Component Id="Empty" KeyPath="yes" Guid="{2957BDC1-E807-49fb-A46D-F70834B326C4}">
                 <CreateFolder />
             </Component>
-            <Directory Id="ProgramMenuFolder" />
         </Directory>
     </Product>
 </Wix>

@@ -243,7 +243,6 @@
                          Archive = "gtk+-bundle_2.22.0-20101016_win32.zip"
                          Digest  = "b0a879b50e5c86190c6fed4d7377aa5d">
 
-                    <CopyFile Id="reconfig.cmd" Src="overlays/runtime/bin/" Dest="bin" />
                     <CopyFile Id="setenv.cmd" Src="overlays/runtime/bin/" Dest="bin" />
                     <CopyFile Id="gtkrc" Src="overlays/runtime/etc/gtk-2.0/" Dest="etc/gtk-2.0/" />
                     <CopyFile Id="pango.aliases" Src="overlays/runtime/etc/pango/" Dest="etc/pango/" />

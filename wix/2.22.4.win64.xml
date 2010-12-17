@@ -184,7 +184,7 @@
                         <InternetShortcut Id="gladedocumentation"
                                           Name="Glade UI Designer Manual"
                                           Description="Glade UI Designer Manual"
-                                          Target="http://library.gnome.org/devel/glade/stable/" />
+                                          Target="http://library.gnome.org/devel/glade/3.6/"/>
                     </Package>
                 </Feature>
 
@@ -238,7 +238,6 @@
                          Archive = ""
                          Digest  = "">
 
-                    <CopyFile Id="reconfig.cmd" Src="overlays/runtime/bin/" Dest="bin" />
                     <CopyFile Id="setenv.cmd" Src="overlays/runtime/bin/" Dest="bin" />
                     <CopyFile Id="gtkrc" Src="overlays/runtime/etc/gtk-2.0/" Dest="etc/gtk-2.0/" />
                     <CopyFile Id="pango.aliases" Src="overlays/runtime/etc/pango/" Dest="etc/pango/" />
