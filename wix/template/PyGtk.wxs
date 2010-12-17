@@ -73,10 +73,9 @@
                             Property="UPGRADEFOUND" />
         </Upgrade>
 
-        <Media Id="1"
-               Cabinet="distfiles"
-               CompressionLevel="high"
-               EmbedCab="yes" />
+        <Media Id="1" Cabinet="distfiles" CompressionLevel="high" EmbedCab="yes" />
+        <Icon Id="PyGtkIcon" SourceFile="$(var.BinarySources)/PyGtkIcon.ico" />
+        <Property Id="ARPPRODUCTICON" Value="PyGtkIcon" />
 
         <?include WixUI_PyGTK.wxs?>
         <UIRef Id="WixUI_PyGTK" />
@@ -87,17 +86,13 @@
         <WixVariable Id="WixUINewIco" Value="$(var.BinarySources)/PyGtkNewIco.ico" />
         <WixVariable Id="WixUIUpIco" Value="$(var.BinarySources)/PyGtkUpIco.ico" />
 
-        <Icon Id="PyGtkIcon" SourceFile="$(var.BinarySources)/PyGtkIcon.ico" />
-        <Property Id="ARPPRODUCTICON" Value="PyGtkIcon" />
-
+        <!-- AppSearch Sequence -->
         <Property Id="PYTHON.MACHINE">
             <RegistrySearch Id="PYTHON.MACHINE" Root="HKLM" Key="SOFTWARE\Python\PythonCore\$(var.PythonVersion)\InstallPath" Type="raw" />
         </Property>
         <Property Id="PYTHON.USER">
             <RegistrySearch Id="PYTHON.USER" Root="HKCU" Key="SOFTWARE\Python\PythonCore\$(var.PythonVersion)\InstallPath" Type="raw" />
         </Property>
-
-        <!-- AppSearch CustomActions -->
         <CustomAction Id="AllUsersParam" Property="AllUsersParam" Value="[ALLUSERS]" Execute="oncePerProcess" />
         <CustomAction Id="TargetDirParam" Property="TargetDirParam" Value="[TARGETDIR]" Execute="oncePerProcess" />
         <CustomAction Id="PythonFromMachine" Property="PythonDir" Value="[PYTHON.MACHINE]" Execute="oncePerProcess" />
@@ -106,12 +101,12 @@
         <CustomAction Id="InstallForJustMe" Property="ALLUSERS" Value="{}" Execute="oncePerProcess" />
         <CustomAction Id="InitialTargetDir" Property="TARGETDIR" Value="[PythonDir]" Execute="oncePerProcess" />
 
-        <!-- LaunchCondition CustomActions -->
+        <!-- LaunchCondition Sequence -->
         <CustomAction Id="PreventDowngrading" Error="A newer version of $(var.ProductName) is already installed." />
-        <CustomAction Id="PythonNotFound" Error="Python $(var.PythonVersion) could not be located on your system. If Python $(var.PythonVersion) has been installed for a single user account, you should execute the PyGTK All-in-one $(var.ProductVersion) installer from the same account." />
+        <CustomAction Id="PythonNotFound" Error="Python $(var.PythonVersion) could not be located on your system." />
         <CustomAction Id="RequireTargetDir" Error="TARGETDIR property is not set." />
 
-        <!-- Post WriteIniValues CustomActions -->
+        <!-- WriteIniValues Sequence -->
         <CustomAction Id="setup_config_files"
                       Directory="TARGETDIR"
                       ExeCommand="&quot;[TARGETDIR]pythonw.exe&quot; -B -E -S &quot;[TempFolder]pygtk_setup_config_files.py&quot; &quot;[TARGETDIR]\&quot; &quot;[TempFolder]\&quot;"
