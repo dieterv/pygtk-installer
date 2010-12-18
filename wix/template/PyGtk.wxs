@@ -124,17 +124,15 @@
             <Custom Action="InstallForJustMe" Sequence="56">NOT Installed AND PYTHON.USER AND NOT AllUsersParam AND NOT TargetDirParam</Custom>
             <Custom Action="InitialTargetDir" Sequence="57">NOT Installed AND NOT TargetDirParam</Custom>
 
-            <LaunchConditions Sequence="100" />
-            <Custom Action="PreventDowngrading" Sequence="101">DOWNGRADEFOUND</Custom>
-            <Custom Action="PythonNotFound" Sequence="102">NOT Installed AND NOT (PYTHON.MACHINE OR PYTHON.USER) AND NOT (AllUsersParam OR TargetDirParam)</Custom>
+            <Custom Action="PreventDowngrading" After="LaunchConditions">DOWNGRADEFOUND</Custom>
+            <Custom Action="PythonNotFound" After="PreventDowngrading">NOT Installed AND NOT (PYTHON.MACHINE OR PYTHON.USER) AND NOT (AllUsersParam OR TargetDirParam)</Custom>
         </InstallUISequence>
 
         <InstallExecuteSequence>
-            <LaunchConditions Sequence="100" />
-            <Custom Action="PreventDowngrading" Sequence="101">DOWNGRADEFOUND</Custom>
-            <Custom Action="RequireTargetDir" Sequence="102">NOT Installed AND NOT TARGETDIR</Custom>
+            <Custom Action="PreventDowngrading" After="LaunchConditions">DOWNGRADEFOUND</Custom>
+            <Custom Action="RequireTargetDir" After="PreventDowngrading">NOT Installed AND NOT TARGETDIR</Custom>
 
-            <RemoveExistingProducts Sequence="1401" />
+            <RemoveExistingProducts After="InstallValidate" />
 
             <Custom Action="setup_config_files" After="WriteIniValues">NOT Installed</Custom>
         </InstallExecuteSequence>
