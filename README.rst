@@ -200,3 +200,24 @@ If something went wrong when uninstalling, you'll need an unistall log. Execute
 the following command from a Command Prompt (cmd.exe)::
 
     %WINDIR%\system32\msiexec.exe -x pygtk-all-in-one-X.X.X.winYY-pyZ.Z.msi /l*vx uninstall.log
+
+Known issues with 2.22.4
+========================
+
+- The bundled svg_pixbuf_loader does not seem to be compatible with the new,
+  split gdk-pixbuf-2.22.0. Other svg functionality works fine.
+- In theory, Windows 2000 should be supported, but:
+
+    - in practice the gtk+ binaries on ftp.gnome.org are affected by
+      libgio-2.0-0.dll needing the freeaddrinfo() function defined in wspiapi.h (ws2_32.dll)
+      refer to the following for more info:
+
+        - https://bugzilla.gnome.org/show_bug.cgi?id=610502#c6
+        - http://msdn.microsoft.com/en-us/library/ms737931%28v=vs.85%29.aspx
+
+    - The need for gdiplus.dll:
+
+        - Download the GDI+ Platform SDK redistributable from http://www.microsoft.com/downloads/en/details.aspx?FamilyID=6a63ab9c-df12-4d41-933c-be590feaa05a&displaylang=en
+        - Execute the downloaded WindowsXP-KB975337-x86-ENU.exe and it will ask to
+        - extract some files. Copy the extracted asms\10\msft\windows\gdiplus\gdiplus.dll
+        - file to C:\Python2X\Lib\site-packages\gtk-2.0\runtime\bin
