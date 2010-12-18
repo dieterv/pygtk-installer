@@ -208,7 +208,7 @@
                              Archive   = "gettext-tools-dev_0.18.1.1-2_win32.zip"
                              Digest    = "e5a6f32b28ba8a08173e1f6e2a8db0c1">
 
-                        <!-- these are already installed by gtk+-bundle_2.22.0-20101016_win32.zip -->
+                        <!-- these are already installed by gettext-runtime(-dev) -->
                         <RemoveFile Id="bin/libgcc_s_dw2-1.dll" />
                         <RemoveFile Id="share/doc/gettext/envsubst.1.html" />
                         <RemoveFile Id="share/doc/gettext/gettext.1.html" />
@@ -237,16 +237,120 @@
                      Absent         = "disallow"
                      Level          = "1">
 
+                <!-- gtk+-bundle: this is gtk+-bundle_2.22.0-20101016_win32 unbundled,
+                     refer to share/doc/gtk+-bundle_2.22.0-20101016_win32\components.lst,
+                     sorted alphabetically (makes updating this list easy) -->
                 <Package Type    = "ArchiveSourcePackage"
-                         Id      = "gtk_runtime"
-                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gtk+/2.22/"
-                         Archive = "gtk+-bundle_2.22.0-20101016_win32.zip"
-                         Digest  = "b0a879b50e5c86190c6fed4d7377aa5d">
+                         Id      = "atk_dev"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/atk/1.32/"
+                         Archive = "atk-dev_1.32.0-1_win32.zip"
+                         Digest  = "d8e30a67549fa85cd97326d00f556ea8" />
 
-                    <CopyFile Id="setenv.cmd" Src="overlays/runtime/bin/" Dest="bin" />
-                    <CopyFile Id="gtkrc" Src="overlays/runtime/etc/gtk-2.0/" Dest="etc/gtk-2.0/" />
-                    <CopyFile Id="pango.aliases" Src="overlays/runtime/etc/pango/" Dest="etc/pango/" />
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "atk"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/atk/1.32/"
+                         Archive = "atk_1.32.0-1_win32.zip"
+                         Digest  = "807aa6e5afe3d4c5ede96a0281827178" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "cairo_dev"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
+                         Archive = "cairo-dev_1.10.0-1_win32.zip"
+                         Digest  = "04496d1a4249795365c1d84cacdf7438" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "cairo"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
+                         Archive = "cairo_1.10.0-1_win32.zip"
+                         Digest  = "dbe07c76efe9566b8c21f25b3aa5b81a" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "expat_dev"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
+                         Archive = "expat-dev_2.0.1-1_win32.zip"
+                         Digest  = "c68c84100e961632ebfe9aa3c7ca7ba2" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "expat"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
+                         Archive = "expat_2.0.1-1_win32.zip"
+                         Digest  = "99da6bef2cfb051ecda4d70ff24ed149" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "fontconfig_dev"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
+                         Archive = "fontconfig-dev_2.8.0-2_win32.zip"
+                         Digest  = "f25312907c809c69a172b4bda9b99d3c" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "fontconfig"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
+                         Archive = "fontconfig_2.8.0-2_win32.zip"
+                         Digest  = "1ec9bc0123bc8b2d9e273272bfeb9795" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "freetype_dev"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
+                         Archive = "freetype-dev_2.4.2-1_win32.zip"
+                         Digest  = "13bf59e4bf720dd2595cd351ea8ac716" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "freetype"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
+                         Archive = "freetype_2.4.2-1_win32.zip"
+                         Digest  = "3087ab1ad08716621fdb43e94f2b3bc1" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "gdk_pixbuf_dev"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gdk-pixbuf/2.22/"
+                         Archive = "gdk-pixbuf-dev_2.22.0-1_win32.zip"
+                         Digest  = "f54803eb3a7a205056cf396833de7718" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "gdk_pixbuf"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gdk-pixbuf/2.22/"
+                         Archive = "gdk-pixbuf_2.22.0-1_win32.zip"
+                         Digest  = "64e4b23aef87f48efb0702a06fafaa4c" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "gettext_runtime_dev"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
+                         Archive = "gettext-runtime-dev_0.18.1.1-2_win32.zip"
+                         Digest  = "a3969caf51bcc92c58ff30fabd1b707b" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "gettext_runtime"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
+                         Archive = "gettext-runtime_0.18.1.1-2_win32.zip"
+                         Digest  = "c2aa52eb2de5b3ba6659a22835b6b563" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "glib_dev"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/glib/2.26/"
+                         Archive = "glib-dev_2.26.0-2_win32.zip"
+                         Digest  = "998641a0d617d547ef579b5ac1d9578c" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "glib"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/glib/2.26/"
+                         Archive = "glib_2.26.0-2_win32.zip"
+                         Digest  = "d2b01c1e4ec40b4a8dc76d9b809b1795" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "gtk_dev"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gtk+/2.22/"
+                         Archive = "gtk+-dev_2.22.0-2_win32.zip"
+                         Digest  = "af0271e82c912e4588a5b36541dd819b" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "gtk"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gtk+/2.22/"
+                         Archive = "gtk+_2.22.0-2_win32.zip"
+                         Digest  = "092421cae800722d3b961164b8407090">
+
                     <CopyFile Id="__init__.py" Src="overlays/runtime/" Dest="" />
+                    <CopyFile Id="gtkrc" Src="overlays/runtime/etc/gtk-2.0/" Dest="etc/gtk-2.0/" />
+                    <CopyFile Id="setenv.cmd" Src="overlays/runtime/bin/" Dest="bin" />
 
                     <Shortcut Id="PyGtkCommandPrompt"
                               Name="PyGtk Command Prompt"
@@ -257,16 +361,74 @@
                 </Package>
 
                 <Package Type    = "ArchiveSourcePackage"
-                         Id      = "libglade"
-                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/libglade/2.6/"
-                         Archive = "libglade_2.6.4-1_win32.zip"
-                         Digest  = "268cc2332841f2a540ba4e1cb068a4dc" />
+                         Id      = "libpng_dev"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
+                         Archive = "libpng-dev_1.4.3-1_win32.zip"
+                         Digest  = "a79a54a3f673f54b9be37c569cd8686d" />
 
                 <Package Type    = "ArchiveSourcePackage"
-                         Id      = "libglade_dev"
-                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/libglade/2.6/"
-                         Archive = "libglade-dev_2.6.4-1_win32.zip"
-                         Digest  = "261d57fc31e5e4ddc6758bbd9d54625b" />
+                         Id      = "libpng"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
+                         Archive = "libpng_1.4.3-1_win32.zip"
+                         Digest  = "44ee062641a204f65f0e96720fe57282" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "pango_dev"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/pango/1.28/"
+                         Archive = "pango-dev_1.28.3-1_win32.zip"
+                         Digest  = "77f12eb4102c1c72b00d883390cbc698" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "pango"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/pango/1.28/"
+                         Archive = "pango_1.28.3-1_win32.zip"
+                         Digest  = "311232fb3f5df52f3722ee68c9f39f4d">
+
+                    <CopyFile Id="pango.aliases" Src="overlays/runtime/etc/pango/" Dest="etc/pango/" />
+                </Package>
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "pixman_dev"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
+                         Archive = "pixman-dev_0.18.4-2_win32.zip"
+                         Digest  = "2f50097c5c419584e6498a50563d98cf" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "pixman"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
+                         Archive = "pixman_0.18.4-2_win32.zip"
+                         Digest  = "5f88c905f020277317139d4173d08f70" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "pkgconfig_dev"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
+                         Archive = "pkg-config-dev_0.23-3_win32.zip"
+                         Digest  = "9d69b4dbf01599d8586f9940963ec8d6" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "pkgconfig"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
+                         Archive = "pkg-config_0.23-3_win32.zip"
+                         Digest  = "2af054f5abacb6dd6c272d6b6714da18" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "zlib"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
+                         Archive = "zlib_1.2.5-2_win32.zip"
+                         Digest  = "453d63205afcd648f5d6f9ed59f1cc82" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "zlib_dev"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
+                         Archive = "zlib-dev_1.2.5-2_win32.zip"
+                         Digest  = "ee72db6f8b99f9d58727c275f3fa6fe0" />
+
+                <!-- libxml2: we need this for librsvg, libglade, ... -->
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "libxml2_dev"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
+                         Archive = "libxml2-dev_2.7.7-1_win32.zip"
+                         Digest  = "b6f59b70eef0992df37f8db891d4b283" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "libxml2"
@@ -274,12 +436,20 @@
                          Archive = "libxml2_2.7.7-1_win32.zip"
                          Digest  = "bd6b3d8c35e06a00937db65887c6e287" />
 
+                <!-- libglade -->
                 <Package Type    = "ArchiveSourcePackage"
-                         Id      = "libxml2_dev"
-                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
-                         Archive = "libxml2-dev_2.7.7-1_win32.zip"
-                         Digest  = "b6f59b70eef0992df37f8db891d4b283" />
+                         Id      = "libglade_dev"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/libglade/2.6/"
+                         Archive = "libglade-dev_2.6.4-1_win32.zip"
+                         Digest  = "261d57fc31e5e4ddc6758bbd9d54625b" />
 
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "libglade"
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/libglade/2.6/"
+                         Archive = "libglade_2.6.4-1_win32.zip"
+                         Digest  = "268cc2332841f2a540ba4e1cb068a4dc" />
+
+                <!-- librsvg -->
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "librsvg"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/librsvg/2.26/"
@@ -328,6 +498,7 @@
                          Archive = "libgsf-dev_1.14.17-1_win32.zip"
                          Digest  = "03c44275fc3097568b4b0466ba81b262" />
 
+                <!-- icon theme -->
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "hicolor_icon_theme"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"

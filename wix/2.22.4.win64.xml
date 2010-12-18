@@ -232,16 +232,120 @@
                      Absent         = "disallow"
                      Level          = "1">
 
+                <!-- gtk+-bundle: this is gtk+-bundle_2.22.0-20101016_win32 unbundled,
+                     refer to share/doc/gtk+-bundle_2.22.0-20101016_win32\components.lst,
+                     sorted alphabetically (makes updating this list easy) -->
                 <Package Type    = "ArchiveSourcePackage"
-                         Id      = "gtk_runtime"
+                         Id      = "atk_dev"
+                         Url     = ""
+                         Archive = ""
+                         Digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "atk"
+                         Url     = ""
+                         Archive = ""
+                         Digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "cairo_dev"
+                         Url     = ""
+                         Archive = ""
+                         Digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "cairo"
+                         Url     = ""
+                         Archive = ""
+                         Digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "expat_dev"
+                         Url     = ""
+                         Archive = ""
+                         Digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "expat"
+                         Url     = ""
+                         Archive = ""
+                         Digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "fontconfig_dev"
+                         Url     = ""
+                         Archive = ""
+                         Digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "fontconfig"
+                         Url     = ""
+                         Archive = ""
+                         Digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "freetype_dev"
+                         Url     = ""
+                         Archive = ""
+                         Digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "freetype"
+                         Url     = ""
+                         Archive = ""
+                         Digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "gdk_pixbuf_dev"
+                         Url     = ""
+                         Archive = ""
+                         Digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "gdk_pixbuf"
+                         Url     = ""
+                         Archive = ""
+                         Digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "gettext_runtime_dev"
+                         Url     = ""
+                         Archive = ""
+                         Digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "gettext_runtime"
+                         Url     = ""
+                         Archive = ""
+                         Digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "glib_dev"
+                         Url     = ""
+                         Archive = ""
+                         Digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "glib"
+                         Url     = ""
+                         Archive = ""
+                         Digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "gtk_dev"
+                         Url     = ""
+                         Archive = ""
+                         Digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "gtk"
                          Url     = ""
                          Archive = ""
                          Digest  = "">
 
-                    <CopyFile Id="setenv.cmd" Src="overlays/runtime/bin/" Dest="bin" />
-                    <CopyFile Id="gtkrc" Src="overlays/runtime/etc/gtk-2.0/" Dest="etc/gtk-2.0/" />
-                    <CopyFile Id="pango.aliases" Src="overlays/runtime/etc/pango/" Dest="etc/pango/" />
                     <CopyFile Id="__init__.py" Src="overlays/runtime/" Dest="" />
+                    <CopyFile Id="gtkrc" Src="overlays/runtime/etc/gtk-2.0/" Dest="etc/gtk-2.0/" />
+                    <CopyFile Id="setenv.cmd" Src="overlays/runtime/bin/" Dest="bin" />
 
                     <Shortcut Id="PyGtkCommandPrompt"
                               Name="PyGtk Command Prompt"
@@ -252,13 +356,71 @@
                 </Package>
 
                 <Package Type    = "ArchiveSourcePackage"
-                         Id      = "libglade"
+                         Id      = "libpng_dev"
                          Url     = ""
                          Archive = ""
                          Digest  = "" />
 
                 <Package Type    = "ArchiveSourcePackage"
-                         Id      = "libglade_dev"
+                         Id      = "libpng"
+                         Url     = ""
+                         Archive = ""
+                         Digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "pango_dev"
+                         Url     = ""
+                         Archive = ""
+                         Digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "pango"
+                         Url     = ""
+                         Archive = ""
+                         Digest  = "">
+
+                    <CopyFile Id="pango.aliases" Src="overlays/runtime/etc/pango/" Dest="etc/pango/" />
+                </Package>
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "pixman_dev"
+                         Url     = ""
+                         Archive = ""
+                         Digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "pixman"
+                         Url     = ""
+                         Archive = ""
+                         Digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "pkgconfig_dev"
+                         Url     = ""
+                         Archive = ""
+                         Digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "pkgconfig"
+                         Url     = ""
+                         Archive = ""
+                         Digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "zlib"
+                         Url     = ""
+                         Archive = ""
+                         Digest  = "" />
+
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "zlib_dev"
+                         Url     = ""
+                         Archive = ""
+                         Digest  = "" />
+
+                <!-- libxml2: we need this for librsvg, libglade, ... -->
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "libxml2_dev"
                          Url     = ""
                          Archive = ""
                          Digest  = "" />
@@ -269,12 +431,20 @@
                          Archive = ""
                          Digest  = "" />
 
+                <!-- libglade -->
                 <Package Type    = "ArchiveSourcePackage"
-                         Id      = "libxml2_dev"
+                         Id      = "libglade_dev"
                          Url     = ""
                          Archive = ""
                          Digest  = "" />
 
+                <Package Type    = "ArchiveSourcePackage"
+                         Id      = "libglade"
+                         Url     = ""
+                         Archive = ""
+                         Digest  = "" />
+
+                <!-- librsvg -->
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "librsvg"
                          Url     = ""
@@ -323,6 +493,7 @@
                          Archive = ""
                          Digest  = "" />
 
+                <!-- icon theme -->
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "hicolor_icon_theme"
                          Url     = ""
