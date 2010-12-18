@@ -240,7 +240,7 @@ class Builder(object):
         #self.buildfile = etree.parse(buildfile, parser=parser).getroot()
         self.buildfile = etree.parse(buildfile).getroot()
 
-        info('Loaded build description "%s" (loaded from "%s").' % (self.args[0], buildfile))
+        info('Loaded build description "%s" ("%s").' % (self.args[0], buildfile))
 
     def build(self):
         for interpreter in self.buildfile.xpath('/Build/Interpreters/*'):
@@ -267,7 +267,7 @@ class Product(object):
         self.msifilename = '%s.msi' % self.packageid
 
         self.builddir = join(TMPDIR, 'build', '%s-py%s' % (WIN_PLATFORM, PYTHON_FULLVERSION), self.packageid)
-        self.tmpwxsfile = join(self.builddir, '%s.unformatted' % self.wxsfilename)
+        self.tmpwxsfile = join(self.builddir, '%s.tmp' % self.wxsfilename)
         self.wxsfile = join(self.builddir, self.wxsfilename)
         self.wixobjfile = join(self.builddir, self.wixobjfilename)
         self.msifile = join(self.builddir, self.msifilename)
@@ -520,7 +520,7 @@ class SourcePackage(object):
         self.cachefile = join(CACHEDIR, self.filename)
         self.builddir = join(TMPDIR, 'build', '%s-py%s' % (WIN_PLATFORM, PYTHON_FULLVERSION), self.package.get('Id'))
         self.wxsfile = join(self.builddir, '%s.wxs' % self.package.get('Id'))
-        self.tmpwxifile = join(self.builddir, '%s.wxi.unformatted' % self.package.get('Id'))
+        self.tmpwxifile = join(self.builddir, '%s.wxi.tmp' % self.package.get('Id'))
         self.wxifile = join(self.builddir, '%s.wxi' % self.package.get('Id'))
 
         self.package.set('wxifile_%s' % PYTHON_VERSION, self.wxifile)
