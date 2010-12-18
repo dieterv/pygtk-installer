@@ -325,7 +325,9 @@ class Product(object):
             elif child.tag == 'Package':
                 info('Preparing source package "%s"' % child.get('Id'), 2)
 
-                sourcepackage = SourcePackage.from_packagetype(self.buildfile, child)
+                sourcepackage = SourcePackage.from_packagetype(self.options,
+                                                               self.buildfile,
+                                                               child)
                 sourcepackage.merge()
 
     def do_transform(self):
@@ -498,16 +500,17 @@ class Product(object):
 
 class SourcePackage(object):
     @staticmethod
-    def from_packagetype(product, package):
+    def from_packagetype(options, product, package):
         packagetype = package.get('Type')
 
         for subclass in SourcePackage.__subclasses__():
             if subclass.__name__ == packagetype:
-                return subclass(product, package)
+                return subclass(options, product, package)
         else:
             error('Unknown source package type "%s".' % packagetype)
 
-    def __init__(self, buildfile, package):
+    def __init__(self, options, buildfile, package):
+        self.options = options
         self.buildfile = buildfile
         self.package = package
 
@@ -562,7 +565,8 @@ class SourcePackage(object):
                 error('Failed downloading package sources from "%s".' % url)
 
             if not self._check_md5(self.cachefile, self.digest):
-                error('Download md5 mismatch (%s).' % self.cachefile)
+                if not self.options.pretend:
+                    error('md5 digest mismatch (%s).' % self.cachefile)
 
     def do_unpack(self):
         raise NotImplementedError
@@ -765,11 +769,11 @@ class SourcePackage(object):
 
 
 class MsiSourcePackage(SourcePackage):
-    def __init__(self, product, package):
+    def __init__(self, options, product, package):
         self.filename = package.get('Msi_%s' % PYTHON_VERSION)
         self.digest = package.get('Digest_%s' % PYTHON_VERSION)
 
-        SourcePackage.__init__(self, product, package)
+        SourcePackage.__init__(self, options, product, package)
 
     def do_unpack(self):
         info('Unpacking package sources...', 3)
@@ -850,7 +854,7 @@ class MsiSourcePackage(SourcePackage):
 
 
 class ArchiveSourcePackage(SourcePackage):
-    def __init__(self, product, package):
+    def __init__(self, options, product, package):
         if 'Archive' in package.keys():
             self.filename = package.get('Archive')
             self.digest = package.get('Digest')
@@ -858,7 +862,7 @@ class ArchiveSourcePackage(SourcePackage):
             self.filename = package.get('Archive_%s' % PYTHON_VERSION)
             self.digest = package.get('Digest_%s' % PYTHON_VERSION)
 
-        SourcePackage.__init__(self, product, package)
+        SourcePackage.__init__(self, options, product, package)
 
     def do_unpack(self):
         info('Unpacking package sources...', 3)
