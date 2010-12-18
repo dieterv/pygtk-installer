@@ -54,7 +54,7 @@ I'm new, how do I start?
 First, you'll need to install a 32 bit Python interpreter. Currently, you can
 choose between Python 2.6 and Python 2.7.
 
-- From www.python.org:
+- From http://www.python.org:
 
     - http://www.python.org/download/releases/
     - http://www.python.org/ftp/python/2.6.6/python-2.6.6.msi
