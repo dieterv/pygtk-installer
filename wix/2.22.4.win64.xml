@@ -348,8 +348,8 @@
                     <CopyFile Id="setenv.cmd" Src="overlays/runtime/bin/" Dest="bin" />
 
                     <Shortcut Id="PyGtkCommandPrompt"
-                              Name="PyGtk Command Prompt"
-                              Description="PyGtk Command Prompt"
+                              Name="PyGTK Command Prompt"
+                              Description="PyGTK Command Prompt"
                               Target="[System64Folder]cmd.exe"
                               WorkingDirectory="[TARGETDIR]Lib\site-packages\gtk-2.0\runtime\bin\"
                               Arguments="/E:ON /V:ON /T:0A /K &quot;[TARGETDIR]Lib\site-packages\gtk-2.0\runtime\bin\setenv.cmd&quot;" />
