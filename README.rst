@@ -218,6 +218,5 @@ Known issues with 2.22.4
     - The need for gdiplus.dll:
 
         - Download the GDI+ Platform SDK redistributable from http://www.microsoft.com/downloads/en/details.aspx?FamilyID=6a63ab9c-df12-4d41-933c-be590feaa05a&displaylang=en
-        - Execute the downloaded WindowsXP-KB975337-x86-ENU.exe and it will ask to
-        - extract some files. Copy the extracted asms\10\msft\windows\gdiplus\gdiplus.dll
-        - file to C:\Python2X\Lib\site-packages\gtk-2.0\runtime\bin
+        - Execute the downloaded WindowsXP-KB975337-x86-ENU.exe and it will ask to extract some files.
+        - Copy the extracted asms\10\msft\windows\gdiplus\gdiplus.dll file to C:\Python2X\Lib\site-packages\gtk-2.0\runtime\bin
