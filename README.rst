@@ -209,10 +209,12 @@ Known issues with 2.22.4
 - In theory, Windows 2000 should be supported, but:
 
     - in practice the gtk+ binaries on ftp.gnome.org are affected by
-      libgio-2.0-0.dll needing the freeaddrinfo() function defined in wspiapi.h (ws2_32.dll)
-      refer to the following for more info:
+      libgio-2.0-0.dll needing the freeaddrinfo() function wich is only
+      available starting from Windows XP:
 
-        - https://bugzilla.gnome.org/show_bug.cgi?id=610502#c6
+        - https://bugzilla.gnome.org/show_bug.cgi?id=637565
+        - related bug: https://bugzilla.gnome.org/show_bug.cgi?id=610502#c6
+        - related bug: https://bugzilla.gnome.org/show_bug.cgi?id=623128
         - http://msdn.microsoft.com/en-us/library/ms737931%28v=vs.85%29.aspx
 
     - The need for gdiplus.dll:
