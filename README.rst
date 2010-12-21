@@ -208,17 +208,17 @@ Known issues with 2.22.4
   split gdk-pixbuf-2.22.0. Other svg functionality works fine. See
   https://bugzilla.gnome.org/show_bug.cgi?id=637742
 
-    - in practice the gtk+ binaries on ftp.gnome.org are affected by
-      libgio-2.0-0.dll needing the freeaddrinfo() function wich is only
-      available starting from Windows XP:
+- On Windows 2000 you need gdiplus.dll:
 
-        - https://bugzilla.gnome.org/show_bug.cgi?id=637565
-        - related bug: https://bugzilla.gnome.org/show_bug.cgi?id=610502#c6
-        - related bug: https://bugzilla.gnome.org/show_bug.cgi?id=623128
-        - http://msdn.microsoft.com/en-us/library/ms737931%28v=vs.85%29.aspx
+    - Download the GDI+ Platform SDK redistributable from http://www.microsoft.com/downloads/en/details.aspx?FamilyID=6a63ab9c-df12-4d41-933c-be590feaa05a&displaylang=en
+    - Execute the downloaded WindowsXP-KB975337-x86-ENU.exe and it will ask to extract some files.
+    - Copy the extracted asms\\10\\msft\\windows\\gdiplus\\gdiplus.dll file to C:\\Python2X\\Lib\\site-packages\\gtk-2.0\\runtime\\bin
 
-    - The need for gdiplus.dll:
+- In theory, Windows 2000 should be supported, but in practice the gtk+ binaries
+  on ftp.gnome.org are affected by libgio-2.0-0.dll needing the freeaddrinfo()
+  function wich is only available starting from Windows XP:
 
-        - Download the GDI+ Platform SDK redistributable from http://www.microsoft.com/downloads/en/details.aspx?FamilyID=6a63ab9c-df12-4d41-933c-be590feaa05a&displaylang=en
-        - Execute the downloaded WindowsXP-KB975337-x86-ENU.exe and it will ask to extract some files.
-        - Copy the extracted asms\\10\\msft\\windows\\gdiplus\\gdiplus.dll file to C:\\Python2X\\Lib\\site-packages\\gtk-2.0\\runtime\\bin
+    - https://bugzilla.gnome.org/show_bug.cgi?id=637565
+    - related bug: https://bugzilla.gnome.org/show_bug.cgi?id=610502#c6
+    - related bug: https://bugzilla.gnome.org/show_bug.cgi?id=623128
+    - http://msdn.microsoft.com/en-us/library/ms737931%28v=vs.85%29.aspx
