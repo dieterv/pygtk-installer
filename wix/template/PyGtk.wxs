@@ -54,8 +54,11 @@
                  Platform="$(var.Platform)"
                  ReadOnly="yes" />
 
+        <!-- https://bugzilla.gnome.org/show_bug.cgi?id=637565
         <Condition Message="$(var.ProductName) is only supported on Windows 2000 and above.">
-            <![CDATA[NOT VersionNT < 500]]>
+            <![CDATA[NOT VersionNT < 500]]> -->
+        <Condition Message="$(var.ProductName) is only supported on Windows XP and above.">
+            <![CDATA[NOT VersionNT < 501]]> -->
         </Condition>
 
         <Upgrade Id="$(var.UpgradeCode)">
