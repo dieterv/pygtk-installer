@@ -205,8 +205,8 @@ Known issues with 2.22.4
 ========================
 
 - The bundled svg_pixbuf_loader does not seem to be compatible with the new,
-  split gdk-pixbuf-2.22.0. Other svg functionality works fine.
-- In theory, Windows 2000 should be supported, but:
+  split gdk-pixbuf-2.22.0. Other svg functionality works fine. See
+  https://bugzilla.gnome.org/show_bug.cgi?id=637742
 
     - in practice the gtk+ binaries on ftp.gnome.org are affected by
       libgio-2.0-0.dll needing the freeaddrinfo() function wich is only
