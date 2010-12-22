@@ -45,7 +45,7 @@
 
 
 # Load "configuration"
-source ../etc/build_env.conf
+source build.conf
 
 TARGETS="pycairo-1.8.10 pygobject pygtk pygoocanvas pygtksourceview gnome-python-desktop"
 DESTDIR=${DESTDIR}/`date +%Y%m%d-%H%M%S`
@@ -53,11 +53,11 @@ OLD_CWD=`pwd`
 OLD_PATH=${PATH}
 OLD_PKG_CONFIG_PATH=${PKG_CONFIG_PATH}
 
-# check script arguments for specific targets
-ARG_TARGETS=""
-
 # create destdir
 mkdir -p ${DESTDIR}
+
+# check script arguments for specific targets
+ARG_TARGETS=""
 
 if [ $# -gt 0 ]; then
     for ARG in $@; do
