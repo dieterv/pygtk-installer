@@ -1,24 +1,3 @@
-=================================
-About the pygtk-installer project
-=================================
-
-The pygtk-installer project provides a set of tools to build the PyGTK
-All-in-one installer and it's various dependencies.
-There are currently versions of the PyGTK All-in-one installer supporting 32 bit
-versions of Python 2.6 and Python 2.7.
-
-Included tools:
-
-- build_glade.sh: a tool that builds glade3 binaries for mswindows with
-  "Python Widgets Support" for each supported Python version.
-- build_bindings.sh: a tool that builds windows installer packages (both .exe
-  and .msi) for pycairo, pygobject, pygtk, pygoocanvas, pygtksourceview and
-  pyrsvg for each supported Python version.
-- build_installer.py: a tool that generates the all-in-one installer bundling
-  the separate .msi installers created by build_bindings.sh, the glade binaries
-  created by build_glade.sh and various GTK+ runtime packages from
-  ftp.gnome.org/pub/GNOME/binaries/win32/.
-
 ====================================
 Using the PyGTK All-in-one installer
 ====================================
@@ -222,3 +201,23 @@ Known issues with 2.22.4
     - related bug: https://bugzilla.gnome.org/show_bug.cgi?id=610502#c6
     - related bug: https://bugzilla.gnome.org/show_bug.cgi?id=623128
     - http://msdn.microsoft.com/en-us/library/ms737931%28v=vs.85%29.aspx
+=================================
+About the pygtk-installer project
+=================================
+
+The pygtk-installer project provides a set of tools to build the PyGTK
+All-in-one installer and it's various dependencies.
+There are currently versions of the PyGTK All-in-one installer supporting 32 bit
+versions of Python 2.6 and Python 2.7.
+
+Included tools:
+
+- build_glade.sh: a tool that builds glade3 binaries for mswindows with
+  "Python Widgets Support" for each supported Python version.
+- build_bindings.sh: a tool that builds windows installer packages (both .exe
+  and .msi) for pycairo, pygobject, pygtk, pygoocanvas, pygtksourceview and
+  pyrsvg for each supported Python version.
+- build_installer.py: a tool that generates the all-in-one installer bundling
+  the separate .msi installers created by build_bindings.sh, the glade binaries
+  created by build_glade.sh and various GTK+ runtime packages from
+  ftp.gnome.org/pub/GNOME/binaries/win32/.
