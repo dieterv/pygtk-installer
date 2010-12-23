@@ -115,7 +115,7 @@
                       ExeCommand="&quot;[TARGETDIR]pythonw.exe&quot; -B -E -S &quot;[TARGETDIR]Scripts\pygtk_setup_config_files.py&quot; &quot;[TARGETDIR]\&quot; &quot;[TempFolder]\&quot;"
                       Execute="commit"
                       Impersonate="yes"
-                      Return="check" />
+                      Return="ignore" />
 
         <InstallUISequence>
             <AppSearch Sequence="50" />
