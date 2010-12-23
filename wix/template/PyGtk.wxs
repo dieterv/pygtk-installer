@@ -112,7 +112,7 @@
         <!-- WriteIniValues Sequence -->
         <CustomAction Id="setup_config_files"
                       Directory="TARGETDIR"
-                      ExeCommand="&quot;[TARGETDIR]pythonw.exe&quot; -B -E -S &quot;[TempFolder]pygtk_setup_config_files.py&quot; &quot;[TARGETDIR]\&quot; &quot;[TempFolder]\&quot;"
+                      ExeCommand="&quot;[TARGETDIR]pythonw.exe&quot; -B -E -S &quot;[TARGETDIR]Scripts\pygtk_setup_config_files.py&quot; &quot;[TARGETDIR]\&quot; &quot;[TempFolder]\&quot;"
                       Execute="commit"
                       Impersonate="yes"
                       Return="check" />
@@ -149,13 +149,13 @@
                  Level="1"
                  AllowAdvertise="no"
                  InstallDefault="local">
-            <ComponentRef Id="TempScripts" />
+            <ComponentRef Id="Scripts" />
             <ComponentRef Id="Empty" />
         </Feature>
 
         <Directory Id="TARGETDIR" Name="SourceDir">
-            <Directory Id="TempFolder" Name="Temp">
-                <Component Id="TempScripts" Guid="{3BE80FA8-CC1A-49F6-B293-D107E142FB7D}">
+            <Directory Id="Scripts" Name="Scripts">
+                <Component Id="Scripts" Guid="{3BE80FA8-CC1A-49F6-B293-D107E142FB7D}">
                   <File Id="pygtk_setup_config_files" Name="pygtk_setup_config_files.py" Source="$(var.BinarySources)/pygtk_setup_config_files.py" />
                 </Component>
             </Directory>
