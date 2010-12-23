@@ -24,10 +24,10 @@
 
                     <Package Type      = "MsiSourcePackage"
                              Id        = "pygtk"
-                             Url       = "http://www.optionexplicit.be/projects/gnome-windows/20101102/"
-                             Msi_26    = "pygtk-2.22.0.win32-py2.6.msi"
+                             Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/pygtk/2.22/"
+                             Msi_26    = "pygtk-2.22.0-1.win32-py2.6.msi"
                              Digest_26 = "3e02828739852ac248c4b4c41a732659"
-                             Msi_27    = "pygtk-2.22.0.win32-py2.7.msi"
+                             Msi_27    = "pygtk-2.22.0-1.win32-py2.7.msi"
                              Digest_27 = "166817569cd3a8112cbf168bae12bed0">
 
                         <InternetShortcut Id="pygtkdocumentation"
@@ -45,10 +45,10 @@
 
                     <Package Type      = "MsiSourcePackage"
                              Id        = "pygobject"
-                             Url       = "http://www.optionexplicit.be/projects/gnome-windows/20101102/"
-                             Msi_26    = "pygobject-2.26.0.win32-py2.6.msi"
+                             Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/pygobject/2.26/"
+                             Msi_26    = "pygobject-2.26.0-1.win32-py2.6.msi"
                              Digest_26 = "f3b609fa9fb8b0a6916d76112a83feb8"
-                             Msi_27    = "pygobject-2.26.0.win32-py2.7.msi"
+                             Msi_27    = "pygobject-2.26.0-1.win32-py2.7.msi"
                              Digest_27 = "0ca3515aa20e0d568a6793444b721dc5">
 
                         <CopyFile Id="pygtk.pth" Src="overlays/pygobject/" Dest=""/>
@@ -68,7 +68,7 @@
 
                     <Package Type      = "MsiSourcePackage"
                              Id        = "pycairo"
-                             Url       = "http://www.optionexplicit.be/projects/gnome-windows/20101102/"
+                             Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/pycairo/1.8/"
                              Msi_26    = "pycairo-1.8.10.win32-py2.6.msi"
                              Digest_26 = "a801b870f4a5a4759ad4642c68b737d7"
                              Msi_27    = "pycairo-1.8.10.win32-py2.7.msi"
@@ -89,7 +89,7 @@
 
                     <Package Id        = "pygtksourceview2"
                              Type      = "MsiSourcePackage"
-                             Url       = "http://www.optionexplicit.be/projects/gnome-windows/20101102/"
+                             Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/pygtksourceview/2.10/"
                              Msi_26    = "pygtksourceview-2.10.1.win32-py2.6.msi"
                              Msi_27    = "pygtksourceview-2.10.1.win32-py2.7.msi"
                              Digest_26 = "123d751255edd7cb4d0f8e8253574058"
@@ -116,7 +116,7 @@
 
                     <Package Id        = "pygoocanvas"
                              Type      = "MsiSourcePackage"
-                             Url       = "http://www.optionexplicit.be/projects/gnome-windows/20101102/"
+                             Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/pygoocanvas/0.14/"
                              Msi_26    = "pygoocanvas-0.14.2.win32-py2.6.msi"
                              Msi_27    = "pygoocanvas-0.14.2.win32-py2.7.msi"
                              Digest_26 = "effa78d13f535213e338beb41badf419"
@@ -143,7 +143,7 @@
 
                     <Package Id        = "pyrsvg"
                              Type      = "MsiSourcePackage"
-                             Url       = "http://www.optionexplicit.be/projects/gnome-windows/20101102/"
+                             Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gnome-python-desktop/2.32/"
                              Msi_26    = "pyrsvg-2.32.1.win32-py2.6.msi"
                              Msi_27    = "pyrsvg-2.32.1.win32-py2.7.msi"
                              Digest_26 = "3d16d3d912846a14a93d023d58fc663b"
