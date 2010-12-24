@@ -186,7 +186,7 @@ the following command from a Command Prompt (cmd.exe)::
 
 Please consider compressing the log files you obtained before you send them
 by mail or attach them to a bug report. Those files can be quite large.
-If you do not have a compression program yes, 7-Zip from http://www.7-zip.org/
+If you do not have a compression program yet, 7-Zip from http://www.7-zip.org/
 is a good choice.
 
 
