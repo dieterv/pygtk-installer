@@ -22,7 +22,7 @@ All the .msi files are named as follows::
 
 Where X.X.X is the PyGTK All-in-one version number, YY is 32 or 64 and
 Z.Z is the Python version number the installer supports. Currently, only
-32 bit Python is supported.
+32 bit Python is supported (on both 32 and 64 bit Windows).
 
 You need to make sure both YY and Z.Z correspond to the version of the Python
 interpreter that's installed on your system.
