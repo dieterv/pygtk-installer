@@ -1,7 +1,9 @@
 .project
 .pydevproject
-.settings/*
+.settings
 
-cache/*
+*.pyc
+*.pyo
+
 dist/*
 tmp/*

@@ -37,7 +37,7 @@ if __name__ == '__main__':
                               'runtime', 'bin', 'gdk-pixbuf-query-loaders.exe')
     configfile = os.path.join(TARGETDIR, 'Lib', 'site-packages', 'gtk-2.0',
                               'runtime', 'lib', 'gdk-pixbuf-2.0', '2.10.0',
-                              'loaders', 'loaders.cache')
+                              'loaders.cache')
     redirect(executable, configfile)
 
     # gtk-query-immodules

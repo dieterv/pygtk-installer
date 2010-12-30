@@ -237,8 +237,8 @@
                      Absent         = "disallow"
                      Level          = "1">
 
-                <!-- gtk+-bundle: this is gtk+-bundle_2.22.0-20101016_win32 unbundled,
-                     refer to share/doc/gtk+-bundle_2.22.0-20101016_win32\components.lst,
+                <!-- gtk+-bundle: this is gtk+-bundle_2.22.1-20101227_win32 unbundled,
+                     refer to share/doc/gtk+-bundle_2.22.1-20101227_win32\components.lst,
                      sorted alphabetically (makes updating this list easy) -->
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "atk_dev"
@@ -255,14 +255,14 @@
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "cairo_dev"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
-                         Archive = "cairo-dev_1.10.0-1_win32.zip"
-                         Digest  = "04496d1a4249795365c1d84cacdf7438" />
+                         Archive = "cairo-dev_1.10.2-1_win32.zip"
+                         Digest  = "e227e69f0cead89939f732df4302ea8b" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "cairo"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
-                         Archive = "cairo_1.10.0-1_win32.zip"
-                         Digest  = "dbe07c76efe9566b8c21f25b3aa5b81a" />
+                         Archive = "cairo_1.10.2-1_win32.zip"
+                         Digest  = "b6b4039d87cfa9532d6c6cb37fbed8f4" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "expat_dev"
@@ -291,26 +291,26 @@
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "freetype_dev"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
-                         Archive = "freetype-dev_2.4.2-1_win32.zip"
-                         Digest  = "13bf59e4bf720dd2595cd351ea8ac716" />
+                         Archive = "freetype-dev_2.4.4-1_win32.zip"
+                         Digest  = "5fa57218e59db7fb92df0a0f529f52d1" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "freetype"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
-                         Archive = "freetype_2.4.2-1_win32.zip"
-                         Digest  = "3087ab1ad08716621fdb43e94f2b3bc1" />
+                         Archive = "freetype_2.4.4-1_win32.zip"
+                         Digest  = "62c0f4d3afdfbd54353f895a23f2fd35" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "gdk_pixbuf_dev"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gdk-pixbuf/2.22/"
-                         Archive = "gdk-pixbuf-dev_2.22.0-1_win32.zip"
-                         Digest  = "f54803eb3a7a205056cf396833de7718" />
+                         Archive = "gdk-pixbuf-dev_2.22.1-1_win32.zip"
+                         Digest  = "53adce87075c8519274dce3de8cd106e" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "gdk_pixbuf"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gdk-pixbuf/2.22/"
-                         Archive = "gdk-pixbuf_2.22.0-1_win32.zip"
-                         Digest  = "64e4b23aef87f48efb0702a06fafaa4c" />
+                         Archive = "gdk-pixbuf_2.22.1-1_win32.zip"
+                         Digest  = "09912d5c4f51d35413c01d41caa8cfc4" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "gettext_runtime_dev"
@@ -327,26 +327,26 @@
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "glib_dev"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/glib/2.26/"
-                         Archive = "glib-dev_2.26.0-2_win32.zip"
-                         Digest  = "998641a0d617d547ef579b5ac1d9578c" />
+                         Archive = "glib-dev_2.26.1-1_win32.zip"
+                         Digest  = "1f46edfde83ab9eacbca27016697da3b" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "glib"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/glib/2.26/"
-                         Archive = "glib_2.26.0-2_win32.zip"
-                         Digest  = "d2b01c1e4ec40b4a8dc76d9b809b1795" />
+                         Archive = "glib_2.26.1-1_win32.zip"
+                         Digest  = "5dae7f68e89ad4be7b8f708c14de7bbf" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "gtk_dev"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gtk+/2.22/"
-                         Archive = "gtk+-dev_2.22.0-2_win32.zip"
-                         Digest  = "af0271e82c912e4588a5b36541dd819b" />
+                         Archive = "gtk+-dev_2.22.1-1_win32.zip"
+                         Digest  = "651a5fce0d909873d9b2473a2c47c768" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "gtk"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gtk+/2.22/"
-                         Archive = "gtk+_2.22.0-2_win32.zip"
-                         Digest  = "092421cae800722d3b961164b8407090">
+                         Archive = "gtk+_2.22.1-1_win32.zip"
+                         Digest  = "3aa41778b6264699743c2582e95d712e">
 
                     <CopyFile Id="__init__.py" Src="overlays/runtime/" Dest="" />
                     <CopyFile Id="gtkrc" Src="overlays/runtime/etc/gtk-2.0/" Dest="etc/gtk-2.0/" />
@@ -390,26 +390,28 @@
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "pixman_dev"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
-                         Archive = "pixman-dev_0.18.4-2_win32.zip"
-                         Digest  = "2f50097c5c419584e6498a50563d98cf" />
+                         Archive = "pixman-dev_0.20.0-1_win32.zip"
+                         Digest  = "e21aca3584a90a0e7b58f7212a8222db" />
 
+                <!-- The pixman package is no longer provided (they where empty
+                     anyway. See https://bugzilla.gnome.org/show_bug.cgi?id=637742.
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "pixman"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
-                         Archive = "pixman_0.18.4-2_win32.zip"
-                         Digest  = "5f88c905f020277317139d4173d08f70" />
+                         Archive = "pixman_0.20.0-1_win32.zip"
+                         Digest  = "" /> -->
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "pkgconfig_dev"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
-                         Archive = "pkg-config-dev_0.23-3_win32.zip"
-                         Digest  = "9d69b4dbf01599d8586f9940963ec8d6" />
+                         Archive = "pkg-config-dev_0.25-1_win32.zip"
+                         Digest  = "959597d57b2fce57755c02d292d566a4" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "pkgconfig"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
-                         Archive = "pkg-config_0.23-3_win32.zip"
-                         Digest  = "2af054f5abacb6dd6c272d6b6714da18" />
+                         Archive = "pkg-config_0.25-1_win32.zip"
+                         Digest  = "3005d23993e05c70d248190702bc5ba2" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "zlib"
@@ -452,27 +454,27 @@
                 <!-- librsvg -->
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "librsvg"
-                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/librsvg/2.26/"
-                         Archive = "librsvg_2.26.2-1_win32.zip"
-                         Digest  = "aec21e5a389fb9c65110f28a57f2bede" />
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/librsvg/2.32/"
+                         Archive = "librsvg_2.32.1-1_win32.zip"
+                         Digest  = "2c712a8d7a652363241c0967098515db" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "librsvg_dev"
-                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/librsvg/2.26/"
-                         Archive = "librsvg-dev_2.26.2-1_win32.zip"
-                         Digest  = "871870ba95d998a3713790c455ea8e35" />
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/librsvg/2.32/"
+                         Archive = "librsvg-dev_2.32.1-1_win32.zip"
+                         Digest  = "b09662bc99c5c1b8edb8af32a1722477" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "svg_gdk_pixbuf_loader"
-                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/librsvg/2.26/"
-                         Archive = "svg-gdk-pixbuf-loader_2.26.2-1_win32.zip"
-                         Digest  = "c30dac5d0f9965fcbfb29d7eb282f86b" />
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/librsvg/2.32/"
+                         Archive = "svg-gdk-pixbuf-loader_2.32.1-1_win32.zip"
+                         Digest  = "bf4e34f1f175b88430159d33e01d0c49" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "svg_gtk_engine"
-                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/librsvg/2.26/"
-                         Archive = "svg-gtk-engine_2.26.2-1_win32.zip"
-                         Digest  = "92f23be86fbfd617c3552a6f17d4b880" />
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/librsvg/2.32/"
+                         Archive = "svg-gtk-engine_2.32.1-1_win32.zip"
+                         Digest  = "f3b290b58d63cbb1018013868342bdb9" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "libcroco"
