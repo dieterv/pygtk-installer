@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<Build>
-<!-- <Build xmlns="http://schemas.pygtk.org/2010/build"> -->
+<Build xmlns="http://schemas.pygtk.org/2010/build">
     <Interpreters>
         <Interpreter Version="2.6" />
         <Interpreter Version="2.7" />
@@ -87,22 +86,22 @@
                          Absent      = "allow"
                          Level       = "2">
 
-                    <Package Id        = "pygtksourceview2"
-                             Type      = "MsiSourcePackage"
+                    <Package Type      = "MsiSourcePackage"
+                             Id        = "pygtksourceview2"
                              Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/pygtksourceview/2.10/"
                              Msi_26    = "pygtksourceview-2.10.1.win32-py2.6.msi"
                              Msi_27    = "pygtksourceview-2.10.1.win32-py2.7.msi"
                              Digest_26 = "123d751255edd7cb4d0f8e8253574058"
                              Digest_27 = "c5c017fbf1ac99929a6d7a2be4f2b514" />
 
-                    <Package Id        = "libgtksourceview"
-                             Type      = "ArchiveSourcePackage"
+                    <Package Type      = "ArchiveSourcePackage"
+                             Id        = "libgtksourceview"
                              Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gtksourceview/2.10/"
                              Archive   = "gtksourceview-2.10.0.zip"
                              Digest    = "246460cc82a233f0aaffe2075b4455ef" />
 
-                    <Package Id        = "libgtksourceview_dev"
-                             Type      = "ArchiveSourcePackage"
+                    <Package Type      = "ArchiveSourcePackage"
+                             Id        = "libgtksourceview_dev"
                              Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gtksourceview/2.10/"
                              Archive   = "gtksourceview-dev-2.10.0.zip"
                              Digest    = "4510027ea0ab4fcb0e0d68fa596bccb5" />
@@ -114,22 +113,22 @@
                          Absent      = "allow"
                          Level       = "2">
 
-                    <Package Id        = "pygoocanvas"
-                             Type      = "MsiSourcePackage"
+                    <Package Type      = "MsiSourcePackage"
+                             Id        = "pygoocanvas"
                              Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/pygoocanvas/0.14/"
                              Msi_26    = "pygoocanvas-0.14.2.win32-py2.6.msi"
                              Msi_27    = "pygoocanvas-0.14.2.win32-py2.7.msi"
                              Digest_26 = "effa78d13f535213e338beb41badf419"
                              Digest_27 = "9fc8a8795c31e0c469958530adb80d93" />
 
-                    <Package Id        = "libgoocanvas"
-                             Type      = "ArchiveSourcePackage"
+                    <Package Type      = "ArchiveSourcePackage"
+                             Id        = "libgoocanvas"
                              Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/goocanvas/0.15/"
                              Archive   = "goocanvas-0.15-win32.zip"
                              Digest    = "18117c424950b6c014780af849508838" />
 
-                    <Package Id        = "libgoocanvas_dev"
-                             Type      = "ArchiveSourcePackage"
+                    <Package Type      = "ArchiveSourcePackage"
+                             Id        = "libgoocanvas_dev"
                              Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/goocanvas/0.15/"
                              Archive   = "goocanvas-dev-0.15-win32.zip"
                              Digest    = "c1068163ef67986598bce6dad5524e75" />
@@ -141,8 +140,8 @@
                          Absent      = "allow"
                          Level       = "2">
 
-                    <Package Id        = "pyrsvg"
-                             Type      = "MsiSourcePackage"
+                    <Package Type      = "MsiSourcePackage"
+                             Id        = "pyrsvg"
                              Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gnome-python-desktop/2.32/"
                              Msi_26    = "pyrsvg-2.32.1.win32-py2.6.msi"
                              Msi_27    = "pyrsvg-2.32.1.win32-py2.7.msi"
@@ -190,20 +189,20 @@
                          Level       = "2"
                          Absent      = "allow">
 
-                    <Package Id        = "libiconv"
-                             Type      = "ArchiveSourcePackage"
+                    <Package Type      = "ArchiveSourcePackage"
+                             Id        = "libiconv"
                              Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
                              Archive   = "libiconv-1.9.1.bin.woe32.zip"
                              Digest    = "a18e9420d6a354b585a77230996b4171" />
 
-                    <Package Id        = "gettext_tools"
-                             Type      = "ArchiveSourcePackage"
+                    <Package Type      = "ArchiveSourcePackage"
+                             Id        = "gettext_tools"
                              Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
                              Archive   = "gettext-tools_0.18.1.1-2_win32.zip"
                              Digest    = "e38076f290198adf75c7c3f5a7886653" />
 
-                    <Package Id        = "gettext_tools_dev"
-                             Type      = "ArchiveSourcePackage"
+                    <Package Type      = "ArchiveSourcePackage"
+                             Id        = "gettext_tools_dev"
                              Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
                              Archive   = "gettext-tools-dev_0.18.1.1-2_win32.zip"
                              Digest    = "e5a6f32b28ba8a08173e1f6e2a8db0c1">
@@ -217,14 +216,14 @@
                         <RemoveFile Id="src/tml/packaging/gettext_0.18.1.1-2_win32.sh" />
                     </Package>
 
-                    <Package Id        = "intltool"
-                             Type      = "ArchiveSourcePackage"
+                    <Package Type      = "ArchiveSourcePackage"
+                             Id        = "intltool"
                              Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/intltool/0.40/"
                              Archive   = "intltool_0.40.4-1_win32.zip"
                              Digest    = "d03b3270a4ddafdc0d4e9bcc6dcc6b65" />
 
-                    <Package Id        = "intltool_dev"
-                             Type      = "ArchiveSourcePackage"
+                    <Package Type      = "ArchiveSourcePackage"
+                             Id        = "intltool_dev"
                              Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/intltool/0.40/"
                              Archive   = "intltool-dev_0.40.4-1_win32.zip"
                              Digest    = "7e64b0128891406d89daea91cf9fd046" />
@@ -397,8 +396,8 @@
                      anyway. See https://bugzilla.gnome.org/show_bug.cgi?id=637742.
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "pixman"
-                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
-                         Archive = "pixman_0.20.0-1_win32.zip"
+                         Url     = ""
+                         Archive = ""
                          Digest  = "" /> -->
 
                 <Package Type    = "ArchiveSourcePackage"

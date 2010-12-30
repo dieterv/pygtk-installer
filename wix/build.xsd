@@ -3,6 +3,7 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
     targetNamespace="http://schemas.pygtk.org/2010/build"
               xmlns="http://schemas.pygtk.org/2010/build">
+
     <xs:annotation>
         <xs:documentation>
             <![CDATA[Copyright © 2010 pygtk-installer Contributors
@@ -26,23 +27,17 @@
 
     <xs:element name="Build">
         <xs:complexType>
-            <xs:choice minOccurs="0">
-                <xs:sequence>
-                    <xs:choice minOccurs="1" maxOccurs="1">
-                        <xs:element ref="Interpreters"/>
-                        <xs:element ref="Product"/>
-                    </xs:choice>
-                </xs:sequence>
-            </xs:choice>
+            <xs:all>
+                <xs:element ref="Interpreters" />
+                <xs:element ref="Product" />
+            </xs:all>
         </xs:complexType>
     </xs:element>
 
     <xs:element name="Interpreters">
         <xs:complexType>
             <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="Interpreter"/>
-                </xs:choice>
+                <xs:element ref="Interpreter" maxOccurs="unbounded" minOccurs="1"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -52,7 +47,7 @@
             <xs:attribute name="Version" use="required">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
-                        <xs:whiteSpace value="collapse"></xs:whiteSpace>
+                        <xs:pattern value="[0-9]\.[0-9]" />
                     </xs:restriction>
                 </xs:simpleType>
             </xs:attribute>
@@ -62,21 +57,132 @@
     <xs:element name="Product">
         <xs:complexType>
             <xs:sequence>
-                <xs:choice minOccurs="1" maxOccurs="1">
-                    <xs:element ref="Features"/>
+                <xs:element ref="Features" maxOccurs="1" minOccurs="1" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Features">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice maxOccurs="unbounded" minOccurs="0">
+                    <xs:element ref="Feature" />
                 </xs:choice>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="Features"><!--
+    <xs:element name="Feature">
         <xs:complexType>
-            <xs:sequence>
-                <xs:choice minOccurs="1" maxOccurs="1">
-                    <xs:element ref="Features"/>
-                </xs:choice>
-            </xs:sequence>
-        </xs:complexType>
-    --></xs:element>
+            <xs:choice maxOccurs="unbounded" minOccurs="0">
+                <xs:element ref="Feature" />
+                <xs:element ref="Package" />
+            </xs:choice>
 
+            <xs:attribute name="Id" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="[A-Za-z0-9_]*" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+
+            <xs:attribute name="Title" type="xs:string" use="required" />
+
+            <xs:attribute name="Description" type="xs:string" use="required" />
+
+            <xs:attribute name="Display" use="optional">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(collapse|expand|hidden|[0-9]*)" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+
+            <xs:attribute name="Absent" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="allow" />
+                        <xs:enumeration value="disallow" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+
+            <xs:attribute name="Level" type="xs:integer" use="required" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Package">
+        <xs:complexType>
+            <xs:choice maxOccurs="unbounded" minOccurs="0">
+                <xs:element ref="CopyFile" />
+                <xs:element ref="RemoveFile" />
+                <xs:element ref="Shortcut" />
+                <xs:element ref="InternetShortcut" />
+            </xs:choice>
+
+            <xs:attribute name="Type" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="ArchiveSourcePackage" />
+                        <xs:enumeration value="MsiSourcePackage" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+
+            <xs:attribute name="Id" use="required">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="[A-Za-z0-9_]*" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+
+            <xs:attribute name="Url" type="xs:string" use="required" />
+
+            <!-- TODO: This hardly expresses what it should... -->
+            <xs:attribute name="Archive" type="xs:string" use="optional" />
+            <xs:attribute name="Archive_26" type="xs:string" use="optional" />
+            <xs:attribute name="Archive_27" type="xs:string" use="optional" />
+            <xs:attribute name="Digest" type="xs:string" use="optional" />
+            <xs:attribute name="Msi_26" type="xs:string" use="optional" />
+            <xs:attribute name="Msi_27" type="xs:string" use="optional" />
+            <xs:attribute name="Digest_26" type="xs:string" use="optional" />
+            <xs:attribute name="Digest_27" type="xs:string" use="optional" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="CopyFile">
+        <xs:complexType>
+            <xs:attribute name="Id" type="xs:string" use="required" />
+            <xs:attribute name="Src" type="xs:string" use="required" />
+            <xs:attribute name="Dest" type="xs:string" use="required" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="RemoveFile">
+        <xs:complexType>
+            <xs:attribute name="Id" type="xs:string" use="required" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Shortcut">
+        <xs:complexType>
+            <xs:attribute name="Id" type="xs:string" use="required" />
+            <xs:attribute name="Name" type="xs:string" use="required" />
+            <xs:attribute name="Description" type="xs:string" use="required" />
+            <xs:attribute name="Target" type="xs:string" use="required" />
+            <xs:attribute name="WorkingDirectory" type="xs:string" use="optional" />
+            <xs:attribute name="Arguments" type="xs:string" use="optional" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="InternetShortcut">
+        <xs:complexType>
+            <xs:attribute name="Id" type="xs:string" use="required" />
+            <xs:attribute name="Name" type="xs:string" use="required" />
+            <xs:attribute name="Description" type="xs:string" use="required" />
+            <xs:attribute name="Target" type="xs:string" use="required" />
+        </xs:complexType>
+    </xs:element>
 </xs:schema>

@@ -67,12 +67,17 @@ XML_LINT_VERSION = 20707
 XML_LINT = None
 
 # Everything we need to know about xml namespaces.
+BUILD_NS = 'http://schemas.pygtk.org/2010/build'
 WIX_NS = 'http://schemas.microsoft.com/wix/2006/wi'
 WIX_UTIL_NS = 'http://schemas.microsoft.com/wix/UtilExtension'
+
+# Namespace map used when creating new elements
 WIX_NSMAP = {None : WIX_NS,
              'util': WIX_UTIL_NS}
 
-XP_NSMAP = {'w': WIX_NS,
+# Namespace map used with XPath queries
+XP_NSMAP = {'b': BUILD_NS,
+            'w': WIX_NS,
             'u': WIX_UTIL_NS}
 
 
@@ -235,15 +240,14 @@ class Builder(object):
         if not isfile(buildfile):
             error('Unable to load build description "%s".' % buildfile)
 
-        #schema = etree.XMLSchema(file=schemafile)
-        #parser = etree.XMLParser(schema=schema)
-        #self.buildfile = etree.parse(buildfile, parser=parser).getroot()
-        self.buildfile = etree.parse(buildfile).getroot()
+        schema = etree.XMLSchema(file=schemafile)
+        parser = etree.XMLParser(schema=schema)
+        self.buildfile = etree.parse(buildfile, parser=parser).getroot()
 
         info('Loaded build description "%s" ("%s").' % (self.args[0], buildfile))
 
     def build(self):
-        for interpreter in self.buildfile.xpath('/Build/Interpreters/*'):
+        for interpreter in self.buildfile.xpath('/b:Build/b:Interpreters/*', namespaces=XP_NSMAP):
             version = interpreter.get('Version')
 
             global PYTHON_FULLVERSION
@@ -314,15 +318,15 @@ class Product(object):
         os.rename(join(self.builddir, 'PyGTK.wxs'), self.wxsfile)
 
     def do_build(self):
-        for feature in self.buildfile.xpath('/Build/Product/Features/*'):
+        for feature in self.buildfile.xpath('/b:Build/b:Product/b:Features/*', namespaces=XP_NSMAP):
             info('Preparing feature "%s"...' % feature.get('Id'), 1)
             self.build_feature(feature)
 
     def build_feature(self, feature):
         for child in feature.iterchildren():
-            if child.tag == 'Feature':
+            if child.tag == '{%s}Feature' % BUILD_NS:
                 self.build_feature(child)
-            elif child.tag == 'Package':
+            elif child.tag == '{%s}Package' % BUILD_NS:
                 info('Preparing source package "%s"' % child.get('Id'), 2)
 
                 sourcepackage = SourcePackage.from_packagetype(self.options,
@@ -370,18 +374,18 @@ class Product(object):
 
         def transform(element):
             for child in element.iterchildren():
-                if child.tag == 'Feature':
+                if child.tag == '{%s}Feature' % BUILD_NS:
                     transform(child)
-                elif child.tag == 'Package':
+                elif child.tag == '{%s}Package' % BUILD_NS:
                     pi = etree.ProcessingInstruction('include', child.get('wxifile_%s' % PYTHON_VERSION))
                     package.addnext(pi)
 
-        for feature in self.buildfile.xpath('/Build/Product/Features/*'):
+        for feature in self.buildfile.xpath('/b:Build/b:Product/b:Features/*', namespaces=XP_NSMAP):
             transform(feature)
 
     def transform_features(self, wxsfile):
         def transform(element, parent):
-            if element.tag == 'Feature':
+            if element.tag == '{%s}Feature' % BUILD_NS:
                 feature = etree.SubElement(parent,
                                           'Feature',
                                           Id = element.get('Id'),
@@ -407,7 +411,7 @@ class Product(object):
                 else:
                     error('Error computing Level for Feature "%s"' % element.get('Id'), 2)
 
-                if len(element.xpath('Package')) == 0:
+                if len(element.xpath('b:Package', namespaces=XP_NSMAP)) == 0:
                     # A Feature should always reference at least one component.
                     # If we do not do this, the SelectionTree widget seems to
                     # ignore the AllowAdvertise, InstallDefault and
@@ -417,7 +421,7 @@ class Product(object):
                 for child in element.iterchildren():
                     transform(child, feature)
 
-            elif element.tag == 'Package':
+            elif element.tag == '{%s}Package' % BUILD_NS:
                 def traverse(child, parent):
                     if child.tag == '{%s}Component' % WIX_NS:
                         etree.SubElement(parent, 'ComponentRef', Id=child.get('Id'))
@@ -433,7 +437,7 @@ class Product(object):
 
         feature = wxsfile.xpath('/w:Wix/w:Product/w:Feature', namespaces=XP_NSMAP)[0]
 
-        for child in self.buildfile.xpath('/Build/Product/Features/*'):
+        for child in self.buildfile.xpath('/b:Build/b:Product/b:Features/*', namespaces=XP_NSMAP):
             transform(child, feature)
 
     def transform_reformat(self):
@@ -576,7 +580,7 @@ class SourcePackage(object):
 
         filesdir = join(self.builddir, 'File')
 
-        for child in self.package.xpath('RemoveFile'):
+        for child in self.package.xpath('b:RemoveFile', namespaces=XP_NSMAP):
             if isabs(child.get('Id')):
                 error('Invalid RemoveFile action: Id attribute should not be an absolute path ("%s")' % child.get('Id'), 4)
 
@@ -587,7 +591,7 @@ class SourcePackage(object):
             else:
                 error('Invalid RemoveFile action: "%s" does not exist in "%s"' % (child.get('Id'), filesdir), 4)
 
-        for child in self.package.xpath('CopyFile'):
+        for child in self.package.xpath('b:CopyFile', namespaces=XP_NSMAP):
             if isabs(child.get('Src')):
                 error('Invalid CopyFile action: Src attribute should not be an absolute path ("%s")' % child.get('Src'), 4)
 
@@ -653,7 +657,7 @@ class SourcePackage(object):
         prefix = '%s_' % self.package.get('Id')
         include = self.include.xpath('/w:Include', namespaces=XP_NSMAP)[0]
 
-        for child in self.package.xpath('Shortcut'):
+        for child in self.package.xpath('b:Shortcut', namespaces=XP_NSMAP):
             programmenufolder = etree.SubElement(include,
                                                  '{%s}DirectoryRef' % WIX_NS,
                                                  Id='ProgramMenuFolder')
@@ -701,7 +705,7 @@ class SourcePackage(object):
                                                  Type='integer',
                                                  KeyPath='yes')
 
-        for child in self.package.xpath('InternetShortcut'):
+        for child in self.package.xpath('b:InternetShortcut', namespaces=XP_NSMAP):
             programmenufolder = etree.SubElement(include,
                                                  '{%s}DirectoryRef' % WIX_NS,
                                                  Id='ProgramMenuFolder')

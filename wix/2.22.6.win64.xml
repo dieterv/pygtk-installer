@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<Build>
-<!-- <Build xmlns="http://schemas.pygtk.org/2010/build"> -->
+<Build xmlns="http://schemas.pygtk.org/2010/build">
 
 <!-- Currently 64bit installers are not supported (at least until I can get my
-     hands on a 64bit machine...) -->
+     hands on a 64bit machine or somebody decides to contribute...) -->
 
     <Interpreters>
         <Interpreter Version="2.6" />
@@ -91,22 +90,22 @@
                          Absent      = "allow"
                          Level       = "2">
 
-                    <Package Id        = "pygtksourceview2"
-                             Type      = "MsiSourcePackage"
+                    <Package Type      = "MsiSourcePackage"
+                             Id        = "pygtksourceview2"
                              Url       = ""
                              Msi_26    = ""
                              Msi_27    = ""
                              Digest_26 = ""
                              Digest_27 = "" />
 
-                    <Package Id        = "libgtksourceview"
-                             Type      = "ArchiveSourcePackage"
+                    <Package Type      = "ArchiveSourcePackage"
+                             Id        = "libgtksourceview"
                              Url       = ""
                              Archive   = ""
                              Digest    = "" />
 
-                    <Package Id        = "libgtksourceview_dev"
-                             Type      = "ArchiveSourcePackage"
+                    <Package Type      = "ArchiveSourcePackage"
+                             Id        = "libgtksourceview_dev"
                              Url       = ""
                              Archive   = ""
                              Digest    = "" />
@@ -118,22 +117,22 @@
                          Absent      = "allow"
                          Level       = "2">
 
-                    <Package Id        = "pygoocanvas"
-                             Type      = "MsiSourcePackage"
+                    <Package Type      = "MsiSourcePackage"
+                             Id        = "pygoocanvas"
                              Url       = ""
                              Msi_26    = ""
                              Msi_27    = ""
                              Digest_26 = ""
                              Digest_27 = "" />
 
-                    <Package Id        = "libgoocanvas"
-                             Type      = "ArchiveSourcePackage"
+                    <Package Type      = "ArchiveSourcePackage"
+                             Id        = "libgoocanvas"
                              Url       = ""
                              Archive   = ""
                              Digest    = "" />
 
-                    <Package Id        = "libgoocanvas_dev"
-                             Type      = "ArchiveSourcePackage"
+                    <Package Type      = "ArchiveSourcePackage"
+                             Id        = "libgoocanvas_dev"
                              Url       = ""
                              Archive   = ""
                              Digest    = "" />
@@ -145,8 +144,8 @@
                          Absent      = "allow"
                          Level       = "2">
 
-                    <Package Id        = "pyrsvg"
-                             Type      = "MsiSourcePackage"
+                    <Package Type      = "MsiSourcePackage"
+                             Id        = "pyrsvg"
                              Url       = ""
                              Msi_26    = ""
                              Msi_27    = ""
@@ -194,32 +193,32 @@
                          Level       = "2"
                          Absent      = "allow">
 
-                    <Package Id        = "libiconv"
-                             Type      = "ArchiveSourcePackage"
+                    <Package Type      = "ArchiveSourcePackage"
+                             Id        = "libiconv"
                              Url       = ""
                              Archive   = ""
                              Digest    = "" />
 
-                    <Package Id        = "gettext_tools"
-                             Type      = "ArchiveSourcePackage"
+                    <Package Type      = "ArchiveSourcePackage"
+                             Id        = "gettext_tools"
                              Url       = ""
                              Archive   = ""
                              Digest    = "" />
 
-                    <Package Id        = "gettext_tools_dev"
-                             Type      = "ArchiveSourcePackage"
+                    <Package Type      = "ArchiveSourcePackage"
+                             Id        = "gettext_tools_dev"
                              Url       = ""
                              Archive   = ""
                              Digest    = "" />
 
-                    <Package Id        = "intltool"
-                             Type      = "ArchiveSourcePackage"
+                    <Package Type      = "ArchiveSourcePackage"
+                             Id        = "intltool"
                              Url       = ""
                              Archive   = ""
                              Digest    = "" />
 
-                    <Package Id        = "intltool_dev"
-                             Type      = "ArchiveSourcePackage"
+                    <Package Type      = "ArchiveSourcePackage"
+                             Id        = "intltool_dev"
                              Url       = ""
                              Archive   = ""
                              Digest    = "" />
@@ -388,11 +387,13 @@
                          Archive = ""
                          Digest  = "" />
 
+                <!-- The pixman package is no longer provided (they where empty
+                     anyway. See https://bugzilla.gnome.org/show_bug.cgi?id=637742.
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "pixman"
                          Url     = ""
                          Archive = ""
-                         Digest  = "" />
+                         Digest  = "" /> -->
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "pkgconfig_dev"
