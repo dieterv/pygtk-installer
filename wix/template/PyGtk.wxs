@@ -62,17 +62,17 @@
         </Condition>
 
         <Upgrade Id="$(var.UpgradeCode)">
-            <UpgradeVersion Minimum="$(var.ProductVersion)"
+            <UpgradeVersion ExcludeLanguages="yes"
+                            Minimum="$(var.ProductVersion)"
                             IncludeMinimum="no"
                             OnlyDetect="yes"
-                            Language="1033"
                             Property="DOWNGRADEFOUND" />
 
-            <UpgradeVersion Minimum="$(var.OriginalProductVersion)"
+            <UpgradeVersion ExcludeLanguages="yes"
+                            Minimum="$(var.OriginalProductVersion)"
                             IncludeMinimum="yes"
                             Maximum="$(var.ProductVersion)"
                             IncludeMaximum="no"
-                            Language="1033"
                             Property="UPGRADEFOUND" />
         </Upgrade>
 
