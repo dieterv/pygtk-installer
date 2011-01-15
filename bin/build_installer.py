@@ -150,13 +150,13 @@ class Builder(object):
         # Get WiX installation directory from the WIX environment variable
         if not os.environ.has_key('WIX'):
             error('Please verify WiX has been installed and the WIX environment '
-                  'variable points to it\'s installation directory.')
+                  'variable points to its installation directory.')
 
         WIX_DIR = abspath(join(os.environ['WIX'], 'bin'))
 
         if not os.path.isdir(WIX_DIR):
             error('Please verify WiX has been installed and the WIX environment '
-                  'variable points to it\'s installation directory, not it\'s '
+                  'variable points to its installation directory, not its '
                   'bin directory.')
 
         global WIX_DARK
@@ -185,7 +185,7 @@ class Builder(object):
 
         if not XML_LINT or not os.path.isfile(XML_LINT):
             error('Please verify xmllint has been installed and the PATH environment '
-                  'variable points to it\'s installation directory.')
+                  'variable points to its installation directory.')
 
         # Validate xmllint version
         output = Popen([XML_LINT, '--version'],

@@ -131,7 +131,7 @@ Feature Selection
 -----------------
 
 The INSTALLLEVEL property determines what features are going to be installed. If
-the INSTALLLEVEL property is not set, it's value defaults to 1 which causes a
+the INSTALLLEVEL property is not set, its value defaults to 1 which causes a
 basic set of features to be installed (GTK+ runtime, PyGTK, PyGObject and PyCairo)
 
 If you set INSTALLLEVEL to 2 (or any number greater than 2), you instruct the
@@ -222,7 +222,7 @@ About the pygtk-installer project
 =================================
 
 The pygtk-installer project provides a set of tools to build the PyGTK
-All-in-one installer and it's various dependencies.
+All-in-one installer and its various dependencies.
 There are currently versions of the PyGTK All-in-one installer supporting 32 bit
 versions of Python 2.6 and Python 2.7.
 
