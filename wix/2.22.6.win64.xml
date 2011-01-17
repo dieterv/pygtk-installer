@@ -33,10 +33,10 @@
                              Msi_27    = ""
                              Digest_27 = "">
 
-                        <InternetShortcut Id="pygtkdocumentation"
-                                          Name="PyGTK Reference Manual"
-                                          Description="PyGTK Reference Manual"
-                                          Target="http://library.gnome.org/devel/pygtk/2.22/" />
+                        <InternetShortcut Id          = "pygtkdocumentation"
+                                          Name        = "PyGTK Reference Manual"
+                                          Description = "PyGTK Reference Manual"
+                                          Target      = "http://library.gnome.org/devel/pygtk/2.22/" />
                     </Package>
                 </Feature>
 
@@ -54,12 +54,14 @@
                              Msi_27    = ""
                              Digest_27 = "">
 
-                        <CopyFile Id="pygtk.pth" Src="overlays/pygobject/" Dest=""/>
+                        <CopyFile Id   = "pygtk.pth"
+                                  Src  = "overlays/pygobject/"
+                                  Dest = ""/>
 
-                        <InternetShortcut Id="pygobjectdocumentation"
-                                          Name="PyGObject Reference Manual"
-                                          Description="PyGObject Reference Manual"
-                                          Target="http://library.gnome.org/devel/pygobject/2.26/" />
+                        <InternetShortcut Id          = "pygobjectdocumentation"
+                                          Name        = "PyGObject Reference Manual"
+                                          Description = "PyGObject Reference Manual"
+                                          Target      = "http://library.gnome.org/devel/pygobject/2.26/" />
                     </Package>
                 </Feature>
 
@@ -77,10 +79,10 @@
                              Msi_27    = ""
                              Digest_27 = "">
 
-                        <InternetShortcut Id="pycairodocumentation"
-                                          Name="PyCairo Reference Manual"
-                                          Description="PyCairo Documentation"
-                                          Target="http://cairographics.org/documentation/pycairo/2/" />
+                        <InternetShortcut Id          = "pycairodocumentation"
+                                          Name        = "PyCairo Reference Manual"
+                                          Description = "PyCairo Documentation"
+                                          Target      = "http://cairographics.org/documentation/pycairo/2/" />
                     </Package>
                 </Feature>
 
@@ -175,15 +177,15 @@
                              Digest_26  = ""
                              Digest_27  = "">
 
-                        <Shortcut Id="GladeUiDesigner"
-                                  Name="Glade UI Designer"
-                                  Description="Glade UI Designer"
-                                  Target="[TARGETDIR]Lib\site-packages\gtk-2.0\runtime\bin\glade-3.exe" />
+                        <Shortcut Id          = "GladeUiDesigner"
+                                  Name        = "Glade UI Designer"
+                                  Description = "Glade UI Designer"
+                                  Target      = "[TARGETDIR]Lib\site-packages\gtk-2.0\runtime\bin\glade-3.exe" />
 
-                        <InternetShortcut Id="gladedocumentation"
-                                          Name="Glade UI Designer Manual"
-                                          Description="Glade UI Designer Manual"
-                                          Target="http://library.gnome.org/devel/glade/3.6/"/>
+                        <InternetShortcut Id          = "gladedocumentation"
+                                          Name        = "Glade UI Designer Manual"
+                                          Description = "Glade UI Designer Manual"
+                                          Target      = "http://library.gnome.org/devel/glade/3.6/"/>
                     </Package>
                 </Feature>
 
@@ -226,13 +228,13 @@
             </Feature>
 
             <Feature Id             = "gtk_runtime"
-                     Title          = "GTK+ Runtime 2.22.0"
+                     Title          = "GTK+ Runtime 2.22.1"
                      Description    = "Installs the GTK+ runtime."
                      Absent         = "disallow"
                      Level          = "1">
 
-                <!-- gtk+-bundle: this is gtk+-bundle_2.22.0-20101016_win32 unbundled,
-                     refer to share/doc/gtk+-bundle_2.22.0-20101016_win32\components.lst,
+                <!-- gtk+-bundle: this is gtk+-bundle_2.22.1-20101227_win32 unbundled,
+                     refer to share/doc/gtk+-bundle_2.22.1-20101227_win32\components.lst,
                      sorted alphabetically (makes updating this list easy) -->
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "atk_dev"
@@ -342,16 +344,21 @@
                          Archive = ""
                          Digest  = "">
 
-                    <CopyFile Id="__init__.py" Src="overlays/runtime/" Dest="" />
-                    <CopyFile Id="gtkrc" Src="overlays/runtime/etc/gtk-2.0/" Dest="etc/gtk-2.0/" />
-                    <CopyFile Id="setenv.cmd" Src="overlays/runtime/bin/" Dest="bin" />
+                    <CopyFile Id   = "__init__.py"
+                              Src  = "overlays/runtime/"
+                              Dest = "" />
+                    <CopyFile Id   = "gtkrc"
+                              Src  = "overlays/runtime/etc/gtk-2.0/"
+                              Dest = "etc/gtk-2.0/" />
+                    <CopyFile Id   = "setenv.cmd"
+                              Src  = "overlays/runtime/bin/"
+                              Dest = "bin" />
 
-                    <Shortcut Id="PyGtkCommandPrompt"
-                              Name="PyGTK Command Prompt"
-                              Description="PyGTK Command Prompt"
-                              Target="[System64Folder]cmd.exe"
-                              WorkingDirectory="[TARGETDIR]Lib\site-packages\gtk-2.0\runtime\bin\"
-                              Arguments="/E:ON /V:ON /T:0A /K &quot;[TARGETDIR]Lib\site-packages\gtk-2.0\runtime\bin\setenv.cmd&quot;" />
+                    <Shortcut Id          = "PyGtkCommandPrompt"
+                              Name        = "PyGTK Command Prompt"
+                              Description = "PyGTK Command Prompt"
+                              Target      = "[System64Folder]cmd.exe"
+                              Arguments   = "/E:ON /V:ON /T:0A /K &quot;[TARGETDIR]Lib\site-packages\gtk-2.0\runtime\bin\setenv.cmd&quot;" />
                 </Package>
 
                 <Package Type    = "ArchiveSourcePackage"
@@ -378,7 +385,9 @@
                          Archive = ""
                          Digest  = "">
 
-                    <CopyFile Id="pango.aliases" Src="overlays/runtime/etc/pango/" Dest="etc/pango/" />
+                    <CopyFile Id   = "pango.aliases"
+                              Src  = "overlays/runtime/etc/pango/"
+                              Dest = "etc/pango/" />
                 </Package>
 
                 <Package Type    = "ArchiveSourcePackage"
