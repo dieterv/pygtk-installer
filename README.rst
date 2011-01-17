@@ -228,12 +228,9 @@ versions of Python 2.6 and Python 2.7.
 
 Included tools:
 
-- build_glade.sh: a tool that builds glade3 binaries for mswindows with
-  "Python Widgets Support" for each supported Python version.
 - build_bindings.sh: a tool that builds windows installer packages (both .exe
   and .msi) for pycairo, pygobject, pygtk, pygoocanvas, pygtksourceview and
   pyrsvg for each supported Python version.
 - build_installer.py: a tool that generates the all-in-one installer bundling
-  the separate .msi installers created by build_bindings.sh, the glade binaries
-  created by build_glade.sh and various GTK+ runtime packages from
-  ftp.gnome.org/pub/GNOME/binaries/win32/.
+  the separate .msi installers created by build_bindings.sh and various GTK+
+  runtime packages from ftp.gnome.org/pub/GNOME/binaries/win32/.
