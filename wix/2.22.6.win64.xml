@@ -170,6 +170,14 @@
                          Absent      = "allow">
 
                     <Package Type       = "ArchiveSourcePackage"
+                             Id         = "glade3_dev"
+                             Url        = ""
+                             Archive_26 = ""
+                             Archive_27 = ""
+                             Digest_26  = ""
+                             Digest_27  = "" />
+
+                    <Package Type       = "ArchiveSourcePackage"
                              Id         = "glade3"
                              Url        = ""
                              Archive_26 = ""

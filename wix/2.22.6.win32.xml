@@ -166,12 +166,20 @@
                          Absent      = "allow">
 
                     <Package Type       = "ArchiveSourcePackage"
+                             Id         = "glade3_dev"
+                             Url        = "http://www.optionexplicit.be/projects/gnome-windows/20110117/"
+                             Archive_26 = "glade3-dev_3.6.7-1_win32-py26.zip"
+                             Archive_27 = "glade3-dev_3.6.7-1_win32-py27.zip"
+                             Digest_26  = "282b9d4b57cb92a8611d0f7e3c47d4ff"
+                             Digest_27  = "adec99f6b64a44330e8747196b6d828d" />
+
+                    <Package Type       = "ArchiveSourcePackage"
                              Id         = "glade3"
-                             Url        = "http://www.optionexplicit.be/projects/gnome-windows/20101117/"
-                             Archive_26 = "glade3-3.6.7-0.win32-py26.zip"
-                             Archive_27 = "glade3-3.6.7-0.win32-py27.zip"
-                             Digest_26  = "94494839890d26b133c429ec162871c0"
-                             Digest_27  = "4859630d578b8ee00776fbc54512b519">
+                             Url        = "http://www.optionexplicit.be/projects/gnome-windows/20110117/"
+                             Archive_26 = "glade3_3.6.7-1_win32-py26.zip"
+                             Archive_27 = "glade3_3.6.7-1_win32-py27.zip"
+                             Digest_26  = "0558dfc1bb2886ff97321e0a614b6599"
+                             Digest_27  = "6608011548bac1d1d7bb81bdb94c15f8">
 
                         <Shortcut Id          = "GladeUiDesigner"
                                   Name        = "Glade UI Designer"
