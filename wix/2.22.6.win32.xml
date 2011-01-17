@@ -231,7 +231,7 @@
             </Feature>
 
             <Feature Id             = "gtk_runtime"
-                     Title          = "GTK+ Runtime 2.22.0"
+                     Title          = "GTK+ Runtime 2.22.1"
                      Description    = "Installs the GTK+ runtime."
                      Absent         = "disallow"
                      Level          = "1">
