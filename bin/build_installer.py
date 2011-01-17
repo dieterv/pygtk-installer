@@ -693,6 +693,9 @@ class SourcePackage(object):
                 if 'Arguments' in child.keys():
                     shortcut.set('Arguments', child.get('Arguments'))
 
+                if 'WorkingDirectory' in child.keys():
+                    shortcut.set('WorkingDirectory', child.get('WorkingDirectory'))
+
                 registrykey = etree.SubElement(component,
                                                '{%s}RegistryKey' % WIX_NS,
                                                Root=root,
