@@ -20,7 +20,7 @@
                      Level       = "1">
 
                 <Feature Id          = "PythonExtensionModulePyGtk"
-                         Title       = "PyGTK 2.22.0"
+                         Title       = "PyGTK 2.22.0-1"
                          Description = "Installs the atk, pango, pangocairo, glade and gtk Python extension modules."
                          Absent      = "disallow"
                          Level       = "1">
@@ -41,7 +41,7 @@
                 </Feature>
 
                 <Feature Id          = "PythonExtensionModulePyGobject"
-                         Title       = "PyGObject 2.26.0"
+                         Title       = "PyGObject 2.26.0-1"
                          Description = "Installs the glib, gio and gobject Python extension modules."
                          Absent      = "disallow"
                          Level       = "1">
@@ -164,7 +164,7 @@
                      Level       = "2">
 
                 <Feature Id          = "glade"
-                         Title       = "Glade UI Designer 3.6.7"
+                         Title       = "Glade UI Designer 3.6.7-1"
                          Description = "Installs Glade UI Designer."
                          Level       = "2"
                          Absent      = "allow">
@@ -236,7 +236,7 @@
             </Feature>
 
             <Feature Id             = "gtk_runtime"
-                     Title          = "GTK+ Runtime 2.22.1"
+                     Title          = "GTK+ Runtime 2.22.1-1"
                      Description    = "Installs the GTK+ runtime."
                      Absent         = "disallow"
                      Level          = "1">
