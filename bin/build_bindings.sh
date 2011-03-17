@@ -90,10 +90,10 @@ for TARGET in ${TARGETS}; do
     fi
 
     if [ ${TARGET} = "pygtk" ]; then
-       # pygtk takes extra arguments
-       COMMAND="setup.py build --compiler=mingw32 --enable-threading bdist_wininst --user-access-control=auto bdist_msi"
+        # pygtk takes extra arguments
+        COMMAND="setup.py build --compiler=mingw32 --enable-threading bdist_wininst --user-access-control=auto bdist_msi"
     else
-       COMMAND="setup.py build --compiler=mingw32 bdist_wininst --user-access-control=auto bdist_msi"
+        COMMAND="setup.py build --compiler=mingw32 bdist_wininst --user-access-control=auto bdist_msi"
     fi
 
     cd ${TARGETROOT}
