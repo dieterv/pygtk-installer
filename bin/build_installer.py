@@ -56,7 +56,7 @@ PYTHON_FULLVERSION = None
 PYTHON_VERSION = None
 
 # Everything we need to know about the WiX toolset.
-WIX_VERSION = '3.5.2403.0'
+WIX_VERSION = '3.5.2519.0'
 WIX_HEAT = None
 WIX_DARK = None
 WIX_CANDLE = None
