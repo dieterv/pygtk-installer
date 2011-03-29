@@ -96,8 +96,8 @@ Custom installation
 
 Like any other Windows Installer package, you can change how PyGTK All-in-one
 will be installed on you system by passing parameters (setting public properties
-for those familiar with windows installer). Execute `msiexec /help` for a list
-of options supported for all .msi installation packages.
+for those familiar with windows installer). Execute `%WINDIR%\system32\msiexec /help`
+for a list of options supported for all .msi installation packages.
 
 Target directory
 ----------------
@@ -176,7 +176,7 @@ If something went wrong when installing, you'll need both:
 
     - An installation log (install.log). Execute the following command from a Command Prompt (cmd.exe)::
 
-        %WINDIR%\system32\msiexec.exe -i pygtk-all-in-one-X.X.X.winYY-pyZ.Z.msi /l*vx install.log
+        %WINDIR%\system32\msiexec.exe /i pygtk-all-in-one-X.X.X.winYY-pyZ.Z.msi /l*vx install.log
 
     - An execution log (import.log). Execute the following command from a Command Prompt (cmd.exe)::
 
@@ -185,7 +185,7 @@ If something went wrong when installing, you'll need both:
 If something went wrong when uninstalling, you'll need an unistall log. Execute
 the following command from a Command Prompt (cmd.exe)::
 
-    %WINDIR%\system32\msiexec.exe -x pygtk-all-in-one-X.X.X.winYY-pyZ.Z.msi /l*vx uninstall.log
+    %WINDIR%\system32\msiexec.exe /x pygtk-all-in-one-X.X.X.winYY-pyZ.Z.msi /l*vx uninstall.log
 
 Please consider compressing the log files you obtained before you send them
 by mail or attach them to a bug report. Those files can be quite large.
