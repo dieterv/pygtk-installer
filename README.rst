@@ -7,8 +7,11 @@ The PyGTK All-in-one version number
 ===================================
 
 The PyGTK All-in-one installers' version number does not map directly to the
-PyGTK version number. This is a requirement to support windows installer
-major upgrades. The version number is constructed as follows::
+PyGTK version number, simply because the PyGTK All-in-one installer is
+a repackaging of multiple components where each component may receive updates
+in the form of a new PyGTK All-in-one installer revision release. It is also a
+requirement to support windows installer major upgrades. The version number is
+constructed as follows::
 
     PYGTK_MAJOR.PYGTK_MINOR.INSTALLER_REVISION
 
@@ -202,19 +205,11 @@ Known issues
     - related bug: https://bugzilla.gnome.org/show_bug.cgi?id=623128
     - http://msdn.microsoft.com/en-us/library/ms737931%28v=vs.85%29.aspx
 
-- On Windows 2000 you need gdiplus.dll:
+- When/if the above get's fixed, you would still need to install gdiplus.dll:
 
     - Download the GDI+ Platform SDK redistributable from http://www.microsoft.com/downloads/en/details.aspx?FamilyID=6a63ab9c-df12-4d41-933c-be590feaa05a&displaylang=en
     - Execute the downloaded WindowsXP-KB975337-x86-ENU.exe and it will ask to extract some files.
     - Copy the extracted asms\\10\\msft\\windows\\gdiplus\\gdiplus.dll file to C:\\Python2X\\Lib\\site-packages\\gtk-2.0\\runtime\\bin
-
-
-Known issues with 2.22.5
-========================
-
-- Fixed in 2.22.6: The bundled svg_pixbuf_loader does not seem to be compatible
-  with the new, split gdk-pixbuf-2.22.0. Other svg functionality works fine. See
-  https://bugzilla.gnome.org/show_bug.cgi?id=637742
 
 
 =================================
