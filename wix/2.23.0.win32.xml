@@ -23,7 +23,7 @@
 
                     <Package Type      = "MsiSourcePackage"
                              Id        = "pygtk"
-                             Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/pygtk/2.24/"
+                             Url       = "http://www.optionexplicit.be/projects/gnome-windows/20110324/"
                              Msi_26    = "pygtk-2.23.2.win32-py2.6.msi"
                              Digest_26 = "8de0a7c74a5989b1a7f7b282a4d61f34"
                              Msi_27    = "pygtk-2.23.2.win32-py2.7.msi"
@@ -44,7 +44,7 @@
 
                     <Package Type      = "MsiSourcePackage"
                              Id        = "pygobject"
-                             Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/pygobject/2.28/"
+                             Url       = "http://www.optionexplicit.be/projects/gnome-windows/20110324/"
                              Msi_26    = "pygobject-2.28.2.win32-py2.6.msi"
                              Digest_26 = "ce5a5cfeb633640cbbf33a793a1c7090"
                              Msi_27    = "pygobject-2.28.2.win32-py2.7.msi"
