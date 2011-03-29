@@ -164,7 +164,7 @@
                      Level       = "2">
 
                 <Feature Id          = "glade"
-                         Title       = "Glade UI Designer 3.6.7-1"
+                         Title       = "Glade UI Designer 3.7.3-1"
                          Description = "Installs Glade UI Designer."
                          Level       = "2"
                          Absent      = "allow">

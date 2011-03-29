@@ -160,26 +160,26 @@
                      Level       = "2">
 
                 <Feature Id          = "glade"
-                         Title       = "Glade UI Designer 3.6.7-1"
+                         Title       = "Glade UI Designer 3.7.3-1"
                          Description = "Installs Glade UI Designer."
                          Level       = "2"
                          Absent      = "allow">
 
                     <Package Type       = "ArchiveSourcePackage"
                              Id         = "glade3_dev"
-                             Url        = "http://www.optionexplicit.be/projects/gnome-windows/20110117/"
-                             Archive_26 = "glade3-dev_3.6.7-1_win32-py26.zip"
-                             Archive_27 = "glade3-dev_3.6.7-1_win32-py27.zip"
-                             Digest_26  = "282b9d4b57cb92a8611d0f7e3c47d4ff"
-                             Digest_27  = "0558dfc1bb2886ff97321e0a614b6599" />
+                             Url        = "http://www.optionexplicit.be/projects/gnome-windows/20110328/"
+                             Archive_26 = "glade3-dev_3.7.3-1_win32-py26.zip"
+                             Archive_27 = "glade3-dev_3.7.3-1_win32-py27.zip"
+                             Digest_26  = "eef1f69bc3cab237c32e4b98e211ef8f"
+                             Digest_27  = "c3f580a1fa24092b9a53933022ad948d" />
 
                     <Package Type       = "ArchiveSourcePackage"
                              Id         = "glade3"
-                             Url        = "http://www.optionexplicit.be/projects/gnome-windows/20110117/"
-                             Archive_26 = "glade3_3.6.7-1_win32-py26.zip"
-                             Archive_27 = "glade3_3.6.7-1_win32-py27.zip"
-                             Digest_26  = "adec99f6b64a44330e8747196b6d828d"
-                             Digest_27  = "6608011548bac1d1d7bb81bdb94c15f8">
+                             Url        = "http://www.optionexplicit.be/projects/gnome-windows/20110328/"
+                             Archive_26 = "glade3_3.7.3-1_win32-py26.zip"
+                             Archive_27 = "glade3_3.7.3-1_win32-py27.zip"
+                             Digest_26  = "781178a60940d86753fd99e6cfc6ebd5"
+                             Digest_27  = "2b0d1375badb8749ef101977c8a34278">
 
                         <Shortcut Id          = "GladeUiDesigner"
                                   Name        = "Glade UI Designer"
