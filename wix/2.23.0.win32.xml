@@ -16,39 +16,39 @@
                      Level       = "1">
 
                 <Feature Id          = "PythonExtensionModulePyGtk"
-                         Title       = "PyGTK 2.22.0-1"
+                         Title       = "PyGTK 2.23.2"
                          Description = "Installs the atk, pango, pangocairo, glade and gtk Python extension modules."
                          Absent      = "disallow"
                          Level       = "1">
 
                     <Package Type      = "MsiSourcePackage"
                              Id        = "pygtk"
-                             Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/pygtk/2.22/"
-                             Msi_26    = "pygtk-2.22.0-1.win32-py2.6.msi"
-                             Digest_26 = "3e02828739852ac248c4b4c41a732659"
-                             Msi_27    = "pygtk-2.22.0-1.win32-py2.7.msi"
-                             Digest_27 = "166817569cd3a8112cbf168bae12bed0">
+                             Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/pygtk/2.24/"
+                             Msi_26    = "pygtk-2.23.2.win32-py2.6.msi"
+                             Digest_26 = "8de0a7c74a5989b1a7f7b282a4d61f34"
+                             Msi_27    = "pygtk-2.23.2.win32-py2.7.msi"
+                             Digest_27 = "71304a5123ad34ee4e4958a612446b8f">
 
                         <InternetShortcut Id          = "pygtkdocumentation"
                                           Name        = "PyGTK Reference Manual"
                                           Description = "PyGTK Reference Manual"
-                                          Target      = "http://library.gnome.org/devel/pygtk/2.22/" />
+                                          Target      = "http://library.gnome.org/devel/pygtk/2.24/" />
                     </Package>
                 </Feature>
 
                 <Feature Id          = "PythonExtensionModulePyGobject"
-                         Title       = "PyGObject 2.26.0-1"
+                         Title       = "PyGObject 2.28.2"
                          Description = "Installs the glib, gio and gobject Python extension modules."
                          Absent      = "disallow"
                          Level       = "1">
 
                     <Package Type      = "MsiSourcePackage"
                              Id        = "pygobject"
-                             Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/pygobject/2.26/"
-                             Msi_26    = "pygobject-2.26.0-1.win32-py2.6.msi"
-                             Digest_26 = "f3b609fa9fb8b0a6916d76112a83feb8"
-                             Msi_27    = "pygobject-2.26.0-1.win32-py2.7.msi"
-                             Digest_27 = "0ca3515aa20e0d568a6793444b721dc5">
+                             Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/pygobject/2.28/"
+                             Msi_26    = "pygobject-2.28.2.win32-py2.6.msi"
+                             Digest_26 = "ce5a5cfeb633640cbbf33a793a1c7090"
+                             Msi_27    = "pygobject-2.28.2.win32-py2.7.msi"
+                             Digest_27 = "1e9cba78ba86f6e0d2dd79bfd577877d">
 
                         <CopyFile Id   = "pygtk.pth"
                                   Src  = "overlays/pygobject/"
@@ -241,14 +241,17 @@
             </Feature>
 
             <Feature Id             = "gtk_runtime"
-                     Title          = "GTK+ Runtime 2.22.1-1"
+                     Title          = "GTK+ Runtime 2.24.0-1"
                      Description    = "Installs the GTK+ runtime."
                      Absent         = "disallow"
                      Level          = "1">
 
-                <!-- gtk+-bundle: this is gtk+-bundle_2.22.1-20101227_win32 unbundled,
+                <!-- NOTE: there is no gtk+-bundle_2.24.X at the moment, so this is
+                     gtk+-bundle_2.22.X with gtk+-2.24 and glib-2.28 packages applied on top.
+
+                     gtk+-bundle: this is gtk+-bundle_2.22.1-20101227_win32 unbundled,
                      refer to share/doc/gtk+-bundle_2.22.1-20101227_win32\components.lst,
-                     sorted alphabetically (makes updating this list easy) -->
+                     sorted alphabetically (makes updating this list easy). -->
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "atk_dev"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/atk/1.32/"
@@ -335,27 +338,27 @@
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "glib_dev"
-                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/glib/2.26/"
-                         Archive = "glib-dev_2.26.1-1_win32.zip"
-                         Digest  = "1f46edfde83ab9eacbca27016697da3b" />
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/glib/2.28/"
+                         Archive = "glib-dev_2.28.1-1_win32.zip"
+                         Digest  = "6a1a95ff1cb530a3018bea55384f559d" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "glib"
-                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/glib/2.26/"
-                         Archive = "glib_2.26.1-1_win32.zip"
-                         Digest  = "5dae7f68e89ad4be7b8f708c14de7bbf" />
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/glib/2.28/"
+                         Archive = "glib_2.28.1-1_win32.zip"
+                         Digest  = "68104086160b32db2030d87ea1d0e868" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "gtk_dev"
-                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gtk+/2.22/"
-                         Archive = "gtk+-dev_2.22.1-1_win32.zip"
-                         Digest  = "651a5fce0d909873d9b2473a2c47c768" />
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gtk+/2.24/"
+                         Archive = "gtk+-dev_2.24.0-1_win32.zip"
+                         Digest  = "35bbd86bdc7f9479c24536f984a705ef" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "gtk"
-                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gtk+/2.22/"
-                         Archive = "gtk+_2.22.1-1_win32.zip"
-                         Digest  = "3aa41778b6264699743c2582e95d712e">
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gtk+/2.24/"
+                         Archive = "gtk+_2.24.0-1_win32.zip"
+                         Digest  = "4baa7819105c760175ea695497f85309">
 
                     <CopyFile Id   = "__init__.py"
                               Src  = "overlays/runtime/"
