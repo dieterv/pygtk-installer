@@ -20,7 +20,7 @@
                      Level       = "1">
 
                 <Feature Id          = "PythonExtensionModulePyGtk"
-                         Title       = "PyGTK 2.23.2"
+                         Title       = "PyGTK 2.24.0"
                          Description = "Installs the atk, pango, pangocairo, glade and gtk Python extension modules."
                          Absent      = "disallow"
                          Level       = "1">
@@ -41,7 +41,7 @@
                 </Feature>
 
                 <Feature Id          = "PythonExtensionModulePyGobject"
-                         Title       = "PyGObject 2.28.1"
+                         Title       = "PyGObject 2.28.3"
                          Description = "Installs the glib, gio and gobject Python extension modules."
                          Absent      = "disallow"
                          Level       = "1">
