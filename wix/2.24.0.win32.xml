@@ -25,9 +25,9 @@
                              Id        = "pygtk"
                              Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/pygtk/2.24/"
                              Msi_26    = "pygtk-2.24.0.win32-py2.6.msi"
-                             Digest_26 = "c63889bb22757509cff7fb6043c765c2"
+                             Digest_26 = "7d1331068164c692e82e9c4db4cf3be9"
                              Msi_27    = "pygtk-2.24.0.win32-py2.7.msi"
-                             Digest_27 = "c95f759dc1f9eb1875b727385399904a">
+                             Digest_27 = "2d61c0b3783a4818c97819f58f66f8a9">
 
                         <InternetShortcut Id          = "pygtkdocumentation"
                                           Name        = "PyGTK Reference Manual"
@@ -46,9 +46,9 @@
                              Id        = "pygobject"
                              Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/pygobject/2.28/"
                              Msi_26    = "pygobject-2.28.3.win32-py2.6.msi"
-                             Digest_26 = "e775c8022a93a25584597cbaaaeab0ad"
+                             Digest_26 = "af0154a84cd3f572d4e94cc58bdce981"
                              Msi_27    = "pygobject-2.28.3.win32-py2.7.msi"
-                             Digest_27 = "cf374f8d0d26c74127dac7d481cda604">
+                             Digest_27 = "8584657f519c01919d2ee5f9c17774a3">
 
                         <CopyFile Id   = "pygtk.pth"
                                   Src  = "overlays/pygobject/"
