@@ -22,8 +22,7 @@
 # build_bindings.sh is a script for building the
 # Py{Cairo, GObject, GTK, GooCanvas, GtkSourceView, Rsvg}
 # installers using MinGW/MSYS.
-# This script has been tested with MSYS on MS Windows,
-# but should work fine via wine on a Linux distribution.
+# This script has been tested with MSYS on MS Windows.
 
 # How does it work?
 # =================

@@ -1,0 +1,11 @@
+--- pycairo-1.8.10.original/setup.py	2010-05-20 13:36:09 +0200
++++ pycairo-1.8.10/setup.py	2010-11-02 20:34:14 +0100
+@@ -110,7 +110,7 @@ dic.setup(
+   data_files = [
+     ('include/pycairo', ['src/pycairo.h']),
+     ('lib/pkgconfig', [pkgconfig_file]),
+-    (os.path.join(dsy.get_python_lib(), 'cairo'),
++    ('lib/site-packages/cairo',
+      ['src/__init__.py']),
+     ],
+   )
