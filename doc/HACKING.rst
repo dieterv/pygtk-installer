@@ -10,8 +10,9 @@ Preparations
 ============
 
 Unless stated otherwise, everything is this document assumes you'll be working
-from an MSYS Bash session running inside a plain old Command Prompt
-(aka cmd.exe). MSYS rxvt, Console2 and other console helpers are to be avoided.
+from an MSYS Bash session running as a plain old interactive login shell
+(aka sh.exe --login -i). MSYS rxvt, Console2, mintty and other console helpers
+are to be avoided.
 
 MinGW/MSYS developers recommend you to install into C:\MinGW\. Python installs
 by default into C:\Python2X. Sometimes installing directly into the C: volume
