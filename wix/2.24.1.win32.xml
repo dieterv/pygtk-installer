@@ -241,16 +241,13 @@
             </Feature>
 
             <Feature Id             = "gtk_runtime"
-                     Title          = "GTK+ Runtime 2.24.0-1"
+                     Title          = "GTK+ Runtime 2.24.5-3"
                      Description    = "Installs the GTK+ runtime."
                      Absent         = "disallow"
                      Level          = "1">
 
-                <!-- NOTE: there is no gtk+-bundle_2.24.X at the moment, so this is
-                     gtk+-bundle_2.22.X with gtk+-2.24 and glib-2.28 packages applied on top.
-
-                     gtk+-bundle: this is gtk+-bundle_2.22.1-20101227_win32 unbundled,
-                     refer to share/doc/gtk+-bundle_2.22.1-20101227_win32\components.lst,
+                <!-- gtk+-bundle: this is gtk+-bundle_2.24.5-20110713_win32.zip unbundled,
+                     refer to share/doc/gtk+-bundle_2.24.5-20110713_win32.zip\components.lst,
                      sorted alphabetically (makes updating this list easy). -->
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "atk_dev"
@@ -351,14 +348,14 @@
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "gtk_dev"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gtk+/2.24/"
-                         Archive = "gtk+-dev_2.24.0-1_win32.zip"
-                         Digest  = "35bbd86bdc7f9479c24536f984a705ef" />
+                         Archive = "gtk+-dev_2.24.5-3_win32.zip"
+                         Digest  = "ccaa7d8c83d6fffe70f6a8bb74ff6bf4" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "gtk"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gtk+/2.24/"
-                         Archive = "gtk+_2.24.0-1_win32.zip"
-                         Digest  = "4baa7819105c760175ea695497f85309">
+                         Archive = "gtk+_2.24.5-3_win32.zip"
+                         Digest  = "4994e1aedeb4f5d368e7212166f77212">
 
                     <CopyFile Id   = "__init__.py"
                               Src  = "overlays/runtime/"
