@@ -230,4 +230,4 @@ Included tools:
   the separate .msi installers created by build_bindings.sh and various GTK+
   runtime packages from ftp.gnome.org/pub/GNOME/binaries/win32/.
 
-For more information on using these tools, refer to the HACKING.rst file.
+For more information on using these tools, refer to the doc/HACKING.rst file.
