@@ -32,7 +32,7 @@
                         <InternetShortcut Id          = "pygtkdocumentation"
                                           Name        = "PyGTK Reference Manual"
                                           Description = "PyGTK Reference Manual"
-                                          Target      = "http://library.gnome.org/devel/pygtk/2.24/" />
+                                          Target      = "http://developer.gnome.org/pygtk/2.24/" />
                     </Package>
                 </Feature>
 
@@ -57,7 +57,7 @@
                         <InternetShortcut Id          = "pygobjectdocumentation"
                                           Name        = "PyGObject Reference Manual"
                                           Description = "PyGObject Reference Manual"
-                                          Target      = "http://library.gnome.org/devel/pygobject/2.28/" />
+                                          Target      = "http://developer.gnome.org/pygobject/2.28/" />
                     </Package>
                 </Feature>
 
@@ -125,15 +125,15 @@
 
                     <Package Type      = "ArchiveSourcePackage"
                              Id        = "libgoocanvas"
-                             Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/goocanvas/0.15/"
-                             Archive   = "goocanvas-0.15-win32.zip"
-                             Digest    = "18117c424950b6c014780af849508838" />
+                             Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/goocanvas/1.0/"
+                             Archive   = "goocanvas-1.0.0-win32.zip"
+                             Digest    = "f8188a4854a95427a05208988618dba2" />
 
                     <Package Type      = "ArchiveSourcePackage"
                              Id        = "libgoocanvas_dev"
-                             Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/goocanvas/0.15/"
-                             Archive   = "goocanvas-dev-0.15-win32.zip"
-                             Digest    = "c1068163ef67986598bce6dad5524e75" />
+                             Url       = "http://ftp.gnome.org/pub/GNOME/binaries/win32/goocanvas/1.0/"
+                             Archive   = "goocanvas-dev-1.0.0-win32.zip"
+                             Digest    = "79e154f7a4db9f684d6601e02f1f45f7" />
                 </Feature>
 
                 <Feature Id          = "PythonExtensionModulePyRsvg"
@@ -160,26 +160,26 @@
                      Level       = "2">
 
                 <Feature Id          = "glade"
-                         Title       = "Glade UI Designer 3.8.0"
+                         Title       = "Glade UI Designer 3.8.1"
                          Description = "Installs Glade UI Designer."
                          Level       = "2"
                          Absent      = "allow">
 
                     <Package Type       = "ArchiveSourcePackage"
                              Id         = "glade3_dev"
-                             Url        = "http://www.optionexplicit.be/projects/gnome-windows/201101405/"
-                             Archive_26 = "glade3-dev_3.8.0-1_win32-py26.zip"
-                             Archive_27 = "glade3-dev_3.8.0-1_win32-py27.zip"
-                             Digest_26  = "3bd8b0949773de3202b807488ea57079"
-                             Digest_27  = "947365388857095d23f2e3c6719fe763" />
+                             Url        = "http://ftp.gnome.org/pub/GNOME/binaries/win32/glade3/3.8/"
+                             Archive_26 = "glade3-dev_3.8.1-1_win32-py26.zip"
+                             Archive_27 = "glade3-dev_3.8.1-1_win32-py27.zip"
+                             Digest_26  = "4f23a3e55a5a5a845506b3d9cc8fa949"
+                             Digest_27  = "b8a605b7d95244212c0add81e8724215" />
 
                     <Package Type       = "ArchiveSourcePackage"
                              Id         = "glade3"
-                             Url        = "http://www.optionexplicit.be/projects/gnome-windows/20110405/"
-                             Archive_26 = "glade3_3.8.0-1_win32-py26.zip"
-                             Archive_27 = "glade3_3.8.0-1_win32-py27.zip"
-                             Digest_26  = "609c5a42281c99579b751d8d8ee7b964"
-                             Digest_27  = "bd419c47cf8f21fd9cf0873fa6c251d9">
+                             Url        = "http://ftp.gnome.org/pub/GNOME/binaries/win32/glade3/3.8/"
+                             Archive_26 = "glade3_3.8.1-1_win32-py26.zip"
+                             Archive_27 = "glade3_3.8.1-1_win32-py27.zip"
+                             Digest_26  = "e240469f021816397b505a83fad0a88d"
+                             Digest_27  = "f39c44b7ca512182f690ecc1ce6d4cf0">
 
                         <Shortcut Id          = "GladeUiDesigner"
                                   Name        = "Glade UI Designer"
@@ -189,7 +189,7 @@
                         <InternetShortcut Id          = "gladedocumentation"
                                           Name        = "Glade UI Designer Manual"
                                           Description = "Glade UI Designer Manual"
-                                          Target      = "http://library.gnome.org/devel/glade/3.8/"/>
+                                          Target      = "http://developer.gnome.org/glade/3.8/"/>
                     </Package>
                 </Feature>
 
@@ -241,37 +241,37 @@
             </Feature>
 
             <Feature Id             = "gtk_runtime"
-                     Title          = "GTK+ Runtime 2.24.5-3"
+                     Title          = "GTK+ Runtime 2.24.8-1"
                      Description    = "Installs the GTK+ runtime."
                      Absent         = "disallow"
                      Level          = "1">
 
-                <!-- gtk+-bundle: this is gtk+-bundle_2.24.5-20110713_win32.zip unbundled,
-                     refer to share/doc/gtk+-bundle_2.24.5-20110713_win32.zip\components.lst,
+                <!-- gtk+-bundle: this is gtk+-bundle_2.24.8-20111122_win32.zip unbundled,
+                     refer to share/doc/gtk+-bundle_2.24.8-20111122_win32\components.lst,
                      sorted alphabetically (makes updating this list easy). -->
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "atk_dev"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/atk/1.32/"
-                         Archive = "atk-dev_1.32.0-1_win32.zip"
-                         Digest  = "d8e30a67549fa85cd97326d00f556ea8" />
+                         Archive = "atk-dev_1.32.0-2_win32.zip"
+                         Digest  = "11436706809bb6fd4a9ae4c9339666a0" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "atk"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/atk/1.32/"
-                         Archive = "atk_1.32.0-1_win32.zip"
-                         Digest  = "807aa6e5afe3d4c5ede96a0281827178" />
+                         Archive = "atk_1.32.0-2_win32.zip"
+                         Digest  = "96245aa6d8f5c18bd9382148f4edab7f" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "cairo_dev"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
-                         Archive = "cairo-dev_1.10.2-1_win32.zip"
-                         Digest  = "e227e69f0cead89939f732df4302ea8b" />
+                         Archive = "cairo-dev_1.10.2-2_win32.zip"
+                         Digest  = "a05dd48e21e0161d67f5eab640e7c040" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "cairo"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
-                         Archive = "cairo_1.10.2-1_win32.zip"
-                         Digest  = "b6b4039d87cfa9532d6c6cb37fbed8f4" />
+                         Archive = "cairo_1.10.2-2_win32.zip"
+                         Digest  = "97c03ea128f9e3d4e32044a7520b74a9" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "expat_dev"
@@ -311,15 +311,15 @@
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "gdk_pixbuf_dev"
-                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gdk-pixbuf/2.22/"
-                         Archive = "gdk-pixbuf-dev_2.22.1-1_win32.zip"
-                         Digest  = "53adce87075c8519274dce3de8cd106e" />
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gdk-pixbuf/2.24/"
+                         Archive = "gdk-pixbuf-dev_2.24.0-1_win32.zip"
+                         Digest  = "089d119cb2fe959eb868311780bea4b2" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "gdk_pixbuf"
-                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gdk-pixbuf/2.22/"
-                         Archive = "gdk-pixbuf_2.22.1-1_win32.zip"
-                         Digest  = "09912d5c4f51d35413c01d41caa8cfc4" />
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gdk-pixbuf/2.24/"
+                         Archive = "gdk-pixbuf_2.24.0-1_win32.zip"
+                         Digest  = "890e59a26e50a28cba271eb8989005f5" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "gettext_runtime_dev"
@@ -336,26 +336,26 @@
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "glib_dev"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/glib/2.28/"
-                         Archive = "glib-dev_2.28.1-1_win32.zip"
-                         Digest  = "6a1a95ff1cb530a3018bea55384f559d" />
+                         Archive = "glib-dev_2.28.8-1_win32.zip"
+                         Digest  = "56074b4986c701ff5d82a6d9a6913d28" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "glib"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/glib/2.28/"
-                         Archive = "glib_2.28.1-1_win32.zip"
-                         Digest  = "68104086160b32db2030d87ea1d0e868" />
+                         Archive = "glib_2.28.8-1_win32.zip"
+                         Digest  = "4b4eb9e123b6ec8a623384571012f8ee" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "gtk_dev"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gtk+/2.24/"
-                         Archive = "gtk+-dev_2.24.5-3_win32.zip"
-                         Digest  = "ccaa7d8c83d6fffe70f6a8bb74ff6bf4" />
+                         Archive = "gtk+-dev_2.24.8-1_win32.zip"
+                         Digest  = "8b78b27515c8276e69c317b3daeb9be4" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "gtk"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gtk+/2.24/"
-                         Archive = "gtk+_2.24.5-3_win32.zip"
-                         Digest  = "4994e1aedeb4f5d368e7212166f77212">
+                         Archive = "gtk+_2.24.8-1_win32.zip"
+                         Digest  = "dbce7457e77efe68ea1c60587f5a308f">
 
                     <CopyFile Id   = "__init__.py"
                               Src  = "overlays/runtime/"
@@ -388,15 +388,15 @@
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "pango_dev"
-                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/pango/1.28/"
-                         Archive = "pango-dev_1.28.3-1_win32.zip"
-                         Digest  = "77f12eb4102c1c72b00d883390cbc698" />
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/pango/1.29/"
+                         Archive = "pango-dev_1.29.4-1_win32.zip"
+                         Digest  = "90e5a3d8e15cddc813a30808c2486fb0" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "pango"
-                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/pango/1.28/"
-                         Archive = "pango_1.28.3-1_win32.zip"
-                         Digest  = "311232fb3f5df52f3722ee68c9f39f4d">
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/pango/1.29/"
+                         Archive = "pango_1.29.4-1_win32.zip"
+                         Digest  = "a729480978c1ccd8c4731a9028d02076">
 
                     <CopyFile Id   = "pango.aliases"
                               Src  = "overlays/runtime/etc/pango/"
@@ -406,28 +406,26 @@
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "pixman_dev"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
-                         Archive = "pixman-dev_0.20.0-1_win32.zip"
-                         Digest  = "e21aca3584a90a0e7b58f7212a8222db" />
+                         Archive = "pixman-dev_0.24.0-1_win32.zip"
+                         Digest  = "3bfcb0c243070f642d8e748c5d7480eb" />
 
-                <!-- The pixman package is no longer provided (they where empty
-                     anyway. See https://bugzilla.gnome.org/show_bug.cgi?id=637742.
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "pixman"
-                         Url     = ""
-                         Archive = ""
-                         Digest  = "" /> -->
+                         Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
+                         Archive = "pixman_0.24.0-1_win32.zip"
+                         Digest  = "45d213d897b1ab73e3b252c654d44cb2" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "pkgconfig_dev"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
-                         Archive = "pkg-config-dev_0.25-1_win32.zip"
-                         Digest  = "959597d57b2fce57755c02d292d566a4" />
+                         Archive = "pkg-config-dev_0.26-1_win32.zip"
+                         Digest  = "ff7b3c68912e0a1b76a900de646302a1" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "pkgconfig"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/"
-                         Archive = "pkg-config_0.25-1_win32.zip"
-                         Digest  = "3005d23993e05c70d248190702bc5ba2" />
+                         Archive = "pkg-config_0.26-1_win32.zip"
+                         Digest  = "eb4b65f435318fbd8aa22035d1a369db" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "zlib"

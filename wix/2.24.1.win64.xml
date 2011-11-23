@@ -2,8 +2,8 @@
 
 <Build xmlns="http://schemas.pygtk.org/2010/build">
 
-<!-- Currently 64bit installers are not supported (at least until I can get my
-     hands on a 64bit machine or somebody decides to contribute...) -->
+<!-- Currently 64 bit installers are not supported (at least until I can get my
+     hands on a 64 bit Windows machine or somebody decides to contribute...) -->
 
     <Interpreters>
         <Interpreter Version="2.6" />
@@ -36,7 +36,7 @@
                         <InternetShortcut Id          = "pygtkdocumentation"
                                           Name        = "PyGTK Reference Manual"
                                           Description = "PyGTK Reference Manual"
-                                          Target      = "http://library.gnome.org/devel/pygtk/2.22/" />
+                                          Target      = "http://developer.gnome.org/pygtk/2.24/" />
                     </Package>
                 </Feature>
 
@@ -61,7 +61,7 @@
                         <InternetShortcut Id          = "pygobjectdocumentation"
                                           Name        = "PyGObject Reference Manual"
                                           Description = "PyGObject Reference Manual"
-                                          Target      = "http://library.gnome.org/devel/pygobject/2.26/" />
+                                          Target      = "http://developer.gnome.org/pygobject/2.28/" />
                     </Package>
                 </Feature>
 
@@ -193,7 +193,7 @@
                         <InternetShortcut Id          = "gladedocumentation"
                                           Name        = "Glade UI Designer Manual"
                                           Description = "Glade UI Designer Manual"
-                                          Target      = "http://library.gnome.org/devel/glade/3.6/"/>
+                                          Target      = "http://developer.gnome.org/glade/3.8/"/>
                     </Package>
                 </Feature>
 
@@ -236,16 +236,16 @@
             </Feature>
 
             <Feature Id             = "gtk_runtime"
-                     Title          = "GTK+ Runtime 2.24.0-1"
+                     Title          = "GTK+ Runtime 2.24.8-1"
                      Description    = "Installs the GTK+ runtime."
                      Absent         = "disallow"
                      Level          = "1">
 
-                <!-- NOTE: there is no gtk+-bundle_2.24.X at the moment, so this is
+                <!-- NOTE: there is no 64 bit gtk+-bundle_2.24.X at the moment, so this is
                      gtk+-bundle_2.22.X with gtk+-2.24 and glib-2.28 packages applied on top.
 
-                     gtk+-bundle: this is gtk+-bundle_2.22.1-20101227_win32 unbundled,
-                     refer to share/doc/gtk+-bundle_2.22.1-20101227_win32\components.lst,
+                     gtk+-bundle: this is gtk+-bundle_2.24.8-20111122_win32.zip unbundled,
+                     refer to share/doc/gtk+-bundle_2.24.8-20111122_win32\components.lst,
                      sorted alphabetically (makes updating this list easy). -->
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "atk_dev"
@@ -407,13 +407,11 @@
                          Archive = ""
                          Digest  = "" />
 
-                <!-- The pixman package is no longer provided (they where empty
-                     anyway. See https://bugzilla.gnome.org/show_bug.cgi?id=637742.
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "pixman"
                          Url     = ""
                          Archive = ""
-                         Digest  = "" /> -->
+                         Digest  = "" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "pkgconfig_dev"
