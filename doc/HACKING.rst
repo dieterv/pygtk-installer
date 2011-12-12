@@ -87,8 +87,8 @@ the Python bindings packages that we'll be including. Follow these steps::
 
     - During the above "./build_bindings.sh" build procedure, each package's
       newly created installer will be executed. You really need to do this,
-      as for example pygtk's build procedure needs pygobject's codegen etc
-      (and remember we're building everything from scratch!).
+      as for example pygtk's build procedure needs pygobject's codegen to be
+      installed (remember we're building everything from scratch!).
 
     - Execute Lib/site-packages/gtk-2.0/tests/pygobject and Lib/site-packages/gtk-2.0/tests/pygtk
       with both Python 2.6 and Python 2.7.
