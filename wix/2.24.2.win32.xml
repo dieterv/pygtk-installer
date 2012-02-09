@@ -246,8 +246,8 @@
                      Absent         = "disallow"
                      Level          = "1">
 
-                <!-- gtk+-bundle: this is gtk+-bundle_2.24.8-20111122_win32.zip unbundled,
-                     refer to share/doc/gtk+-bundle_2.24.8-20111122_win32\components.lst,
+                <!-- gtk+-bundle: this is gtk+-bundle_2.24.10-20120208_win32.zip unbundled,
+                     refer to share/doc/gtk+-bundle_2.24.10-20120208_win32\components.lst,
                      sorted alphabetically (makes updating this list easy). -->
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "atk_dev"
@@ -348,14 +348,14 @@
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "gtk_dev"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gtk+/2.24/"
-                         Archive = "gtk+-dev_2.24.8-1_win32.zip"
-                         Digest  = "8b78b27515c8276e69c317b3daeb9be4" />
+                         Archive = "gtk+-dev_2.24.10-1_win32.zip"
+                         Digest  = "76f5add544fe7bb03d2dcf5ba0b40283" />
 
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "gtk"
                          Url     = "http://ftp.gnome.org/pub/GNOME/binaries/win32/gtk+/2.24/"
-                         Archive = "gtk+_2.24.8-1_win32.zip"
-                         Digest  = "dbce7457e77efe68ea1c60587f5a308f">
+                         Archive = "gtk+_2.24.10-1_win32.zip"
+                         Digest  = "acc2281c9c1edd879900cf710db216cc">
 
                     <CopyFile Id   = "__init__.py"
                               Src  = "overlays/runtime/"

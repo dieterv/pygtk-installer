@@ -241,11 +241,10 @@
                      Absent         = "disallow"
                      Level          = "1">
 
-                <!-- NOTE: there is no 64 bit gtk+-bundle_2.24.X at the moment, so this is
-                     gtk+-bundle_2.22.X with gtk+-2.24 and glib-2.28 packages applied on top.
+                <!-- NOTE: there is no 64 bit gtk+-bundle_2.24.X at the moment...
 
-                     gtk+-bundle: this is gtk+-bundle_2.24.8-20111122_win32.zip unbundled,
-                     refer to share/doc/gtk+-bundle_2.24.8-20111122_win32\components.lst,
+                     gtk+-bundle: this is gtk+-bundle_2.24.10-20120208_win64.zip unbundled,
+                     refer to share/doc/gtk+-bundle_2.24.10-20120208_win64\components.lst,
                      sorted alphabetically (makes updating this list easy). -->
                 <Package Type    = "ArchiveSourcePackage"
                          Id      = "atk_dev"
