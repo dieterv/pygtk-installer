@@ -6,6 +6,7 @@ import sys
 
 from ctypes import windll
 from ctypes import cdll
+from ctypes import c_wchar_p
 from ctypes.util import find_msvcrt
 
 
@@ -33,7 +34,7 @@ def _putenv(name, value):
 
     # Update the copy maintained by Windows (so SysInternals Process Explorer sees it)
     try:
-        result = windll.kernel32.SetEnvironmentVariableW(name, value)
+        result = windll.kernel32.SetEnvironmentVariableW(c_wchar_p(name), c_wchar_p(value))
         if result == 0: raise Warning
     except Exception:
         if sys.flags.verbose:
